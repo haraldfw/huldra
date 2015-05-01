@@ -1,27 +1,25 @@
 package com.polarbirds.huldra;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.polarbirds.huldra.screen.game.GameScreen;
+import com.polarbirds.huldra.screen.mainmenu.SplashScreen;
 
-public class HuldraGame extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	
-	@Override
-	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
-	}
+public class HuldraGame extends Game {
 
-	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
-	}
+  public SpriteBatch batch;
+  float timeStep;
+
+  @Override
+  public void create () {
+    timeStep = 0.01666666666666666666666666666667f; // 1/60, sixty fps
+    batch = new SpriteBatch();
+    setScreen(new GameScreen(this));
+  }
+
+  @Override
+  public void render() {
+    if(screen != null) screen.render(timeStep);
+  }
 }
