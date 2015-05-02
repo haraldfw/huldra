@@ -1,12 +1,14 @@
 package com.polarbirds.huldra.screen.game.entity;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.Pool;
+
 /**
  * Created by Harald on 30.4.15.
  */
-public abstract class BasicEntity {
+public abstract class BasicEntity extends Image implements Pool.Poolable {
 
-  public BasicEntity() {
+  public BasicEntity(Image image) {
 
   }
-
 }

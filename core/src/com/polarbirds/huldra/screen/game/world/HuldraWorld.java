@@ -1,5 +1,7 @@
 package com.polarbirds.huldra.screen.game.world;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.polarbirds.huldra.screen.game.world.inanimateObject.Interactable;
 
 import java.util.ArrayList;
@@ -11,12 +13,18 @@ import java.util.ArrayList;
  */
 public final class HuldraWorld {
 
-  private HuldraWorld(Tile[][] tiles, ArrayList<Interactable> interactables) {
+  World world;
 
+  private HuldraWorld(Tile[][] tiles, ArrayList<Interactable> interactables) {
+    world = new World(new Vector2(0, -9.81f), false);
+  }
+
+  public void step(float delta) {
+    world.step(delta, 8, 8); // update box2d world
   }
 
   public enum Generate {
-    CAVES_DEEP{
+    CAVES_DEEP {
       @Override
       public HuldraWorld generate(String seed) {
         Tile[][] tiles = new Tile[0][];
@@ -39,8 +47,9 @@ public final class HuldraWorld {
         return new HuldraWorld(tiles, interactables);
       }
     }
+
     ;
 
-    abstract HuldraWorld generate(String seed);
+    public abstract HuldraWorld generate(String seed);
   }
 }

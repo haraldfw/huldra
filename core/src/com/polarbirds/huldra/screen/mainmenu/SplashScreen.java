@@ -21,6 +21,9 @@ public class SplashScreen implements Screen {
 
   @Override
   public void show() {
+    image.setX(stage.getWidth()/2f - image.getWidth()/2f);
+    image.setY(stage.getHeight()/2f - image.getHeight()/2f);
+
     stage.addActor(image);
 
     image.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0.5f),
