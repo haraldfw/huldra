@@ -2,10 +2,11 @@ package com.polarbirds.huldra;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.polarbirds.huldra.screen.game.GameScreen;
-import com.smokebox.lib.pcg.dungeon.Dungeon;
+import com.polarbirds.huldra.screen.mainmenu.SplashScreen;
 
 public class HuldraGame extends Game {
 
@@ -18,13 +19,17 @@ public class HuldraGame extends Game {
   public Vector2 mousePos = new Vector2();
   public float timeStep;
 
+  public static AssetManager assetManager;
+
   @Override
   public void create () {
+    assetManager = new AssetManager();
+
     camera = new OrthographicCamera();
     camera.setToOrtho(false, UNIT_WIDTH, UNIT_HEIGHTH);
 
     timeStep = 0.01666666666666666666666666666667f; // 1/60, 60fps
-    setScreen(new GameScreen(this));
+    setScreen(new SplashScreen());
   }
 
   @Override

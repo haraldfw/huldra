@@ -1,7 +1,6 @@
 package com.polarbirds.huldra.screen.game.entity.player;
 
 import com.badlogic.gdx.physics.box2d.Body;
-import com.polarbirds.huldra.HuldraGame;
 import com.polarbirds.huldra.screen.game.GameScreen;
 import com.polarbirds.huldra.screen.game.entity.BasicEntity;
 
@@ -19,7 +18,9 @@ public abstract class PlayerCharacter extends BasicEntity {
 
   private Body body;
 
-  public PlayerCharacter(GameScreen game, float mass, float moveStrength, float jumpStrength, float baseDamage) {
+  public PlayerCharacter(GameScreen game, Body body, float mass,
+                         float moveStrength, float jumpStrength,
+                         float baseDamage) {
     super(null); // TODO replace null with image
     this.mass = mass;
     this.moveStrength = moveStrength;
@@ -27,18 +28,11 @@ public abstract class PlayerCharacter extends BasicEntity {
     this.baseDamage = baseDamage;
 
     this.game = game;
-
-
   }
 
   @Override
   public void act(float delta) {
     super.act(delta);
-
-  }
-
-  @Override
-  public void reset() {
 
   }
 }

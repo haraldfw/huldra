@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.polarbirds.huldra.HuldraGame;
 
 /**
  * A class for drawing a parallax of the given layers.
@@ -13,29 +12,28 @@ import com.polarbirds.huldra.HuldraGame;
  */
 public class Parallax extends Actor {
 
-  private final Image backGround;
-  private final Image midGround;
-  private final Image foreGround;
+  private final Image[] images;
+  private final float[] dividers;
   private final OrthographicCamera camera;
 
-  public Parallax(OrthographicCamera camera, Image backGround, Image midGround, Image foreGround) {
+  public Parallax(OrthographicCamera camera, Image[] images, float[] dividers) {
     this.camera = camera;
-    this.backGround = backGround;
-    this.midGround = midGround;
-    this.foreGround = foreGround;
+
+    if(images.length != dividers.length*2) throw new IllegalArgumentException(
+        "images.length != dividers.length*2");
+
+    this.images = images;
+    this.dividers = dividers;
   }
 
   @Override
   public void draw(Batch batch, float parentAlpha) {
     Vector3 camPos = camera.position;
 
-    backGround.setPosition(camPos.x, camPos.y);
-    backGround.draw(batch, parentAlpha);
-
-    midGround.setPosition(camPos.x/3, camPos.y);
-    midGround.draw(batch, parentAlpha);
-
-    foreGround.setPosition(camPos.x/2, camPos.y);
-    foreGround.draw(batch, parentAlpha);
+    for(int i = 0; i < images.length; i++) {
+      Image image = images[i];
+      image.setPosition(camPos.x/dividers[i*2], camPos.y/dividers[i*2 + 1]);
+      image.draw(batch, parentAlpha);
+    }
   }
 }
