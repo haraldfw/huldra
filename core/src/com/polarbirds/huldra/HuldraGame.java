@@ -12,6 +12,7 @@ public class HuldraGame extends Game {
 
   public static final int UNIT_WIDTH = 32;
   public static final int UNIT_HEIGHTH = 18;
+  public static final int PIXELS_PER_UNIT = 16;
   public static final int PIXEL_WIDTH = UNIT_WIDTH*50;
   public static final int PIXEL_HEIGHT = UNIT_HEIGHTH*50;
 
