@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.Pool;
 public abstract class BasicEntity extends Image implements Pool.Poolable {
 
   public BasicEntity(Image image) {
-    super();
 
   }
 }
