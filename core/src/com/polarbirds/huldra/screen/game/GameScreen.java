@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.polarbirds.huldra.HuldraGame;
 import com.polarbirds.huldra.screen.game.world.HuldraWorld;
-import com.polarbirds.huldra.screen.game.world.Parallax;
 
 /**
  * A screen for showing the game's box2dWorld and all it's components.
@@ -23,7 +22,7 @@ public class GameScreen implements Screen {
 
     stage.setViewport(new ScreenViewport(game.camera));
 
-    world = HuldraWorld.Generate.TEST_STAGE.generate("", game.camera);
+    world = HuldraWorld.WorldTypes.TEST_STAGE.getNew("", game.camera);
 
     //stage.addActor(new Parallax());
   }
@@ -31,8 +30,9 @@ public class GameScreen implements Screen {
   @Override
   public void render(float delta) {
     System.out.println("Render in GameScreen");
-    world.step(delta);
     stage.act(delta);
+    world.step(delta);
+    stage.draw();
   }
 
   @Override

@@ -3,6 +3,7 @@ package com.polarbirds.huldra;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.polarbirds.huldra.screen.game.GameScreen;
 import com.polarbirds.huldra.screen.mainmenu.SplashScreen;
 
 public class HuldraGame extends Game {
@@ -24,7 +25,7 @@ public class HuldraGame extends Game {
     camera.setToOrtho(false, X_TILES, Y_TILES);
 
     timeStep = 0.01666666666666666666666666666667f; // 1/60, 60fps
-    setScreen(new SplashScreen());
+    setScreen(new GameScreen(this));
   }
 
   @Override

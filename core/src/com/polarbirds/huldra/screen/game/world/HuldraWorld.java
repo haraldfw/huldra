@@ -18,6 +18,8 @@ public final class HuldraWorld {
 
   public final World box2dWorld;
 
+  private Parallax parallax;
+
   private HuldraWorld(TileType[][] tiles, ArrayList<Interactable> interactables) {
 
     box2dWorld = new World(new Vector2(0, -9.81f), false);
@@ -43,11 +45,30 @@ public final class HuldraWorld {
     box2dWorld.step(delta, 8, 8); // update box2d box2dWorld
   }
 
-  public enum Generate {
+  public Parallax getParallax(OrthographicCamera camera, WorldTypes type) {
+    if(parallax != null) {
+      return parallax;
+    }
+
+    switch (type) {
+      case FOREST:
+        // parallax = new Parallax(..);
+        break;
+      case CAVES_DEEP:
+        // parallax = new Parallax(..);
+        break;
+      default: // case TEST_STAGE
+        // parallax = new Parallax(..);
+        break;
+    }
+    return parallax;
+  }
+
+  public enum WorldTypes {
 
     FOREST {
       @Override
-      public HuldraWorld generate(String seed, OrthographicCamera camera) {
+      public HuldraWorld getNew(String seed, OrthographicCamera camera) {
         TileType[][] tiles = getEmptyTilesArray(16, 16);
         ArrayList<Interactable> interactables = new ArrayList<>();
 
@@ -59,7 +80,7 @@ public final class HuldraWorld {
 
     CAVES_DEEP {
       @Override
-      public HuldraWorld generate(String seed, OrthographicCamera camera) {
+      public HuldraWorld getNew(String seed, OrthographicCamera camera) {
         TileType[][] tiles = getEmptyTilesArray(16, 16);
         ArrayList<Interactable> interactables = new ArrayList<>();
 
@@ -71,7 +92,7 @@ public final class HuldraWorld {
 
     TEST_STAGE {
       @Override
-      public HuldraWorld generate(String seed, OrthographicCamera camera) {
+      public HuldraWorld getNew(String seed, OrthographicCamera camera) {
         TileType[][] tiles = getEmptyTilesArray(16, 16);
         ArrayList<Interactable> interactables = new ArrayList<>();
 
@@ -90,7 +111,7 @@ public final class HuldraWorld {
 
     ;
 
-    public abstract HuldraWorld generate(String seed, OrthographicCamera camera);
+    public abstract HuldraWorld getNew(String seed, OrthographicCamera camera);
   }
 
   private static TileType[][] getEmptyTilesArray(int width, int height) {
