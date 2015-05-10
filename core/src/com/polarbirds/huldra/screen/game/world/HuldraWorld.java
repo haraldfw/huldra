@@ -45,10 +45,8 @@ public final class HuldraWorld {
     box2dWorld.step(delta, 8, 8); // update box2d box2dWorld
   }
 
-  public Parallax getParallax(OrthographicCamera camera, WorldTypes type) {
-    if(parallax != null) {
-      return parallax;
-    }
+  public static Parallax getParallax(OrthographicCamera camera, WorldTypes type) {
+    Parallax parallax = null;
 
     switch (type) {
       case FOREST:
