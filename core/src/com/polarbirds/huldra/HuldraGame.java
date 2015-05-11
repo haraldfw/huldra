@@ -1,10 +1,12 @@
 package com.polarbirds.huldra;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.polarbirds.huldra.screen.game.GameScreen;
-import com.polarbirds.huldra.screen.mainmenu.SplashScreen;
 
 public class HuldraGame extends Game {
 
@@ -30,6 +32,14 @@ public class HuldraGame extends Game {
 
   @Override
   public void render() {
+    Gdx.graphics.getGL30().glClearColor(0.1f, 0.1f, 0.1f, 1);
+    Gdx.graphics.getGL30().glClear( GL30.GL_COLOR_BUFFER_BIT | GL30.GL_DEPTH_BUFFER_BIT );
+
+
     if(screen != null) screen.render(timeStep);
+
+    if(Gdx.input.isButtonPressed(Input.Keys.A)) {
+      camera.zoom--;
+    }
   }
 }
