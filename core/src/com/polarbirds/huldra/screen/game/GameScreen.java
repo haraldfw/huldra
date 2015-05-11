@@ -1,10 +1,14 @@
 package com.polarbirds.huldra.screen.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.polarbirds.huldra.HuldraGame;
 import com.polarbirds.huldra.screen.game.world.HuldraWorld;
+
+import java.util.Random;
 
 /**
  * A screen for showing the game's box2dWorld and all it's components.
@@ -14,7 +18,8 @@ public class GameScreen implements Screen {
 
   public final HuldraGame game;
   public final HuldraWorld world;
-  public final Stage stage; // stage containing game actors (not GUI, but actual game elements)
+  private final Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
+  public final Stage stage; // stage containing game actors
 
   public GameScreen(HuldraGame game) {
     this.game = game;
@@ -22,7 +27,7 @@ public class GameScreen implements Screen {
 
     stage.setViewport(new ScreenViewport(game.camera));
 
-    world = HuldraWorld.WorldTypes.TEST_STAGE.getNew("", game.camera);
+    world = HuldraWorld.WorldTypes.TEST_STAGE.getNew(new Random().nextLong(), game.camera);
 
     //stage.addActor(new Parallax());
   }
@@ -33,6 +38,7 @@ public class GameScreen implements Screen {
     stage.act(delta);
     world.step(delta);
     stage.draw();
+    debugRenderer.render(world.box2dWorld, game.camera.combined);
   }
 
   @Override
@@ -47,7 +53,7 @@ public class GameScreen implements Screen {
 
   @Override
   public void pause() {
-
+    Gdx.app.exit();
   }
 
   @Override
