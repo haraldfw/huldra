@@ -46,6 +46,7 @@ project(":desktop") {
 
 project(":core") {
     apply plugin: "java"
+    apply plugin: "findbugs"
 
 
     dependencies {
