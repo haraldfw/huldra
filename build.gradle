@@ -56,18 +56,21 @@ project(":core") {
     }
 
 
-    findbugs {
-        reportsDir = file("$project.buildDir/findbugsReports")
+    task customFindbugs(type: FindBugs) {
         ignoreFailures = true
-        sourceSets = [sourceSets.main]
-        xml.destination "$project.buildDir/outputs/findbugs/huldra-fb.xml"
-    }
+        effort = "default"
+        reportLevel = "medium"
+        classes = files("$project.buildDir/intermediates/classes")
 
-    pmd {
-        ruleSets = ["basic", "braces", "design"]
-        ignoreFailures = true
-        sourceSets = [sourceSets.main]
+        source = fileTree('src/')
+        classpath = files()
+        reports {
+            xml.withMessages = true
+            xml.destination "$project.buildDir/outputs/findbugs/findbugs-output.xml"
+        }
     }
+// UPDATE: renamed the task to customFindbugs and made it automatically be called when build is called
+    build.dependsOn customFindbugs
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
