@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.polarbirds.huldra.HuldraGame;
-import com.polarbirds.huldra.screen.game.world.HuldraWorld;
+import com.polarbirds.huldra.model.world.HuldraWorld;
 
 import java.util.Random;
 
@@ -34,7 +34,6 @@ public class GameScreen implements Screen {
 
   @Override
   public void render(float delta) {
-    System.out.println("Render in GameScreen");
     stage.act(delta);
     world.step(delta);
     stage.draw();
@@ -53,7 +52,7 @@ public class GameScreen implements Screen {
 
   @Override
   public void pause() {
-    Gdx.app.exit();
+
   }
 
   @Override
