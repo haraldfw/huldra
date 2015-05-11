@@ -47,8 +47,24 @@ project(":desktop") {
 project(":core") {
     apply plugin: "java"
     apply plugin: "findbugs"
+    apply plugin: "checkstyle"
+
+    checkstyle {
+        configFile = new File(rootDir, "config/huldra-checkstyle.xml")
+        ignoreFailures = true
+        sourceSets = [sourceSets.main]
+    }
+
 
     findbugs {
+        reportsDir = file("$project.buildDir/findbugsReports")
+        ignoreFailures = true
+        sourceSets = [sourceSets.main]
+        xml.destination "$project.buildDir/outputs/findbugs/huldra-fb.xml"
+    }
+
+    pmd {
+        ruleSets = ["basic", "braces", "design"]
         ignoreFailures = true
         sourceSets = [sourceSets.main]
     }
