@@ -71,7 +71,7 @@ public final class HuldraWorld {
       case FOREST:
         // parallax = new Parallax(..);
         break;
-      case CAVES_DEEP:
+      case CAVES:
         // parallax = new Parallax(..);
         break;
       default: // case TEST_STAGE
@@ -95,7 +95,7 @@ public final class HuldraWorld {
       }
     },
 
-    CAVES_DEEP {
+    CAVES {
       @Override
       public HuldraWorld getNew(long seed, OrthographicCamera camera) {
         TileType[][] tiles = getEmptyTilesArray(16, 16);
