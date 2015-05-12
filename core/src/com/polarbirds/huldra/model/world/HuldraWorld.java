@@ -7,9 +7,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
-import com.polarbirds.huldra.model.entity.inanimateObject.Interactable;
+import com.polarbirds.huldra.model.entity.inanimateobject.Interactable;
 import com.smokebox.lib.utils.geom.Line;
-import com.smokebox.lib.utils.geom.Rectangle;
 import com.smokebox.lib.utils.geom.UnifiablePolyedge;
 
 import java.util.ArrayList;
@@ -125,9 +124,7 @@ public final class HuldraWorld {
 
         return new HuldraWorld(tiles, interactables);
       }
-    }
-
-    ;
+    };
 
     public abstract HuldraWorld getNew(long seed, OrthographicCamera camera);
   }
@@ -136,8 +133,8 @@ public final class HuldraWorld {
     TileType[][] tiles = new TileType[width][height];
 
     for(int x = 0; x < tiles.length; x++)
-        for(int y = 0; y < tiles[x].length; y++)
-          tiles[x][y] = TileType.EMPTY;
+      for(int y = 0; y < tiles[x].length; y++)
+        tiles[x][y] = TileType.EMPTY;
 
     return tiles;
   }
@@ -149,12 +146,41 @@ public final class HuldraWorld {
     LADDER
   }
 
-  private class Section {
+  private final class Section {
 
     TileType[][] tiles;
+    OpeningArray entries;
+    OpeningArray exits;
 
-    Section(Opening[] entries, Opening[] exits) {
+    SectionType sectionType;
 
+    Section(OpeningArray entries,
+                   OpeningArray exits) {
+      this.entries = entries;
+      this.exits = exits;
+      sectionType = SectionType.FILL;
+    }
+  }
+
+  private enum SectionType {
+    PATH,
+    START,
+    END,
+    FILL
+  }
+
+  private final class OpeningArray {
+    protected Opening[] openings;
+
+    OpeningArray(Opening[] openings) {
+      this.openings = openings;
+    }
+
+    boolean contains(Opening opening) {
+      for(Opening o : openings) {
+        if(o == opening) return true;
+      }
+      return false;
     }
   }
 
