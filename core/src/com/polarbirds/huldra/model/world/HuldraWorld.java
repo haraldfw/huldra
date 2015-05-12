@@ -111,7 +111,7 @@ public final class HuldraWorld {
     TEST_STAGE {
       @Override
       public HuldraWorld getNew(long seed, OrthographicCamera camera) {
-        TileType[][] tiles = getEmptyTilesArray(16, 16);
+        TileType[][] tiles = getEmptyTilesArray(8, 8);
         ArrayList<Interactable> interactables = new ArrayList<>();
 
         for(int x = 0; x < tiles.length; x++) {
