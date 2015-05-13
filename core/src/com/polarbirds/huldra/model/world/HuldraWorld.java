@@ -85,7 +85,7 @@ public final class HuldraWorld {
 
     FOREST {
       @Override
-      public HuldraWorld getNew(long seed, OrthographicCamera camera) {
+      public HuldraWorld getNew(int amountOfRooms, long seed, OrthographicCamera camera) {
         TileType[][] tiles = getEmptyTilesArray(16, 16);
         ArrayList<Interactable> interactables = new ArrayList<>();
 
@@ -97,7 +97,7 @@ public final class HuldraWorld {
 
     CAVES {
       @Override
-      public HuldraWorld getNew(long seed, OrthographicCamera camera) {
+      public HuldraWorld getNew(int amountOfRooms, long seed, OrthographicCamera camera) {
         TileType[][] tiles = getEmptyTilesArray(16, 16);
         Random random = new Random(seed);
         ArrayList<Interactable> interactables = new ArrayList<>();
@@ -110,7 +110,7 @@ public final class HuldraWorld {
 
     TEST_STAGE {
       @Override
-      public HuldraWorld getNew(long seed, OrthographicCamera camera) {
+      public HuldraWorld getNew(int amountOfRooms, long seed, OrthographicCamera camera) {
         TileType[][] tiles = getEmptyTilesArray(8, 8);
         ArrayList<Interactable> interactables = new ArrayList<>();
 
@@ -126,7 +126,7 @@ public final class HuldraWorld {
       }
     };
 
-    public abstract HuldraWorld getNew(long seed, OrthographicCamera camera);
+    public abstract HuldraWorld getNew(int amountOfRooms, long seed, OrthographicCamera camera);
   }
 
   private static TileType[][] getEmptyTilesArray(int width, int height) {
@@ -137,57 +137,5 @@ public final class HuldraWorld {
         tiles[x][y] = TileType.EMPTY;
 
     return tiles;
-  }
-
-  private enum TileType {
-    EMPTY,
-    SOLID,
-    PLATFORM,
-    LADDER
-  }
-
-  private final class Section {
-
-    TileType[][] tiles;
-    OpeningArray entries;
-    OpeningArray exits;
-
-    SectionType sectionType;
-
-    Section(OpeningArray entries,
-                   OpeningArray exits) {
-      this.entries = entries;
-      this.exits = exits;
-      sectionType = SectionType.FILL;
-    }
-  }
-
-  private enum SectionType {
-    PATH,
-    START,
-    END,
-    FILL
-  }
-
-  private final class OpeningArray {
-    protected Opening[] openings;
-
-    OpeningArray(Opening[] openings) {
-      this.openings = openings;
-    }
-
-    boolean contains(Opening opening) {
-      for(Opening o : openings) {
-        if(o == opening) return true;
-      }
-      return false;
-    }
-  }
-
-  private enum Opening {
-    TOP,
-    LEFT,
-    RIGHT,
-    BOTTOM
   }
 }
