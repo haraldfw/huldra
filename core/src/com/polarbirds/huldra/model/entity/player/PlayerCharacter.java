@@ -21,7 +21,6 @@ public abstract class PlayerCharacter extends BasicEntity {
   public PlayerCharacter(GameScreen game, Body body, float mass,
                          float moveStrength, float jumpStrength,
                          float baseDamage) {
-    super(null); // TODO replace null with image
     this.mass = mass;
     this.moveStrength = moveStrength;
     this.jumpStrength = jumpStrength;

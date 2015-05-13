@@ -12,8 +12,7 @@ import com.polarbirds.huldra.model.entity.player.PlayerCharacter;
 public abstract class Interactable extends BasicEntity {
 
   public Interactable(Image image) {
-    super(image);
-    
+
   }
 
   public abstract void interact(PlayerCharacter character);
