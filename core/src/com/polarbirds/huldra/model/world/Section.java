@@ -9,13 +9,13 @@ import java.util.Random;
 final class Section {
 
   TileType[][] tiles;
-  OpeningArray entries;
-  OpeningArray exits;
+  ArrayList<Opening> entries;
+  ArrayList<Opening> exits;
 
   SectionType sectionType;
 
-  private Section(OpeningArray entries,
-          OpeningArray exits) {
+  private Section(ArrayList<Opening> entries,
+                  ArrayList<Opening> exits) {
     this.entries = entries;
     this.exits = exits;
     sectionType = SectionType.FILL;
@@ -61,8 +61,6 @@ final class Section {
       exits.add(Opening.DOWN);
     }
 
-    return new Section(
-        new OpeningArray((Opening[]) entries.toArray()),
-        new OpeningArray((Opening[]) exits.toArray()));
+    return new Section(entries, exits);
   }
 }

@@ -26,7 +26,7 @@ public class GameScreen implements Screen {
 
     stage.setViewport(new ScreenViewport(game.camera));
 
-    world = HuldraWorld.WorldTypes.TEST_STAGE.getNew(new Random().nextLong(), game.camera);
+    world = HuldraWorld.WorldTypes.TEST_STAGE.getNew(10, new Random().nextLong(), game.camera);
 
     //stage.addActor(new Parallax());
   }
