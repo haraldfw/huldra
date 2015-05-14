@@ -1,13 +1,13 @@
 package com.polarbirds.huldra.model.entity.player;
 
 import com.badlogic.gdx.physics.box2d.Body;
-import com.polarbirds.huldra.model.entity.BasicEntity;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.polarbirds.huldra.screen.game.GameScreen;
 
 /**
  * Created by Harald on 1.5.15.
  */
-public abstract class PlayerCharacter extends BasicEntity {
+public abstract class PlayerCharacter extends Image {
 
   GameScreen game;
 

@@ -11,15 +11,12 @@ public class Knight extends PlayerCharacter {
 
   public Knight(GameScreen screen,float mass, float moveStrength,
                 float jumpStrength, float baseDamage) {
-    super(screen, createBody(screen.world.box2dWorld), mass, moveStrength, jumpStrength, baseDamage);
-  }
-
-  @Override
-  public void reset() {
-
+    super(screen, createBody(screen.world.box2dWorld),
+          mass, moveStrength, jumpStrength, baseDamage);
   }
 
   private static Body createBody(World world) {
+
     return null;
   }
 }
