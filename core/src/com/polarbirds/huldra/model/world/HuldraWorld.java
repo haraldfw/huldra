@@ -32,12 +32,15 @@ public final class HuldraWorld {
     int[][] ints = new int[tiles.length][tiles[0].length];
     for(int x = 0; x < tiles.length; x++) {
       for(int y = 0; y < tiles[0].length; y++) {
-        switch (tiles[x][y]) {
-          default:
-            break;
-          case SOLID:
-            ints[x][y] = 1;
-            break;
+        TileType tile = tiles[x][y];
+        if(tile != null) {
+          switch (tile) {
+            default:
+              break;
+            case SOLID:
+              ints[x][y] = 1;
+              break;
+          }
         }
       }
     }
@@ -111,8 +114,11 @@ public final class HuldraWorld {
 
         System.out.println("Placed spawn");
 
+        // place down section until requirement amountOfSections is met
         int sectionsPlaced = 1;
         while(sectionsPlaced < amountOfSections) {
+          System.out.println("amountofsections " + sectionsPlaced + "/" + amountOfSections);
+
           ArrayList<Integer> openingXs = new ArrayList<>();
           ArrayList<Integer> openingYs = new ArrayList<>();
 
@@ -122,19 +128,19 @@ public final class HuldraWorld {
                 ArrayList<Opening> entries = sections[x][y].entries;
                 ArrayList<Opening> exits = sections[x][y].exits;
 
-                if(sections[x - 1][y] != null) {
+                if(sections[x - 1][y] == null) {
                   openingXs.add(x - 1);
                   openingYs.add(y);
                 }
-                if(sections[x + 1][y] != null) {
+                if(sections[x + 1][y] == null) {
                   openingXs.add(x + 1);
                   openingYs.add(y);
                 }
-                if(sections[x][y - 1] != null) {
+                if(sections[x][y - 1] == null) {
                   openingXs.add(x);
                   openingYs.add(y - 1);
                 }
-                if(sections[x][y + 1] != null) {
+                if(sections[x][y + 1] == null) {
                   openingXs.add(x);
                   openingYs.add(y + 1);
                 }
@@ -142,13 +148,44 @@ public final class HuldraWorld {
             } // y-loop
           } // x-loop
 
+          // add sections in all openings
+          System.out.println("openings " + openingXs.size());
+          while(!openingXs.isEmpty()) {
+            int openingRan = random.nextInt(openingXs.size());
+            int x = openingXs.get(openingRan);
+            int y = openingYs.get(openingRan);
 
+            sections[x][y] = Section.getNew(sections, x, y, random);
+
+            openingXs.remove(openingRan);
+            openingYs.remove(openingRan);
+            sectionsPlaced++;
+          }
         }
 
-        TileType[][] tiles = new TileType[8][8];
-        for(int x = 0; x < tiles.length; x++)
-          for(int y = 0; y < tiles[x].length; y++)
-            tiles[x][y] = TileType.EMPTY;
+        for (int x = 0; x < sections.length; x++) {
+          for (int y = 0; y < sections[0].length; y++) {
+            Section section = sections[x][y];
+            if(section != null) section.finalizeSection();
+          }
+        }
+
+
+        TileType[][] tiles = new TileType[sections.length*8][sections[0].length*8];
+        for (int x = 0; x < sections.length; x++) {
+          for (int y = 0; y < sections[0].length; y++) {
+            Section section = sections[x][y];
+            if(section != null) {
+              int startx = x*8;
+              int starty = y*8;
+              for (int sx = 0; sx < section.tiles.length; sx++) {
+                for (int sy = 0; sy < section.tiles[0].length; sy++) {
+                  tiles[startx + sx][starty + sy] = section.tiles[sx][sy];
+                }
+              }
+            }
+          }
+        }
 
         ArrayList<Interactable> interactables = new ArrayList<>();
         return new HuldraWorld(tiles, interactables);

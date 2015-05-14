@@ -21,10 +21,14 @@ final class Section {
     sectionType = SectionType.FILL;
   }
 
+  public void finalizeSection() {
+    tiles = getTiles(entries, exits);
+  }
+
   static Section getNew(
       Section[][] sections, int xPlacement, int yPlacement, Random random)  {
-    final float placeEntryThreshold = 0.5f;
-    final float placeExitThreshold = 0.5f;
+    float placeEntryThreshold = 0.5f;
+    float placeExitThreshold = 0.5f;
     // if space to the left is empty, use a random-function to determine if there
     // should be and entry an/or exit there
     ArrayList<Opening> entries = new ArrayList<>();
@@ -64,7 +68,7 @@ final class Section {
     return new Section(entries, exits);
   }
 
-  private static TileType[][] getTiles(ArrayList<OpeningType> entries, ArrayList<OpeningType> exits) {
+  private static TileType[][] getTiles(ArrayList<Opening> entries, ArrayList<Opening> exits) {
     TileType[][] tiles = new TileType[][]{
         {TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID},
         {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
