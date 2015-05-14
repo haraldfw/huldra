@@ -128,7 +128,7 @@ public final class HuldraWorld {
                 ArrayList<Opening> entries = sections[x][y].entries;
                 ArrayList<Opening> exits = sections[x][y].exits;
 
-                if(sections[x - 1][y] == null) {
+                if(sections[x - 1][y] == null) { // && entries contains LEFT
                   openingXs.add(x - 1);
                   openingYs.add(y);
                 }
