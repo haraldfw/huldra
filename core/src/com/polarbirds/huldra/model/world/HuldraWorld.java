@@ -85,57 +85,94 @@ public final class HuldraWorld {
 
     FOREST {
       @Override
-      public HuldraWorld getNew(int amountOfRooms, long seed, OrthographicCamera camera) {
-        TileType[][] tiles = getEmptyTilesArray(16, 16);
+      public HuldraWorld getNew(int amountOfSections, long seed, OrthographicCamera camera) {
+        TileType[][] tiles = new TileType[8][8];
+        for(int x = 0; x < tiles.length; x++)
+          for(int y = 0; y < tiles[x].length; y++)
+            tiles[x][y] = TileType.EMPTY;
+
         ArrayList<Interactable> interactables = new ArrayList<>();
-
-        // generate
-
         return new HuldraWorld(tiles, interactables);
       }
     },
 
     CAVES {
       @Override
-      public HuldraWorld getNew(int amountOfRooms, long seed, OrthographicCamera camera) {
-        TileType[][] tiles = getEmptyTilesArray(16, 16);
+      public HuldraWorld getNew(int amountOfSections, long seed, OrthographicCamera camera) {
+        System.out.println("Creating Caves with " + amountOfSections + " sections");
+
         Random random = new Random(seed);
+
+        Section[][] sections = new Section[amountOfSections *2][amountOfSections *2];
+        // place spawn
+        sections[amountOfSections][amountOfSections] =
+            Section.getNew(sections, amountOfSections, amountOfSections, random);
+        sections[amountOfSections][amountOfSections].sectionType = SectionType.START;
+
+        System.out.println("Placed spawn");
+
+        int sectionsPlaced = 1;
+        while(sectionsPlaced < amountOfSections) {
+          ArrayList<Integer> openingXs = new ArrayList<>();
+          ArrayList<Integer> openingYs = new ArrayList<>();
+
+          for(int x = 0; x < sections.length; x++) {
+            for(int y = 0; y < sections[0].length; y++) {
+              if(sections[x][y] != null) {
+                ArrayList<Opening> entries = sections[x][y].entries;
+                ArrayList<Opening> exits = sections[x][y].exits;
+
+                if(sections[x - 1][y] != null) {
+                  openingXs.add(x - 1);
+                  openingYs.add(y);
+                }
+                if(sections[x + 1][y] != null) {
+                  openingXs.add(x + 1);
+                  openingYs.add(y);
+                }
+                if(sections[x][y - 1] != null) {
+                  openingXs.add(x);
+                  openingYs.add(y - 1);
+                }
+                if(sections[x][y + 1] != null) {
+                  openingXs.add(x);
+                  openingYs.add(y + 1);
+                }
+              }
+            } // y-loop
+          } // x-loop
+
+
+        }
+
+        TileType[][] tiles = new TileType[8][8];
+        for(int x = 0; x < tiles.length; x++)
+          for(int y = 0; y < tiles[x].length; y++)
+            tiles[x][y] = TileType.EMPTY;
+
         ArrayList<Interactable> interactables = new ArrayList<>();
-
-        // generate
-
         return new HuldraWorld(tiles, interactables);
       }
     },
 
     TEST_STAGE {
       @Override
-      public HuldraWorld getNew(int amountOfRooms, long seed, OrthographicCamera camera) {
-        TileType[][] tiles = getEmptyTilesArray(8, 8);
+      public HuldraWorld getNew(int amountOfSections, long seed, OrthographicCamera camera) {
+        TileType[][] tiles = new TileType[][]{
+            {TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID},
+            {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
+            {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
+            {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
+            {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
+            {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
+            {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
+            {TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID}
+        };
         ArrayList<Interactable> interactables = new ArrayList<>();
-
-        for(int x = 0; x < tiles.length; x++) {
-          for (int y = 0; y < tiles[0].length; y++) {
-            if(x == 0 || x == tiles.length - 1 || y == 0 || y == tiles[0].length - 1) {
-              tiles[x][y] = TileType.SOLID;
-            }
-          }
-        }
-
         return new HuldraWorld(tiles, interactables);
       }
     };
 
-    public abstract HuldraWorld getNew(int amountOfRooms, long seed, OrthographicCamera camera);
-  }
-
-  private static TileType[][] getEmptyTilesArray(int width, int height) {
-    TileType[][] tiles = new TileType[width][height];
-
-    for(int x = 0; x < tiles.length; x++)
-      for(int y = 0; y < tiles[x].length; y++)
-        tiles[x][y] = TileType.EMPTY;
-
-    return tiles;
+    public abstract HuldraWorld getNew(int amountOfSections, long seed, OrthographicCamera camera);
   }
 }

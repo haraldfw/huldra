@@ -30,37 +30,51 @@ final class Section {
     ArrayList<Opening> entries = new ArrayList<>();
     ArrayList<Opening> exits = new ArrayList<>();
     if(sections[xPlacement - 1][yPlacement] == null) {
-      if(random.nextFloat() > placeEntryThreshold) entries.add(Opening.LEFT);
-      if(random.nextFloat() > placeExitThreshold) exits.add(Opening.LEFT);
+      if(random.nextFloat() > placeEntryThreshold) entries.add(new Opening(OpeningType.LEFT, true));
+      if(random.nextFloat() > placeExitThreshold) exits.add(new Opening(OpeningType.LEFT, true));
     } else { // left section exists
-      if(random.nextFloat() > placeEntryThreshold) entries.add(Opening.LEFT);
-      exits.add(Opening.LEFT);
+      if(random.nextFloat() > placeEntryThreshold) entries.add(new Opening(OpeningType.LEFT, false));
+      exits.add(new Opening(OpeningType.LEFT, false));
     }
 
     if(sections[xPlacement][yPlacement + 1] == null) {
-      if(random.nextFloat() > placeEntryThreshold) entries.add(Opening.UP);
-      if(random.nextFloat() > placeExitThreshold) exits.add(Opening.UP);
+      if(random.nextFloat() > placeEntryThreshold) entries.add(new Opening(OpeningType.UP, true));
+      if(random.nextFloat() > placeExitThreshold) exits.add(new Opening(OpeningType.UP, true));
     } else { // left section exists
-      if(random.nextFloat() > placeEntryThreshold) entries.add(Opening.UP);
-      exits.add(Opening.UP);
+      if(random.nextFloat() > placeEntryThreshold) entries.add(new Opening(OpeningType.UP, false));
+      exits.add(new Opening(OpeningType.UP, false));
     }
 
     if(sections[xPlacement + 1][yPlacement] == null) {
-      if(random.nextFloat() > placeEntryThreshold) entries.add(Opening.RIGHT);
-      if(random.nextFloat() > placeExitThreshold) exits.add(Opening.RIGHT);
+      if(random.nextFloat() > placeEntryThreshold) entries.add(new Opening(OpeningType.RIGHT, true));
+      if(random.nextFloat() > placeExitThreshold) exits.add(new Opening(OpeningType.RIGHT, true));
     } else { // left section exists
-      if(random.nextFloat() > placeEntryThreshold) entries.add(Opening.RIGHT);
-      exits.add(Opening.RIGHT);
+      if(random.nextFloat() > placeEntryThreshold) entries.add(new Opening(OpeningType.RIGHT, false));
+      exits.add(new Opening(OpeningType.RIGHT, false));
     }
 
     if(sections[xPlacement][yPlacement - 1] == null) {
-      if(random.nextFloat() > placeEntryThreshold) entries.add(Opening.DOWN);
-      if(random.nextFloat() > placeExitThreshold) exits.add(Opening.DOWN);
+      if(random.nextFloat() > placeEntryThreshold) entries.add(new Opening(OpeningType.DOWN, true));
+      if(random.nextFloat() > placeExitThreshold) exits.add(new Opening(OpeningType.DOWN, true));
     } else { // left section exists
-      if(random.nextFloat() > placeEntryThreshold) entries.add(Opening.DOWN);
-      exits.add(Opening.DOWN);
+      if(random.nextFloat() > placeEntryThreshold) entries.add(new Opening(OpeningType.DOWN, false));
+      exits.add(new Opening(OpeningType.DOWN, false));
     }
 
     return new Section(entries, exits);
+  }
+
+  private static TileType[][] getTiles(ArrayList<OpeningType> entries, ArrayList<OpeningType> exits) {
+    TileType[][] tiles = new TileType[][]{
+        {TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID},
+        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
+        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
+        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
+        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
+        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
+        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
+        {TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID}
+    };
+    return tiles;
   }
 }
