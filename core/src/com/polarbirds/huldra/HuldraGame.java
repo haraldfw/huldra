@@ -39,7 +39,7 @@ public class HuldraGame extends Game {
     if(screen != null) screen.render(timeStep);
 
     if(Gdx.input.isButtonPressed(Input.Keys.A)) {
-      camera.zoom--;
+      camera.zoom++;
     }
   }
 }
