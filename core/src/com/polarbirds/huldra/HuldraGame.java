@@ -25,6 +25,7 @@ public class HuldraGame extends Game {
   public void create () {
     camera = new OrthographicCamera();
     camera.setToOrtho(false, X_TILES, Y_TILES);
+    camera.position.set(0, 0, 0);
 
     timeStep = 0.01666666666666666666666666666667f; // 1/60, 60fps
     setScreen(new GameScreen(this));
@@ -38,7 +39,7 @@ public class HuldraGame extends Game {
 
     if(screen != null) screen.render(timeStep);
 
-    if(Gdx.input.isButtonPressed(Input.Keys.A)) {
+    if(Gdx.input.isKeyPressed(Input.Keys.Z)) {
       camera.zoom++;
     }
   }
