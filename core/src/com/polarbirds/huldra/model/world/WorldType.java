@@ -14,78 +14,89 @@ public enum WorldType {
 
   FOREST {
     @Override
-    public HuldraWorld getNew(float amountLargeSections, int amountOfSections, long seed, OrthographicCamera camera) {
-      TileType[][] tiles = new TileType[8][8];
-      for(int x = 0; x < tiles.length; x++)
-        for(int y = 0; y < tiles[x].length; y++)
-          tiles[x][y] = TileType.EMPTY;
-
-      ArrayList<Interactable> interactables = new ArrayList<>();
-      return new HuldraWorld(tiles, interactables);
+    public HuldraWorld getNew(double amountLargeSections, int amountOfSections, long seed, OrthographicCamera camera) {
+      return TEST_STAGE.getNew(amountLargeSections, amountOfSections, seed, camera);
     }
   },
 
   CAVES {
     @Override
-    public HuldraWorld getNew(float amountLargeSections, int amountOfSections, long seed, OrthographicCamera camera) {
+    public HuldraWorld getNew(double largeSectionGaussianScale, int amountOfSections, long seed, OrthographicCamera camera) {
       System.out.println("Creating Caves with " + amountOfSections + " sections");
 
       Random random = new Random(seed);
 
-      ArrayList<Section> sections = new ArrayList<>();
+      ArrayList<SectionBounds> sectionBoundsList = new ArrayList<>();
 
       { // place spawn
-        Section spawn = new Section(0, 0, 1, 1);
+        SectionBounds spawn = new SectionBounds(0, 0, 1, 1);
 
-        boolean[] openSide = new boolean[Section.SECTION_SIDE_SIZE];
-        openSide[0] = false;
-        openSide[openSide.length - 1] = false;
+        // Create a side to replace the sides of the spawn.
+        // The spawn should *always* have openings on sides LEFT and RIGHT
+        boolean[] openSide = new boolean[SectionBounds.TILES_PER_SIDE];
 
+        //
         for(int i = 1; i < openSide.length - 1; i++) {
           openSide[i] = true;
         }
 
-        spawn.setSide(Section.Side.LEFT, openSide);
-        spawn.setSide(Section.Side.TOP, openSide);
-        spawn.setSide(Section.Side.RIGHT, openSide);
+        spawn.setSide(SectionBounds.Side.LEFT, openSide);
+        spawn.setSide(SectionBounds.Side.RIGHT, openSide);
 
-        sections.add(spawn);
+        sectionBoundsList.add(spawn);
         System.out.println("Placed spawn");
       }
 
       // place down section until requirement amountOfSections is met
       int sectionsPlaced = 1;
-      while(sectionsPlaced < amountOfSections) {
+      // loop until all sectionBoundsList are placed or the loop uses too many iterations
+      for(int iterations = 0; iterations < 10000; iterations++) {
         System.out.println("amountofsections " + sectionsPlaced + "/" + amountOfSections);
 
+        // find dimensions for a new sectionBounds
+        int height =
+            1 + (int) (random.nextGaussian() * largeSectionGaussianScale * SectionBounds.MAX_HEIGHT);
+        int width =
+            1 + (int) (random.nextGaussian() * largeSectionGaussianScale * SectionBounds.MAX_WIDTH);
+
+        // choose a random sectionBounds to expand from
+        SectionBounds sectionBounds = sectionBoundsList.get(random.nextInt(sectionBoundsList.size()));
+        // get this location's openLocations
+        ArrayList<IntVector2> openLocations = getOpenLocationsAroundSection(sectionBounds,
+                                                                            sectionBoundsList);
+        // if no open locations, go to next iteration. This location is no good.
+        if(openLocations.size() <= 0) continue;
+
+
+
+        if(sectionsPlaced < amountOfSections) break;
+        /*
         // make arrays to store openings
         ArrayList<IntVector2> locations;
-        ArrayList<Integer> openingXs = new ArrayList<>();
-        ArrayList<Integer> openingYs = new ArrayList<>();
         // find openings
-        for(int x = 0; x < sections.length; x++) {
-          for(int y = 0; y < sections[0].length; y++) {
-            if(sections[x][y] != null) {
-              ArrayList<Opening> entries = sections[x][y].entries;
-              ArrayList<Opening> exits = sections[x][y].exits;
+        for(int x = 0; x < sectionBoundsList.length; x++) {
+          for(int y = 0; y < sectionBoundsList[0].length; y++) {
+            if(sectionBoundsList[x][y] != null) {
+              ArrayList<Opening> entries = sectionBoundsList[x][y].entries;
+              ArrayList<Opening> exits = sectionBoundsList[x][y].exits;
 
-              Section section = sections[x - 1][y];
-              if(section == null && sections[x][y].hasOpening(OpeningType.LEFT)) { // && entries contains LEFT
+              SectionBounds sectionBounds = sectionBoundsList[x - 1][y];
+              if(sectionBounds == null && sectionBoundsList[x][y].hasOpening(OpeningType.LEFT)) { // && entries contains LEFT
                 openingXs.add(x - 1);
                 openingYs.add(y);
               }
-              section = sections[x + 1][y];
-              if(section == null && sections[x][y].hasOpening(OpeningType.RIGHT)) {
+              sectionBounds = sectionBoundsList[x + 1][y];
+              if(sectionBounds == null && sectionBoundsList[x][y].hasOpening(OpeningType.RIGHT)) {
                 openingXs.add(x + 1);
                 openingYs.add(y);
               }
-              section = sections[x][y - 1];
-              if(section == null && sections[x][y].hasOpening(OpeningType.DOWN)) {
+              sectionBounds = sectionBoundsList[x][y - 1];
+              if(sectionBounds == null && sectionBoundsList[x][y].hasOpening(OpeningType.DOWN)) {
                 openingXs.add(x);
                 openingYs.add(y - 1);
               }
-              section = sections[x][y + 1];
-              if(section == null && sections[x][y].hasOpening(OpeningType.UP)) {
+              sectionBounds = sectionBoundsList[x][y + 1];
+              if(sectionBounds == null && sectionBoundsList[x][y].hasOpening(OpeningType.UP)) {
                 openingXs.add(x);
                 openingYs.add(y + 1);
               }
@@ -93,88 +104,76 @@ public enum WorldType {
           } // y-loop
         } // x-loop
 
-        // add sections in all openings
+        // add sectionBoundsList in all openings
         System.out.println("openings " + openingXs.size());
         while(!openingXs.isEmpty()) {
           int openingRan = random.nextInt(openingXs.size());
           int x = openingXs.get(openingRan);
           int y = openingYs.get(openingRan);
 
-          sections[x][y] = Section.getNew(sections, x, y, random);
+          sectionBoundsList[x][y] = SectionBounds.getNew(sectionBoundsList, x, y, random);
 
           openingXs.remove(openingRan);
           openingYs.remove(openingRan);
           sectionsPlaced++;
           if(sectionsPlaced >= amountOfSections) break;
-        }
-      }
-
-      TileType[][] tiles = new TileType[sections.length*8][sections[0].length*8];
-      for (int x = 0; x < sections.length; x++) {
-        for (int y = 0; y < sections[0].length; y++) {
-          Section section = sections[x][y];
-          if(section != null) {
-            int startx = x*8;
-            int starty = y*8;
-            TileType[][] standard = getTilesForSection(null);
-            for (int sx = 0; sx < standard.length; sx++) {
-              for (int sy = 0; sy < standard[0].length; sy++) {
-                tiles[startx + sx][starty + sy] = standard[sx][sy];
-              }
-            }
-          }
-        }
+        }*/
       }
 
       ArrayList<Interactable> interactables = new ArrayList<>();
-      return new HuldraWorld(tiles, interactables);
+
+      return new HuldraWorld(this, sectionBoundsList, interactables);
     }
   },
 
   TEST_STAGE {
     @Override
-    public HuldraWorld getNew(float amountLargeSections, int amountOfSections, long seed, OrthographicCamera camera) {
-      TileType[][] tiles = new TileType[][]{
-          {TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID},
-          {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
-          {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
-          {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
-          {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
-          {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
-          {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
-          {TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID}
-      };
+    public HuldraWorld getNew(double amountLargeSections, int amountOfSections, long seed, OrthographicCamera camera) {
+      ArrayList<SectionBounds> sectionBoundsList = new ArrayList<>();
+      sectionBoundsList.add(new SectionBounds(0, 0, 1, 1));
       ArrayList<Interactable> interactables = new ArrayList<>();
-      return new HuldraWorld(tiles, interactables);
+      return new HuldraWorld(this, sectionBoundsList, interactables);
     }
   };
 
-  public abstract HuldraWorld getNew(float amountLargeSections, int amountOfSections, long seed, OrthographicCamera camera);
+  public abstract HuldraWorld getNew(double amountLargeSections, int amountOfSections, long seed, OrthographicCamera camera);
 
-  private static boolean coordinatesTaken(IntVector2 v, ArrayList<Section> sections) {
-    for(Section s : sections) {
+  private static boolean coordinatesTaken(IntVector2 v, Iterable<SectionBounds> sections) {
+    for(SectionBounds s : sections) {
       if(s.contains(v)) return true;
     }
     return false;
   }
 
-  private static TileType[][] getTilesForSection(Section section) {
-    TileType[][] tiles =
-        new TileType
-            [section.width*Section.SECTION_SIDE_SIZE]
-            [section.height*Section.SECTION_SIDE_SIZE];
-    for(int x = 0; x < tiles.length; x++) {
-      for(int y = 0; y < tiles[0].length; y++) {
-
-      }
-    }
-    return Section.getTiles();
-  }
-
-  private static Section getSectionAt(IntVector2 v, ArrayList<Section> sections) {
-    for(Section s : sections) {
+  private static SectionBounds getSectionAt(IntVector2 v, Iterable<SectionBounds> sections) {
+    for(SectionBounds s : sections) {
       if(s.contains(v)) return s;
     }
     return null;
+  }
+
+  private static ArrayList<IntVector2> getOpenLocationsAroundSection(
+      SectionBounds sectionBounds, ArrayList<SectionBounds> sectionBoundsList) {
+    ArrayList<IntVector2> locations = new ArrayList<>();
+    for(int x = 0; x < sectionBounds.width; x++) {
+      IntVector2 vector2 = new IntVector2(x, sectionBounds.y - 1);
+      if(getSectionAt(vector2, sectionBoundsList) == null)
+        locations.add(vector2);
+
+      vector2 = new IntVector2(x, sectionBounds.y + sectionBounds.height + 1);
+      if(getSectionAt(vector2, sectionBoundsList) == null)
+        locations.add(vector2);
+    }
+
+    for(int y = 0; y < sectionBounds.height; y++) {
+      IntVector2 vector2 = new IntVector2(sectionBounds.x - 1, y);
+      if(getSectionAt(vector2, sectionBoundsList) == null)
+        locations.add(vector2);
+
+      vector2 = new IntVector2(sectionBounds.x + sectionBounds.width + 1, y);
+      if(getSectionAt(vector2, sectionBoundsList) == null)
+        locations.add(vector2);
+    }
+    return locations;
   }
 }

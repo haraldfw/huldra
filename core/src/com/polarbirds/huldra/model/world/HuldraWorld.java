@@ -24,14 +24,37 @@ public final class HuldraWorld {
 
   private Parallax parallax;
 
-  HuldraWorld(TileType[][] tiles, ArrayList<Interactable> interactables) {
+  HuldraWorld(WorldType worldType, Iterable<SectionBounds> sections,
+              ArrayList<Interactable> interactables) {
 
     box2dWorld = new World(new Vector2(0, -9.81f), false);
 
-    int[][] ints = new int[tiles.length][tiles[0].length];
-    for(int x = 0; x < tiles.length; x++) {
-      for(int y = 0; y < tiles[0].length; y++) {
-        TileType tile = tiles[x][y];
+    int boundx1 = Integer.MAX_VALUE;
+    int boundx2 = Integer.MIN_VALUE;
+    int boundy1 = Integer.MAX_VALUE;
+    int boundy2 = Integer.MIN_VALUE;
+
+    for(SectionBounds sectionBounds : sections) {
+      if(sectionBounds.x < boundx1) boundx1 = sectionBounds.x;
+      if(sectionBounds.x + sectionBounds.width > boundx2) boundx2 = sectionBounds.x + sectionBounds.width;
+      if(sectionBounds.y < boundy1) boundy1 = sectionBounds.y;
+      if(sectionBounds.y + sectionBounds.height > boundy2) boundy2 = sectionBounds.y + sectionBounds.height;
+    }
+
+    TileType[][] mapTiles = new TileType[boundx2 - boundx1][boundy2 - boundy1];
+    for(SectionBounds sectionBounds : sections) {
+      TileType[][] sectionTiles = getTilesForSection(worldType, sectionBounds);
+      for (int x = 0; x < sectionTiles.length; x++) {
+        System.arraycopy(sectionTiles[x], 0,
+                         mapTiles[sectionBounds.x + x], sectionBounds.x, sectionTiles[x].length);
+      }
+    }
+
+    // create int-array of what blocks are solid and not to pass into UnifiablePolyedge
+    int[][] ints = new int[mapTiles.length][mapTiles[0].length];
+    for(int x = 0; x < mapTiles.length; x++) {
+      for(int y = 0; y < mapTiles[0].length; y++) {
+        TileType tile = mapTiles[x][y];
         if(tile != null) {
           switch (tile) {
             default:
@@ -83,5 +106,19 @@ public final class HuldraWorld {
     return parallax;
   }
 
+  /**
+   * Returns tiles for the given sectionBounds, taking into account the sectionBounds openings
+   */
+  static TileType[][] getTilesForSection(WorldType type, SectionBounds sectionBounds) {
+    TileType[][] tiles =
+        new TileType
+            [sectionBounds.width* SectionBounds.TILES_PER_SIDE]
+            [sectionBounds.height* SectionBounds.TILES_PER_SIDE];
+    for(int x = 0; x < tiles.length; x++) {
+      for(int y = 0; y < tiles[0].length; y++) {
 
+      }
+    }
+    return SectionBounds.getTiles();
+  }
 }
