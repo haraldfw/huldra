@@ -128,19 +128,23 @@ public final class HuldraWorld {
                 ArrayList<Opening> entries = sections[x][y].entries;
                 ArrayList<Opening> exits = sections[x][y].exits;
 
-                if(sections[x - 1][y] == null) { // && entries contains LEFT
+                Section section = sections[x - 1][y];
+                if(section == null && sections[x][y].hasOpening(OpeningType.LEFT)) { // && entries contains LEFT
                   openingXs.add(x - 1);
                   openingYs.add(y);
                 }
-                if(sections[x + 1][y] == null) {
+                section = sections[x + 1][y];
+                if(section == null && sections[x][y].hasOpening(OpeningType.RIGHT)) {
                   openingXs.add(x + 1);
                   openingYs.add(y);
                 }
-                if(sections[x][y - 1] == null) {
+                section = sections[x][y - 1];
+                if(section == null && sections[x][y].hasOpening(OpeningType.DOWN)) {
                   openingXs.add(x);
                   openingYs.add(y - 1);
                 }
-                if(sections[x][y + 1] == null) {
+                section = sections[x][y + 1];
+                if(section == null && sections[x][y].hasOpening(OpeningType.UP)) {
                   openingXs.add(x);
                   openingYs.add(y + 1);
                 }
@@ -160,6 +164,7 @@ public final class HuldraWorld {
             openingXs.remove(openingRan);
             openingYs.remove(openingRan);
             sectionsPlaced++;
+            if(sectionsPlaced >= amountOfSections) break;
           }
         }
 
