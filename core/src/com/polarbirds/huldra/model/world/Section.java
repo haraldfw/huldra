@@ -1,6 +1,9 @@
 package com.polarbirds.huldra.model.world;
 
+import com.smokebox.lib.utils.IntVector2;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -8,132 +11,69 @@ import java.util.Random;
  */
 final class Section {
 
-  TileType[][] tiles;
-  ArrayList<Opening> entries;
-  ArrayList<Opening> exits;
+  public static final int SECTION_SIDE_SIZE = 8;
 
-  SectionType sectionType;
+  int x;
+  int y;
+  int width;
+  int height;
 
-  private Section(ArrayList<Opening> entries,
-                  ArrayList<Opening> exits) {
-    this.entries = entries;
-    this.exits = exits;
-    sectionType = SectionType.FILL;
+  /*
+  A hashtable of boolean-arrays representing the sides of the section with
+    a boolean array for each side, showing which tiles must be open along the edges
+  */
+  private HashMap<Side, boolean[]> openings;
+
+  Section(int x, int y, int width, int height) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+
+    openings = new HashMap<>();
+
+    openings.put(Side.LEFT, new boolean[SECTION_SIDE_SIZE*width]);
+    openings.put(Side.RIGHT, new boolean[SECTION_SIDE_SIZE*width]);
+    openings.put(Side.BOTTOM, new boolean[SECTION_SIDE_SIZE*height]);
+    openings.put(Side.TOP, new boolean[SECTION_SIDE_SIZE*height]);
   }
 
-  public void finalizeSection() {
-    tiles = getTiles(entries, exits);
-    if(hasEntry(OpeningType.LEFT)) {
-      tiles[0][3] = TileType.EMPTY;
-    }
-    if(hasEntry(OpeningType.UP)) {
-      tiles[3][7] = TileType.EMPTY;
-    }
-    if(hasEntry(OpeningType.RIGHT)) {
-      tiles[7][3] = TileType.EMPTY;
-    }
-    if(hasEntry(OpeningType.DOWN)) {
-      tiles[3][0] = TileType.EMPTY;
-    }
-
-    if(hasExit(OpeningType.LEFT)) {
-      tiles[0][4] = TileType.EMPTY;
-    }
-    if(hasExit(OpeningType.UP)) {
-      tiles[4][7] = TileType.EMPTY;
-    }
-    if(hasExit(OpeningType.RIGHT)) {
-      tiles[7][4] = TileType.EMPTY;
-    }
-    if(hasExit(OpeningType.DOWN)) {
-      tiles[4][0] = TileType.EMPTY;
-    }
+  /**
+   * Changes the given coordinate of the given side to the given boolean.
+   * @param side            The side to set.
+   * @param tileCoordinate  The coordinate for the tile to change.
+   * @param open            The boolean to set the tile to.
+   */
+  void setTileOpen(Side side, int tileCoordinate, boolean open) {
+    openings.get(side)[tileCoordinate] = open;
   }
 
-  static Section getNew(
-      Section[][] sections, int xPlacement, int yPlacement, Random random)  {
-    float placeEntryThreshold = 0.5f;
-    int additionalOpenings = random.nextInt(4) + 4;
-    boolean leftFilled = false;
-    boolean rightFilled = false;
-    boolean upFilled = false;
-    boolean downFilled = false;
-    // if space to the left is empty, use a random-function to determine if there
-    // should be and entry an/or exit there
-    ArrayList<Opening> entries = new ArrayList<>();
-    ArrayList<Opening> exits = new ArrayList<>();
-    if(sections[xPlacement - 1][yPlacement] != null) {
-      if(random.nextFloat() > placeEntryThreshold) entries.add(new Opening(OpeningType.LEFT, false));
-      exits.add(new Opening(OpeningType.LEFT, false));
-      additionalOpenings--;
-      leftFilled = true;
-    }
-    if(sections[xPlacement][yPlacement + 1] != null) {
-      if(random.nextFloat() > placeEntryThreshold) entries.add(new Opening(OpeningType.UP, false));
-      exits.add(new Opening(OpeningType.UP, false));
-      additionalOpenings--;
-      upFilled = true;
-    }
-    if(sections[xPlacement + 1][yPlacement] != null) {
-      if(random.nextFloat() > placeEntryThreshold) entries.add(new Opening(OpeningType.RIGHT, false));
-      exits.add(new Opening(OpeningType.RIGHT, false));
-      additionalOpenings--;
-      rightFilled = true;
-    }
-
-    if(sections[xPlacement][yPlacement - 1] != null) {
-      if(random.nextFloat() > placeEntryThreshold) entries.add(new Opening(OpeningType.DOWN, false));
-      exits.add(new Opening(OpeningType.DOWN, false));
-      additionalOpenings--;
-      downFilled = true;
-    }
-
-    while(additionalOpenings > 0) {
-      int openingToFill = random.nextInt(4);
-      if(openingToFill == 0 && !leftFilled) {
-        exits.add(new Opening(OpeningType.LEFT, true));
-        if(random.nextFloat() > placeEntryThreshold) entries.add(new Opening(OpeningType.LEFT, false));
-        additionalOpenings--;
-      }if(openingToFill == 1 && !rightFilled) {
-        exits.add(new Opening(OpeningType.RIGHT, true));
-        if(random.nextFloat() > placeEntryThreshold) entries.add(new Opening(OpeningType.RIGHT, false));
-        additionalOpenings--;
-      }if(openingToFill == 2 && !upFilled) {
-        exits.add(new Opening(OpeningType.UP, true));
-        if(random.nextFloat() > placeEntryThreshold) entries.add(new Opening(OpeningType.UP, false));
-        additionalOpenings--;
-      }if(openingToFill == 3 && !downFilled) {
-        exits.add(new Opening(OpeningType.DOWN, true));
-        if(random.nextFloat() > placeEntryThreshold) entries.add(new Opening(OpeningType.DOWN, false));
-        additionalOpenings--;
-      }
-
-      System.out.println(additionalOpenings + ", " + leftFilled + ", " + rightFilled + ", " + upFilled + ", " + downFilled);
-    }
-
-    return new Section(entries, exits);
+  /**
+   * Returns a boolean that signifies whether the coordinates given overlap this Section.
+   * @param v An IntVector2 containing the coordinates to check for.
+   * @return  True if the coordinates overlap this section.
+   */
+  boolean contains(IntVector2 v) {
+    return !(v.x < this.x || v.x > this.x + width || v.y < this.y || v.y > this.y + height);
   }
 
-  public boolean hasEntry(OpeningType checkFor) {
-    for(Opening opening : entries) {
-      if(opening.type == checkFor) return true;
+  boolean[] getSideArray(Side side) {
+    return openings.get(side);
+  }
+
+  public void setSide(Side side, boolean[] sideArray) {
+    int thisSideLength = openings.get(side).length;
+    if(thisSideLength != sideArray.length) {
+      System.out.println("Tried to set side '" + side + "' with an array with incorrect length!"
+                         + "\nLength was '" + sideArray
+                         + "' but should have been '" + thisSideLength + "'");
+      return;
     }
-    return false;
+
+    openings.put(side, sideArray);
   }
 
-  public boolean hasExit(OpeningType checkFor) {
-    for(Opening opening : exits) {
-      if(opening.type == checkFor) return true;
-    }
-    return false;
-  }
-
-  public boolean hasOpening(OpeningType checkFor) {
-    if(hasEntry(checkFor) || hasExit(checkFor)) return true;
-    return false;
-  }
-
-  private static TileType[][] getTiles(ArrayList<Opening> entries, ArrayList<Opening> exits) {
+  public static TileType[][] getTiles() {
     TileType[][] tiles = new TileType[][]{
         {TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID},
         {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
@@ -145,5 +85,9 @@ final class Section {
         {TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID}
     };
     return tiles;
+  }
+
+  enum Side {
+    LEFT, RIGHT, BOTTOM, TOP
   }
 }
