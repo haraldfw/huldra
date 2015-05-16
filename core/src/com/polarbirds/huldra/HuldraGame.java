@@ -42,5 +42,20 @@ public class HuldraGame extends Game {
     if(Gdx.input.isKeyPressed(Input.Keys.Z)) {
       camera.zoom++;
     }
+    if(Gdx.input.isKeyPressed(Input.Keys.X)) {
+      camera.zoom--;
+    }
+    if(Gdx.input.isKeyPressed(Input.Keys.A)) {
+      camera.position.add(-1, 0, 0);
+    }
+    if(Gdx.input.isKeyPressed(Input.Keys.D)) {
+      camera.position.add(1, 0, 0);
+    }
+    if(Gdx.input.isKeyPressed(Input.Keys.W)) {
+      camera.position.add(0, 1, 0);
+    }
+    if(Gdx.input.isKeyPressed(Input.Keys.S)) {
+      camera.position.add(0, -1, 0);
+    }
   }
 }
