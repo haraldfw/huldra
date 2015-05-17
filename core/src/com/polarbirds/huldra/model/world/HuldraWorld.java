@@ -112,13 +112,13 @@ public final class HuldraWorld {
   static TileType[][] getTilesForSection(WorldType type, SectionBounds sectionBounds) {
     TileType[][] tiles =
         new TileType
-            [sectionBounds.width* SectionBounds.TILES_PER_SIDE]
-            [sectionBounds.height* SectionBounds.TILES_PER_SIDE];
+            [sectionBounds.width* Section.TILES_PER_SIDE]
+            [sectionBounds.height* Section.TILES_PER_SIDE];
     for(int x = 0; x < tiles.length; x++) {
       for(int y = 0; y < tiles[0].length; y++) {
 
       }
     }
-    return SectionBounds.getTiles();
+    return Section.getTiles();
   }
 }
