@@ -22,10 +22,10 @@ public class Section {
 
     openings = new HashMap<>();
 
-    openings.put(Side.LEFT, new boolean[TILES_PER_SIDE* bounds.width]);
-    openings.put(Side.RIGHT, new boolean[TILES_PER_SIDE * bounds.width]);
-    openings.put(Side.BOTTOM, new boolean[TILES_PER_SIDE * bounds.height]);
-    openings.put(Side.TOP, new boolean[TILES_PER_SIDE * bounds.height]);
+    openings.put(Side.LEFT, new boolean[TILES_PER_SIDE* bounds.height]);
+    openings.put(Side.RIGHT, new boolean[TILES_PER_SIDE * bounds.height]);
+    openings.put(Side.BOTTOM, new boolean[TILES_PER_SIDE * bounds.width]);
+    openings.put(Side.TOP, new boolean[TILES_PER_SIDE * bounds.width]);
   }
 
   /**
