@@ -59,16 +59,19 @@ public enum WorldType {
               sectionBoundsList.get(random.nextInt(sectionBoundsList.size()));
 
           // get this location's openLocations
-          List<IntVector2> openLocations = getOpenLocationsAroundSection(sectionBounds,
-                                                                         sectionBoundsList);
+          IntVector2 location = getCombinedLocation(width, height, sectionBoundsList, sectionBounds, random);
           // if no open locations, go to next iteration. This location is no good.
-          if (openLocations.size() <= 0) {
+          if (location.isZero()) {
             continue;
           }
 
-          if (sectionsPlaced >= amountOfSections) {
-            break;
-          }
+          sectionBoundsList.add(new SectionBounds(location.x, location.y, width, height));
+          sectionsPlaced++;
+          break;
+        }
+
+        if (sectionsPlaced >= amountOfSections) {
+          break;
         }
       }
 
@@ -94,35 +97,6 @@ public enum WorldType {
       }
     }
     return null;
-  }
-
-  private static ArrayList<IntVector2> getOpenLocationsAroundSection(
-      SectionBounds sectionBounds, Iterable<SectionBounds> sectionBoundsList) {
-    ArrayList<IntVector2> locations = new ArrayList<>();
-    for (int x = 0; x < sectionBounds.width; x++) {
-      IntVector2 vector2 = new IntVector2(x, sectionBounds.y - 1);
-      if (getSectionAt(vector2, sectionBoundsList) == null) {
-        locations.add(vector2);
-      }
-
-      vector2 = new IntVector2(x, sectionBounds.y + sectionBounds.height + 1);
-      if (getSectionAt(vector2, sectionBoundsList) == null) {
-        locations.add(vector2);
-      }
-    }
-
-    for (int y = 0; y < sectionBounds.height; y++) {
-      IntVector2 vector2 = new IntVector2(sectionBounds.x - 1, y);
-      if (getSectionAt(vector2, sectionBoundsList) == null) {
-        locations.add(vector2);
-      }
-
-      vector2 = new IntVector2(sectionBounds.x + sectionBounds.width + 1, y);
-      if (getSectionAt(vector2, sectionBoundsList) == null) {
-        locations.add(vector2);
-      }
-    }
-    return locations;
   }
 
   /**
