@@ -69,7 +69,7 @@ public class Section {
     int thisSideLength = reachableOpenings.get(side).length;
     if (thisSideLength != sideArray.length) {
       System.out.println("Tried to set side '" + side + "' with an array with incorrect length!"
-                         + "\nLength was '" + sideArray
+                         + "\nLength was '" + sideArray.length
                          + "' but should have been '" + thisSideLength + "'");
       return;
     }
