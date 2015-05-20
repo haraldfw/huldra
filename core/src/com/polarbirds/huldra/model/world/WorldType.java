@@ -69,56 +69,7 @@ public enum WorldType {
           if (sectionsPlaced >= amountOfSections) {
             break;
           }
-
         }
-        /*
-        // make arrays to store openings
-        ArrayList<IntVector2> locations;
-        // find openings
-        for(int x = 0; x < sectionBoundsList.length; x++) {
-          for(int y = 0; y < sectionBoundsList[0].length; y++) {
-            if(sectionBoundsList[x][y] != null) {
-              ArrayList<Opening> entries = sectionBoundsList[x][y].entries;
-              ArrayList<Opening> exits = sectionBoundsList[x][y].exits;
-
-              SectionBounds sectionBounds = sectionBoundsList[x - 1][y];
-              if(sectionBounds == null && sectionBoundsList[x][y].hasOpening(OpeningType.LEFT)) { // && entries contains LEFT
-                openingXs.add(x - 1);
-                openingYs.add(y);
-              }
-              sectionBounds = sectionBoundsList[x + 1][y];
-              if(sectionBounds == null && sectionBoundsList[x][y].hasOpening(OpeningType.RIGHT)) {
-                openingXs.add(x + 1);
-                openingYs.add(y);
-              }
-              sectionBounds = sectionBoundsList[x][y - 1];
-              if(sectionBounds == null && sectionBoundsList[x][y].hasOpening(OpeningType.DOWN)) {
-                openingXs.add(x);
-                openingYs.add(y - 1);
-              }
-              sectionBounds = sectionBoundsList[x][y + 1];
-              if(sectionBounds == null && sectionBoundsList[x][y].hasOpening(OpeningType.UP)) {
-                openingXs.add(x);
-                openingYs.add(y + 1);
-              }
-            }
-          } // y-loop
-        } // x-loop
-
-        // add sectionBoundsList in all openings
-        System.out.println("openings " + openingXs.size());
-        while(!openingXs.isEmpty()) {
-          int openingRan = random.nextInt(openingXs.size());
-          int x = openingXs.get(openingRan);
-          int y = openingYs.get(openingRan);
-
-          sectionBoundsList[x][y] = SectionBounds.getNew(sectionBoundsList, x, y, random);
-
-          openingXs.remove(openingRan);
-          openingYs.remove(openingRan);
-          sectionsPlaced++;
-          if(sectionsPlaced >= amountOfSections) break;
-        }*/
       }
 
       return new HuldraWorld(this, sectionBoundsList);
