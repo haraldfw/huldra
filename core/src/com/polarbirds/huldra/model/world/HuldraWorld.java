@@ -22,6 +22,8 @@ public final class HuldraWorld {
 
   HuldraWorld(WorldType worldType, Iterable<SectionBounds> sections) {
 
+    // TODO make so that all sections so that they do not have negative coordinates
+
     box2dWorld = new World(new Vector2(0, -9.81f), false);
 
     int boundx1 = Integer.MAX_VALUE;
