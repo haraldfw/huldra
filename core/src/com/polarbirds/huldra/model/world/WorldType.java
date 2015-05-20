@@ -137,7 +137,7 @@ public enum WorldType {
   }
 
   private static ArrayList<IntVector2> getOpenLocationsAroundSection(
-      SectionBounds sectionBounds, ArrayList<SectionBounds> sectionBoundsList) {
+      SectionBounds sectionBounds, Iterable<SectionBounds> sectionBoundsList) {
     ArrayList<IntVector2> locations = new ArrayList<>();
     for(int x = 0; x < sectionBounds.width; x++) {
       IntVector2 vector2 = new IntVector2(x, sectionBounds.y - 1);
