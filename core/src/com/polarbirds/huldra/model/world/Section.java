@@ -22,17 +22,40 @@ public class Section {
 
     reachableOpenings = new HashMap<>();
 
-    reachableOpenings.put(Side.LEFT, new boolean[TILES_PER_SIDE* bounds.height]);
+    reachableOpenings.put(Side.LEFT, new boolean[TILES_PER_SIDE * bounds.height]);
     reachableOpenings.put(Side.RIGHT, new boolean[TILES_PER_SIDE * bounds.height]);
     reachableOpenings.put(Side.BOTTOM, new boolean[TILES_PER_SIDE * bounds.width]);
     reachableOpenings.put(Side.TOP, new boolean[TILES_PER_SIDE * bounds.width]);
   }
 
+  static TileType[][] getTiles() {
+    TileType[][] tiles = new TileType[][]{
+        {TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID,
+         TileType.SOLID, TileType.SOLID, TileType.SOLID},
+        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY,
+         TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
+        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY,
+         TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
+        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY,
+         TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
+        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY,
+         TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
+        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY,
+         TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
+        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY,
+         TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
+        {TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID,
+         TileType.SOLID, TileType.SOLID, TileType.SOLID}
+    };
+    return tiles;
+  }
+
   /**
    * Changes the given coordinate of the given side to the given boolean.
-   * @param side            The side to set.
-   * @param tileCoordinate  The coordinate for the tile to change.
-   * @param open            The boolean to set the tile to.
+   *
+   * @param side           The side to set.
+   * @param tileCoordinate The coordinate for the tile to change.
+   * @param open           The boolean to set the tile to.
    */
   void setTileOpen(Side side, int tileCoordinate, boolean open) {
     reachableOpenings.get(side)[tileCoordinate] = open;
@@ -44,7 +67,7 @@ public class Section {
 
   void setSide(Side side, boolean[] sideArray) {
     int thisSideLength = reachableOpenings.get(side).length;
-    if(thisSideLength != sideArray.length) {
+    if (thisSideLength != sideArray.length) {
       System.out.println("Tried to set side '" + side + "' with an array with incorrect length!"
                          + "\nLength was '" + sideArray
                          + "' but should have been '" + thisSideLength + "'");
@@ -52,19 +75,5 @@ public class Section {
     }
 
     System.arraycopy(sideArray, 0, reachableOpenings.get(side), 0, sideArray.length);
-  }
-
-  static TileType[][] getTiles() {
-    TileType[][] tiles = new TileType[][]{
-        {TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID},
-        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
-        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
-        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
-        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
-        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
-        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
-        {TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID}
-    };
-    return tiles;
   }
 }

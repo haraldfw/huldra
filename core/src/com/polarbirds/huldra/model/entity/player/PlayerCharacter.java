@@ -10,13 +10,11 @@ import com.polarbirds.huldra.screen.game.GameScreen;
  */
 public abstract class PlayerCharacter extends Image {
 
-  GameScreen game;
-
   private final float mass;
   private final float moveStrength;
   private final float jumpStrength;
   private final float baseDamage;
-
+  GameScreen game;
   private Body body;
 
   private MotiveProcessor input;

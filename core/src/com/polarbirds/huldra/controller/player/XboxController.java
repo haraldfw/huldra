@@ -7,8 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A motive-processor for Xbox-controllers, intended for player-use
- * Created by Harald on 14.5.15.
+ * A motive-processor for Xbox-controllers, intended for player-use Created by Harald on 14.5.15.
  */
 public class XboxController implements MotiveProcessor {
 
@@ -55,10 +54,10 @@ public class XboxController implements MotiveProcessor {
 
   @Override
   public void update() {
-    for(Map.Entry<String, Boolean> pressed : isPressed.entrySet()) {
+    for (Map.Entry<String, Boolean> pressed : isPressed.entrySet()) {
       // check if the key should be a toggle-key
-      if(!shouldToggle.get(pressed.getKey())
-         || !controller.getButton(keys.get(pressed.getKey()))) {
+      if (!shouldToggle.get(pressed.getKey())
+          || !controller.getButton(keys.get(pressed.getKey()))) {
         isPressed.put(pressed.getKey(), false);
       }
     }
@@ -95,8 +94,10 @@ public class XboxController implements MotiveProcessor {
   }
 
   private boolean getToggledButton(String key) {
-    if(!shouldToggle.get(key)) return controller.getButton(keys.get(key));
-    if(controller.getButton(keys.get(key)) && !isPressed.get(key)) {
+    if (!shouldToggle.get(key)) {
+      return controller.getButton(keys.get(key));
+    }
+    if (controller.getButton(keys.get(key)) && !isPressed.get(key)) {
       isPressed.put(key, true);
       return true;
     }

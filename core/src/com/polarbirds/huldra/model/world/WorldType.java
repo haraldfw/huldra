@@ -14,14 +14,16 @@ public enum WorldType {
 
   FOREST {
     @Override
-    public HuldraWorld getNew(double amountLargeSections, int amountOfSections, long seed, OrthographicCamera camera) {
+    public HuldraWorld getNew(double amountLargeSections, int amountOfSections, long seed,
+                              OrthographicCamera camera) {
       return TEST_STAGE.getNew(amountLargeSections, amountOfSections, seed, camera);
     }
   },
 
   CAVES {
     @Override
-    public HuldraWorld getNew(double sizeGaussianScale, int amountOfSections, long seed, OrthographicCamera camera) {
+    public HuldraWorld getNew(double sizeGaussianScale, int amountOfSections, long seed,
+                              OrthographicCamera camera) {
       System.out.println("Creating Caves with " + amountOfSections + " sections");
 
       Random random = new Random(seed);
@@ -40,7 +42,7 @@ public enum WorldType {
       // place down section until requirement amountOfSections is met
       int sectionsPlaced = 1;
       // loop until all sectionBoundsList are placed or the loop uses too many iterations
-      for(int iterations = 0; iterations < 10000; iterations++) {
+      for (int iterations = 0; iterations < 10000; iterations++) {
         System.out.println("amountofsections " + sectionsPlaced + "/" + amountOfSections);
 
         // find dimensions for a new sectionBounds
@@ -49,17 +51,23 @@ public enum WorldType {
         int width = 1 + (int) (random.nextGaussian() * sizeGaussianScale
                                * SectionBounds.MAX_WIDTH);
 
-        for(int iterations2 = 0; iterations2 < 10000; iterations2++) {
+        for (int iterations2 = 0; iterations2 < 10000; iterations2++) {
           // choose a random sectionBounds to expand from
-          SectionBounds sectionBounds = sectionBoundsList.get(random.nextInt(sectionBoundsList.size()));
+          SectionBounds
+              sectionBounds =
+              sectionBoundsList.get(random.nextInt(sectionBoundsList.size()));
 
           // get this location's openLocations
           ArrayList<IntVector2> openLocations = getOpenLocationsAroundSection(sectionBounds,
                                                                               sectionBoundsList);
           // if no open locations, go to next iteration. This location is no good.
-          if(openLocations.size() <= 0) continue;
+          if (openLocations.size() <= 0) {
+            continue;
+          }
 
-          if(sectionsPlaced >= amountOfSections) break;
+          if (sectionsPlaced >= amountOfSections) {
+            break;
+          }
 
         }
         /*
@@ -118,7 +126,8 @@ public enum WorldType {
 
   TEST_STAGE {
     @Override
-    public HuldraWorld getNew(double amountLargeSections, int amountOfSections, long seed, OrthographicCamera camera) {
+    public HuldraWorld getNew(double amountLargeSections, int amountOfSections, long seed,
+                              OrthographicCamera camera) {
       ArrayList<SectionBounds> sectionBoundsList = new ArrayList<>();
       sectionBoundsList.add(new SectionBounds(0, 0, 1, 1));
       ArrayList<Interactable> interactables = new ArrayList<>();
@@ -126,12 +135,11 @@ public enum WorldType {
     }
   };
 
-  public abstract HuldraWorld getNew(double amountLargeSections, int amountOfSections, long seed, OrthographicCamera camera);
-
-
   private static SectionBounds getSectionAt(IntVector2 v, Iterable<SectionBounds> sections) {
-    for(SectionBounds s : sections) {
-      if(s.contains(v)) return s;
+    for (SectionBounds s : sections) {
+      if (s.contains(v)) {
+        return s;
+      }
     }
     return null;
   }
@@ -139,24 +147,28 @@ public enum WorldType {
   private static ArrayList<IntVector2> getOpenLocationsAroundSection(
       SectionBounds sectionBounds, Iterable<SectionBounds> sectionBoundsList) {
     ArrayList<IntVector2> locations = new ArrayList<>();
-    for(int x = 0; x < sectionBounds.width; x++) {
+    for (int x = 0; x < sectionBounds.width; x++) {
       IntVector2 vector2 = new IntVector2(x, sectionBounds.y - 1);
-      if(getSectionAt(vector2, sectionBoundsList) == null)
+      if (getSectionAt(vector2, sectionBoundsList) == null) {
         locations.add(vector2);
+      }
 
       vector2 = new IntVector2(x, sectionBounds.y + sectionBounds.height + 1);
-      if(getSectionAt(vector2, sectionBoundsList) == null)
+      if (getSectionAt(vector2, sectionBoundsList) == null) {
         locations.add(vector2);
+      }
     }
 
-    for(int y = 0; y < sectionBounds.height; y++) {
+    for (int y = 0; y < sectionBounds.height; y++) {
       IntVector2 vector2 = new IntVector2(sectionBounds.x - 1, y);
-      if(getSectionAt(vector2, sectionBoundsList) == null)
+      if (getSectionAt(vector2, sectionBoundsList) == null) {
         locations.add(vector2);
+      }
 
       vector2 = new IntVector2(sectionBounds.x + sectionBounds.width + 1, y);
-      if(getSectionAt(vector2, sectionBoundsList) == null)
+      if (getSectionAt(vector2, sectionBoundsList) == null) {
         locations.add(vector2);
+      }
     }
     return locations;
   }

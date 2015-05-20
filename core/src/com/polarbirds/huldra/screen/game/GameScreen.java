@@ -11,15 +11,15 @@ import com.polarbirds.huldra.model.world.WorldType;
 import java.util.Random;
 
 /**
- * A screen for showing the game's box2dWorld and all it's components.
- * Created by Harald on 30.4.15.
+ * A screen for showing the game's box2dWorld and all it's components. Created by Harald on
+ * 30.4.15.
  */
 public class GameScreen implements Screen {
 
   public final HuldraGame game;
   public final HuldraWorld world;
-  private final Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
   public final Stage stage; // stage containing game actors
+  private final Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
 
   public GameScreen(HuldraGame game) {
     this.game = game;

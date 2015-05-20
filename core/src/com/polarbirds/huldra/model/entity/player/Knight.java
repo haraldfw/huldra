@@ -10,7 +10,7 @@ import com.polarbirds.huldra.screen.game.GameScreen;
  */
 public class Knight extends PlayerCharacter {
 
-  public Knight(GameScreen screen,float mass, float moveStrength,
+  public Knight(GameScreen screen, float mass, float moveStrength,
                 float jumpStrength, float baseDamage, MotiveProcessor input) {
     super(createBody(screen.world.box2dWorld),
           mass, moveStrength, jumpStrength, baseDamage, screen, input);

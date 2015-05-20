@@ -10,8 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 /**
- * Screen for displaying a simple image before the mainMenu.
- * Created by Harald on 30.4.15.
+ * Screen for displaying a simple image before the mainMenu. Created by Harald on 30.4.15.
  */
 public class SplashScreen implements Screen {
 
@@ -21,19 +20,19 @@ public class SplashScreen implements Screen {
 
   @Override
   public void show() {
-    image.setX(stage.getWidth()/2f - image.getWidth()/2f);
-    image.setY(stage.getHeight()/2f - image.getHeight()/2f);
+    image.setX(stage.getWidth() / 2f - image.getWidth() / 2f);
+    image.setY(stage.getHeight() / 2f - image.getHeight() / 2f);
 
     stage.addActor(image);
 
     image.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0.5f),
                                      Actions.delay(2), Actions.run(
-        new Runnable() {
-          @Override
-          public void run() {
-            ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
-          }
-        })));
+            new Runnable() {
+              @Override
+              public void run() {
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+              }
+            })));
   }
 
   @Override

@@ -2,10 +2,9 @@ package com.polarbirds.huldra.model.entity.projectile;
 
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 
-/** A base class for projectiles
- * Created by Harald on 10.5.15.
+/**
+ * A base class for projectiles Created by Harald on 10.5.15.
  */
 public abstract class Projectile extends Image {
 

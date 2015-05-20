@@ -1,7 +1,6 @@
 package com.polarbirds.huldra.model.world;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -24,37 +23,9 @@ public class TileGeneration {
 
   }
 
-  public void placeSection(TileType[][] tiles, SectionBounds bounds, Random random) {
-    ArrayList<SectionTiles> candidates = new ArrayList<>(sectionTilesList);
-
-  }
-
-  private class SectionTiles {
-    TileType[][] tiles;
-
-    public SectionTiles(TileType[][] tiles) {
-      this.tiles = tiles;
-    }
-
-    boolean isCandidate(TileType[] left, TileType[] right, TileType[] bottom, TileType[] top) {
-      return overlap(left, tiles[0]) &&
-             overlap(right, tiles[tiles.length - 1]) &&
-             overlap(bottom, getHorizontalLine(0, tiles)) &&
-             overlap(top, getHorizontalLine(tiles[0].length - 1, tiles));
-    }
-
-    private boolean overlap(TileType[]outside, TileType[] inside) {
-      boolean overlap = true;
-      for(int i = 0; i < inside.length; i++) {
-        if(openTiles.contains(outside[i]) && !openTiles.contains(inside[i])) overlap = false;
-      }
-      return overlap;
-    }
-  }
-
   private static boolean[] tileTypeToBoolean(TileType[] tiles) {
     boolean[] booleans = new boolean[tiles.length];
-    for(int i = 0; i < tiles.length; i++) {
+    for (int i = 0; i < tiles.length; i++) {
       boolean b = false;
       switch (tiles[i]) {
         case EMPTY:
@@ -70,9 +41,40 @@ public class TileGeneration {
 
   private static TileType[] getHorizontalLine(int yCoordinate, TileType[][] tiles) {
     TileType[] line = new TileType[tiles.length];
-    for(int i = 0; i < tiles.length; i++) {
+    for (int i = 0; i < tiles.length; i++) {
       line[i] = tiles[i][yCoordinate];
     }
     return line;
+  }
+
+  public void placeSection(TileType[][] tiles, SectionBounds bounds, Random random) {
+    ArrayList<SectionTiles> candidates = new ArrayList<>(sectionTilesList);
+
+  }
+
+  private class SectionTiles {
+
+    TileType[][] tiles;
+
+    public SectionTiles(TileType[][] tiles) {
+      this.tiles = tiles;
+    }
+
+    boolean isCandidate(TileType[] left, TileType[] right, TileType[] bottom, TileType[] top) {
+      return overlap(left, tiles[0]) &&
+             overlap(right, tiles[tiles.length - 1]) &&
+             overlap(bottom, getHorizontalLine(0, tiles)) &&
+             overlap(top, getHorizontalLine(tiles[0].length - 1, tiles));
+    }
+
+    private boolean overlap(TileType[] outside, TileType[] inside) {
+      boolean overlap = true;
+      for (int i = 0; i < inside.length; i++) {
+        if (openTiles.contains(outside[i]) && !openTiles.contains(inside[i])) {
+          overlap = false;
+        }
+      }
+      return overlap;
+    }
   }
 }
