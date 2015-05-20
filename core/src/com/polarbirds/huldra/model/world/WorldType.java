@@ -178,9 +178,10 @@ public enum WorldType {
    * Returns the location of where bounds2 can be placed with no intersections. Note: Can safely
    * return (0, 0) because this place will always be filled with spawn-section.
    *
-   * @param width  Width of the section to place
-   * @param height Height of the section to place
-   * @param bounds SectionBounds to find location for.
+   * @param width      Width of the section to place
+   * @param height     Height of the section to place
+   * @param boundsList List of bounds to check collisions with
+   * @param bounds     SectionBounds to find location for.
    * @return The location of the bottom left corner of bounds2 if they can be combined, (0, 0) if
    * they could not be combined at all
    */
@@ -191,19 +192,19 @@ public enum WorldType {
     List<IntVector2> possibleLocations = new ArrayList<>();
 
     for (int x = bounds.x - width + 1; x < bounds.x + width - 1; x++) {
-      if (collides(x, bounds.y + bounds.height, width, height, bounds, boundsList)) {
+      if (collides(x, bounds.y + bounds.height, width, height, boundsList)) {
         possibleLocations.add(new IntVector2(x, bounds.y + bounds.height));
       }
-      if (collides(x, bounds.y - height, width, height, bounds, boundsList)) {
+      if (collides(x, bounds.y - height, width, height, boundsList)) {
         possibleLocations.add(new IntVector2(x, bounds.y - height));
       }
     }
 
     for (int y = bounds.y - height + 1; y < bounds.y + height - 1; y++) {
-      if (collides(bounds.x + bounds.width, y, width, height, bounds, boundsList)) {
+      if (collides(bounds.x + bounds.width, y, width, height, boundsList)) {
         possibleLocations.add(new IntVector2(bounds.x + bounds.width, y));
       }
-      if (collides(bounds.x - width, y, width, height, bounds, boundsList)) {
+      if (collides(bounds.x - width, y, width, height, boundsList)) {
         possibleLocations.add(new IntVector2(bounds.x - width, y));
       }
     }
@@ -212,10 +213,19 @@ public enum WorldType {
            possibleLocations.get(random.nextInt(possibleLocations.size()));
   }
 
-  private static boolean collides(int x, int y, int width, int height, SectionBounds bounds,
+  /**
+   * Returns a boolean representing if the given rect-bounds collide with any
+   *
+   * @param x          X-value of bounds to check collision for
+   * @param y          Y-value of bounds to check collision for
+   * @param width      Width of bounds to check collision for
+   * @param height     Height of bounds to check collision for
+   * @param boundsList List of bounds to check collisions with
+   */
+  private static boolean collides(int x, int y, int width, int height,
                                   Iterable<SectionBounds> boundsList) {
     for (SectionBounds boundsFromList : boundsList) {
-      if (bounds.collides(x, y, width, height)) {
+      if (boundsFromList.collides(x, y, width, height)) {
         return true;
       }
     }
