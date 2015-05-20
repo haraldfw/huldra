@@ -29,7 +29,7 @@ final class SectionBounds {
    * @return True if the coordinates overlap this section.
    */
   boolean contains(IntVector2 v) {
-    return !(v.x < this.x || v.x > this.x + width || v.y < this.y || v.y > this.y + height);
+    return !(v.x < x || v.x > x + width || v.y < y || v.y > y + height);
   }
 
   boolean collides(int x, int y, int width, int height) {

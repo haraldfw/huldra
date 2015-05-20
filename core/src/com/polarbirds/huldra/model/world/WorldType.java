@@ -52,15 +52,15 @@ public enum WorldType {
         int width = 1 + (int) (random.nextGaussian() * sizeGaussianScale
                                * SectionBounds.MAX_WIDTH);
 
+        // find a section to expand from, and place a section there
         for (int iterations2 = 0; iterations2 < 10000; iterations2++) {
-          // choose a random sectionBounds to expand from
-          SectionBounds
-              sectionBounds =
+          // choose a random section to try to expand from
+          SectionBounds sectionBounds =
               sectionBoundsList.get(random.nextInt(sectionBoundsList.size()));
 
           // get this location's openLocations
           List<IntVector2> openLocations = getOpenLocationsAroundSection(sectionBounds,
-                                                                              sectionBoundsList);
+                                                                         sectionBoundsList);
           // if no open locations, go to next iteration. This location is no good.
           if (openLocations.size() <= 0) {
             continue;
