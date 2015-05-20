@@ -5,6 +5,7 @@ import com.polarbirds.huldra.model.entity.inanimateobject.Interactable;
 import com.smokebox.lib.utils.IntVector2;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -171,6 +172,44 @@ public enum WorldType {
       }
     }
     return locations;
+  }
+
+  /**
+   * Returns the location of where bounds2 can be placed with no intersections. Note: Can safely
+   * return (0, 0) because this place will always be filled with spawn-section.
+   *
+   * @param width  Width of the section to place
+   * @param height Height of the section to place
+   * @param bounds SectionBounds to find location for.
+   * @return The location of the bottom left corner of bounds2 if they can be combined, (0, 0) if
+   * they could not be combined at all
+   */
+  private static IntVector2 getCombinedLocation(int width, int height,
+                                                Iterable<SectionBounds> boundsList,
+                                                SectionBounds bounds,
+                                                Random random) {
+    List<IntVector2> possibleLocations = new ArrayList<>();
+
+    for (int x = bounds.x - width + 1; x < bounds.x + width - 1; x++) {
+      if (collides(x, bounds.y + bounds.height, width, height, bounds, boundsList)) {
+        possibleLocations.add(new IntVector2(x, bounds.y + bounds.height));
+      }
+      if (collides(x, bounds.y - height, width, height, bounds, boundsList)) {
+        possibleLocations.add(new IntVector2(x, bounds.y - height));
+      }
+    }
+
+    for (int y = bounds.y - height + 1; y < bounds.y + height - 1; y++) {
+      if (collides(bounds.x + bounds.width, y, width, height, bounds, boundsList)) {
+        possibleLocations.add(new IntVector2(bounds.x + bounds.width, y));
+      }
+      if (collides(bounds.x - width, y, width, height, bounds, boundsList)) {
+        possibleLocations.add(new IntVector2(bounds.x - width, y));
+      }
+    }
+
+    return possibleLocations.size() == 0 ? new IntVector2() :
+           possibleLocations.get(random.nextInt(possibleLocations.size()));
   }
 
   private static boolean collides(int x, int y, int width, int height, SectionBounds bounds,
