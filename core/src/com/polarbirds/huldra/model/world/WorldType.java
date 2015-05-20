@@ -172,4 +172,17 @@ public enum WorldType {
     }
     return locations;
   }
+
+  private static boolean collides(int x, int y, int width, int height, SectionBounds bounds,
+                                  Iterable<SectionBounds> boundsList) {
+    for (SectionBounds boundsFromList : boundsList) {
+      if (bounds.collides(x, y, width, height)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public abstract HuldraWorld getNew(double amountLargeSections, int amountOfSections, long seed,
+                                     OrthographicCamera camera);
 }
