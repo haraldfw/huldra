@@ -32,4 +32,8 @@ final class SectionBounds {
   boolean contains(IntVector2 v) {
     return !(v.x < this.x || v.x > this.x + width || v.y < this.y || v.y > this.y + height);
   }
+
+  boolean collides(int x, int y, int width, int height) {
+    return !(this.x  + this.width < x || this.y + this.height < y || this.x > x + width ||this.y > y + height );
+  }
 }

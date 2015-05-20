@@ -19,7 +19,9 @@ public class TileGeneration {
     openTiles.add(TileType.EMPTY);
     openTiles.add(TileType.LADDER);
     openTiles.add(TileType.PLATFORM);
+
     // make tileSets
+
   }
 
   public void placeSection(TileType[][] tiles, SectionBounds bounds, Random random) {

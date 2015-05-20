@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.polarbirds.huldra.HuldraGame;
 import com.polarbirds.huldra.model.world.HuldraWorld;
+import com.polarbirds.huldra.model.world.WorldType;
 
 import java.util.Random;
 
@@ -26,7 +27,7 @@ public class GameScreen implements Screen {
 
     stage.setViewport(new ScreenViewport(game.camera));
 
-    world = HuldraWorld.WorldTypes.CAVES.getNew(100, new Random().nextLong(), game.camera);
+    world = WorldType.CAVES.getNew(3.0, 100, new Random().nextLong(), game.camera);
 
     //stage.addActor(new Parallax());
   }

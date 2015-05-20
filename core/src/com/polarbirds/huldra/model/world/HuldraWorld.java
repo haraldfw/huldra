@@ -24,8 +24,7 @@ public final class HuldraWorld {
 
   private Parallax parallax;
 
-  HuldraWorld(WorldType worldType, Iterable<SectionBounds> sections,
-              ArrayList<Interactable> interactables) {
+  HuldraWorld(WorldType worldType, Iterable<SectionBounds> sections) {
 
     box2dWorld = new World(new Vector2(0, -9.81f), false);
 

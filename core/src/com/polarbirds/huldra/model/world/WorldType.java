@@ -21,7 +21,7 @@ public enum WorldType {
 
   CAVES {
     @Override
-    public HuldraWorld getNew(double largeSectionGaussianScale, int amountOfSections, long seed, OrthographicCamera camera) {
+    public HuldraWorld getNew(double sizeGaussianScale, int amountOfSections, long seed, OrthographicCamera camera) {
       System.out.println("Creating Caves with " + amountOfSections + " sections");
 
       Random random = new Random(seed);
@@ -32,16 +32,6 @@ public enum WorldType {
         SectionBounds spawn = new SectionBounds(0, 0, 1, 1);
 
         // Create a side to replace the sides of the spawn.
-        // The spawn should *always* have openings on sides LEFT and RIGHT
-        boolean[] openSide = new boolean[SectionBounds.TILES_PER_SIDE];
-
-        //
-        for(int i = 1; i < openSide.length - 1; i++) {
-          openSide[i] = true;
-        }
-
-        spawn.setSide(SectionBounds.Side.LEFT, openSide);
-        spawn.setSide(SectionBounds.Side.RIGHT, openSide);
 
         sectionBoundsList.add(spawn);
         System.out.println("Placed spawn");
@@ -54,22 +44,24 @@ public enum WorldType {
         System.out.println("amountofsections " + sectionsPlaced + "/" + amountOfSections);
 
         // find dimensions for a new sectionBounds
-        int height =
-            1 + (int) (random.nextGaussian() * largeSectionGaussianScale * SectionBounds.MAX_HEIGHT);
-        int width =
-            1 + (int) (random.nextGaussian() * largeSectionGaussianScale * SectionBounds.MAX_WIDTH);
+        int height = 1 + (int) (random.nextGaussian() * sizeGaussianScale
+                                * SectionBounds.MAX_HEIGHT);
+        int width = 1 + (int) (random.nextGaussian() * sizeGaussianScale
+                               * SectionBounds.MAX_WIDTH);
 
-        // choose a random sectionBounds to expand from
-        SectionBounds sectionBounds = sectionBoundsList.get(random.nextInt(sectionBoundsList.size()));
-        // get this location's openLocations
-        ArrayList<IntVector2> openLocations = getOpenLocationsAroundSection(sectionBounds,
-                                                                            sectionBoundsList);
-        // if no open locations, go to next iteration. This location is no good.
-        if(openLocations.size() <= 0) continue;
+        for(int iterations2 = 0; iterations2 < 10000; iterations2++) {
+          // choose a random sectionBounds to expand from
+          SectionBounds sectionBounds = sectionBoundsList.get(random.nextInt(sectionBoundsList.size()));
 
+          // get this location's openLocations
+          ArrayList<IntVector2> openLocations = getOpenLocationsAroundSection(sectionBounds,
+                                                                              sectionBoundsList);
+          // if no open locations, go to next iteration. This location is no good.
+          if(openLocations.size() <= 0) continue;
 
+          if(sectionsPlaced >= amountOfSections) break;
 
-        if(sectionsPlaced < amountOfSections) break;
+        }
         /*
         // make arrays to store openings
         ArrayList<IntVector2> locations;
@@ -120,9 +112,7 @@ public enum WorldType {
         }*/
       }
 
-      ArrayList<Interactable> interactables = new ArrayList<>();
-
-      return new HuldraWorld(this, sectionBoundsList, interactables);
+      return new HuldraWorld(this, sectionBoundsList);
     }
   },
 
@@ -132,18 +122,12 @@ public enum WorldType {
       ArrayList<SectionBounds> sectionBoundsList = new ArrayList<>();
       sectionBoundsList.add(new SectionBounds(0, 0, 1, 1));
       ArrayList<Interactable> interactables = new ArrayList<>();
-      return new HuldraWorld(this, sectionBoundsList, interactables);
+      return new HuldraWorld(this, sectionBoundsList);
     }
   };
 
   public abstract HuldraWorld getNew(double amountLargeSections, int amountOfSections, long seed, OrthographicCamera camera);
 
-  private static boolean coordinatesTaken(IntVector2 v, Iterable<SectionBounds> sections) {
-    for(SectionBounds s : sections) {
-      if(s.contains(v)) return true;
-    }
-    return false;
-  }
 
   private static SectionBounds getSectionAt(IntVector2 v, Iterable<SectionBounds> sections) {
     for(SectionBounds s : sections) {
