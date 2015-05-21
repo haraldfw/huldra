@@ -31,6 +31,7 @@ public final class HuldraWorld {
     TileType[][]
         mapTiles =
         new TileType[maxBounds.x * Section.TILES_PER_SIDE][maxBounds.y * Section.TILES_PER_SIDE];
+    boolean[][] reachableOpenings = new boolean[mapTiles.length][mapTiles[0].length];
     for (SectionBounds sectionBounds : boundsList) {
       TileType[][] sectionTiles = getTilesForSection(worldType, sectionBounds);
       for (int x = 0; x < sectionTiles.length; x++) {
@@ -39,7 +40,7 @@ public final class HuldraWorld {
       }
     }
 
-    // create int-array of what blocks are solid and not to pass into UnifiablePolyedge
+    // create int-array of what blocks are solid and not, to pass into UnifiablePolyedge
     int[][] ints = new int[mapTiles.length][mapTiles[0].length];
     for (int x = 0; x < mapTiles.length; x++) {
       for (int y = 0; y < mapTiles[0].length; y++) {
