@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.smokebox.lib.utils.IntVector2;
 import com.smokebox.lib.utils.geom.Line;
 import com.smokebox.lib.utils.geom.UnifiablePolyedge;
 
@@ -121,6 +122,33 @@ public final class HuldraWorld {
       }
     }
     return Section.getTiles();
+  }
+
+  /**
+   * Normalizes the given list of bounds. What this means is that it makes sure no bounds have
+   * negative coordinates, and the lowest coordinates will be (0, 0)
+   *
+   * @param boundsList List of bounds to normalize
+   * @return IntVector representing the shift that was executed
+   */
+  private static IntVector2 normalizeBoundsList(Iterable<SectionBounds> boundsList) {
+    IntVector2 shift = new IntVector2(Integer.MAX_VALUE, Integer.MAX_VALUE);
+
+    for (SectionBounds bounds : boundsList) {
+      if (bounds.x < shift.x) {
+        shift.x = bounds.x;
+      }
+      if (bounds.y < shift.y) {
+        shift.y = bounds.y;
+      }
+    }
+
+    for (SectionBounds bounds : boundsList) {
+      bounds.x -= shift.x;
+      bounds.y -= shift.y;
+    }
+
+    return shift;
   }
 
   public void step(float delta) {
