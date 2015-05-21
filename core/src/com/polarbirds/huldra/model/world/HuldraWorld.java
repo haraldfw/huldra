@@ -21,33 +21,17 @@ public final class HuldraWorld {
 
   private Parallax parallax;
 
-  HuldraWorld(WorldType worldType, Iterable<SectionBounds> sections) {
+  HuldraWorld(WorldType worldType, Iterable<SectionBounds> boundsList) {
 
+    IntVector2 shift = normalizeBoundsList(boundsList);
 
     box2dWorld = new World(new Vector2(0, -9.81f), false);
 
-    int boundx1 = Integer.MAX_VALUE;
-    int boundx2 = Integer.MIN_VALUE;
-    int boundy1 = Integer.MAX_VALUE;
-    int boundy2 = Integer.MIN_VALUE;
-
-    for (SectionBounds sectionBounds : sections) {
-      if (sectionBounds.x < boundx1) {
-        boundx1 = sectionBounds.x;
-      }
-      if (sectionBounds.x + sectionBounds.width > boundx2) {
-        boundx2 = sectionBounds.x + sectionBounds.width;
-      }
-      if (sectionBounds.y < boundy1) {
-        boundy1 = sectionBounds.y;
-      }
-      if (sectionBounds.y + sectionBounds.height > boundy2) {
-        boundy2 = sectionBounds.y + sectionBounds.height;
-      }
-    }
-
-    TileType[][] mapTiles = new TileType[boundx2 - boundx1][boundy2 - boundy1];
-    for (SectionBounds sectionBounds : sections) {
+    IntVector2 maxBounds = getMaxBounds(boundsList);
+    TileType[][]
+        mapTiles =
+        new TileType[maxBounds.x * Section.TILES_PER_SIDE][maxBounds.y * Section.TILES_PER_SIDE];
+    for (SectionBounds sectionBounds : boundsList) {
       TileType[][] sectionTiles = getTilesForSection(worldType, sectionBounds);
       for (int x = 0; x < sectionTiles.length; x++) {
         System.arraycopy(sectionTiles[x], 0,
