@@ -23,7 +23,6 @@ public final class HuldraWorld {
 
   HuldraWorld(WorldType worldType, Iterable<SectionBounds> sections) {
 
-    // TODO make so that all sections so that they do not have negative coordinates
 
     box2dWorld = new World(new Vector2(0, -9.81f), false);
 
@@ -149,6 +148,29 @@ public final class HuldraWorld {
     }
 
     return shift;
+  }
+
+  /**
+   * Returns the max bounds of the given list.
+   *
+   * @param boundsList A normalized list of bounds-objects
+   * @return The max bounds as an IntVector2
+   */
+  private static IntVector2 getMaxBounds(Iterable<SectionBounds> boundsList) {
+    IntVector2 max = new IntVector2(Integer.MIN_VALUE, Integer.MIN_VALUE);
+
+    for (SectionBounds bounds : boundsList) {
+
+      if (bounds.x + bounds.width > max.x) {
+        max.x = bounds.x + bounds.width;
+      }
+
+      if (bounds.y + bounds.height > max.y) {
+        max.y = bounds.y + bounds.height;
+      }
+
+    }
+    return max;
   }
 
   public void step(float delta) {
