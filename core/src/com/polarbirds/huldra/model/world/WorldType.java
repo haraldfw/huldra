@@ -59,7 +59,8 @@ public enum WorldType {
               sectionBoundsList.get(random.nextInt(sectionBoundsList.size()));
 
           // get this location's openLocations
-          IntVector2 location = getCombinedLocation(width, height, sectionBoundsList, sectionBounds, random);
+          IntVector2 location =
+              getCombinedLocation(width, height, sectionBoundsList, sectionBounds, random);
           // if no open locations, go to next iteration. This location is no good.
           if (location.isZero()) {
             continue;
