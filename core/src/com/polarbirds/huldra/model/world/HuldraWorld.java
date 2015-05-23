@@ -75,6 +75,25 @@ public final class HuldraWorld {
     }
   }
 
+  /**
+   * Returns tiles for the given sectionBounds, taking into account the sectionBounds openings
+   */
+  private TileType[][] getTilesForSection(WorldType type, SectionBounds sectionBounds) {
+
+
+
+    TileType[][] tiles =
+        new TileType
+            [sectionBounds.width * Section.TILES_PER_SIDE]
+            [sectionBounds.height * Section.TILES_PER_SIDE];
+    for (int x = 0; x < tiles.length; x++) {
+      for (int y = 0; y < tiles[0].length; y++) {
+
+      }
+    }
+    return Section.getTiles();
+  }
+
   public static Parallax getParallax(OrthographicCamera camera, WorldType type) {
     Parallax parallax = null;
 
@@ -90,22 +109,6 @@ public final class HuldraWorld {
         break;
     }
     return parallax;
-  }
-
-  /**
-   * Returns tiles for the given sectionBounds, taking into account the sectionBounds openings
-   */
-  static TileType[][] getTilesForSection(WorldType type, SectionBounds sectionBounds) {
-    TileType[][] tiles =
-        new TileType
-            [sectionBounds.width * Section.TILES_PER_SIDE]
-            [sectionBounds.height * Section.TILES_PER_SIDE];
-    for (int x = 0; x < tiles.length; x++) {
-      for (int y = 0; y < tiles[0].length; y++) {
-
-      }
-    }
-    return Section.getTiles();
   }
 
   /**
