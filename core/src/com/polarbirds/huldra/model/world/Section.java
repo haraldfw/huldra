@@ -24,8 +24,8 @@ public class Section {
 
     reachableOpenings.put(Side.LEFT, new boolean[TILES_PER_SIDE * bounds.height]);
     reachableOpenings.put(Side.RIGHT, new boolean[TILES_PER_SIDE * bounds.height]);
-    reachableOpenings.put(Side.BOTTOM, new boolean[TILES_PER_SIDE * bounds.width]);
     reachableOpenings.put(Side.TOP, new boolean[TILES_PER_SIDE * bounds.width]);
+    reachableOpenings.put(Side.BOTTOM, new boolean[TILES_PER_SIDE * bounds.width]);
   }
 
   static TileType[][] getTiles() {
