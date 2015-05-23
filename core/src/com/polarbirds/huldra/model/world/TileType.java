@@ -8,5 +8,6 @@ enum TileType {
   SOLID,
   PLATFORM,
   LADDER,
+  TOP_LADDER_PLATFORM,
   WATER
 }
