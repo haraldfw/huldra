@@ -23,6 +23,8 @@ public final class HuldraWorld {
 
   HuldraWorld(WorldType worldType, Iterable<SectionBounds> boundsList) {
 
+    TilesWithOpenings.loadAndGetList();
+
     IntVector2 shift = normalizeBoundsList(boundsList);
 
     box2dWorld = new World(new Vector2(0, -9.81f), false);
@@ -31,12 +33,15 @@ public final class HuldraWorld {
     TileType[][]
         mapTiles =
         new TileType[maxBounds.x * Section.TILES_PER_SIDE][maxBounds.y * Section.TILES_PER_SIDE];
+
     boolean[][] reachableOpenings = new boolean[mapTiles.length][mapTiles[0].length];
+
     for (SectionBounds sectionBounds : boundsList) {
       TileType[][] sectionTiles = getTilesForSection(worldType, sectionBounds);
+      int baseX = sectionBounds.x*Section.TILES_PER_SIDE;
+      int baseY = sectionBounds.y*Section.TILES_PER_SIDE;
       for (int x = 0; x < sectionTiles.length; x++) {
-        System.arraycopy(sectionTiles[x], 0,
-                         mapTiles[sectionBounds.x + x], sectionBounds.x, sectionTiles[x].length);
+        System.arraycopy(sectionTiles[x], 0, mapTiles[baseX + x], baseY, sectionTiles[0].length);
       }
     }
 
@@ -79,9 +84,6 @@ public final class HuldraWorld {
    * Returns tiles for the given sectionBounds, taking into account the sectionBounds openings
    */
   private TileType[][] getTilesForSection(WorldType type, SectionBounds sectionBounds) {
-
-
-
     TileType[][] tiles =
         new TileType
             [sectionBounds.width * Section.TILES_PER_SIDE]
