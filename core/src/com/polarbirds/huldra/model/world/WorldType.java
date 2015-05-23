@@ -47,10 +47,10 @@ public enum WorldType {
         System.out.println("amountofsections " + sectionsPlaced + "/" + amountOfSections);
 
         // find dimensions for a new sectionBounds
-        int height = 1 + (int) (random.nextGaussian() * sizeGaussianScale
-                                * SectionBounds.MAX_HEIGHT);
-        int width = 1 + (int) (random.nextGaussian() * sizeGaussianScale
-                               * SectionBounds.MAX_WIDTH);
+        int width = 1 + (int) Math.abs(random.nextGaussian() * sizeGaussianScale
+                                       * SectionBounds.MAX_WIDTH);
+        int height = 1 + (int) Math.abs(random.nextGaussian() * sizeGaussianScale
+                                        * SectionBounds.MAX_HEIGHT);
 
         // find a section to expand from, and place a section there
         for (int iterations2 = 0; iterations2 < 10000; iterations2++) {
