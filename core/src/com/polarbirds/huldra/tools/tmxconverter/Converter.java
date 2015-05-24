@@ -8,12 +8,22 @@ import java.io.PrintWriter;
  */
 public class Converter {
 
-  Converter(DirectoryChooser.LayerWithInfo[] layers, byte[][] textures, String outputDir) {
+  DirectoryChooser.LayerWithInfo[] layers;
+  byte[][] textures;
+  String outputDir;
+
+  public Converter(DirectoryChooser.LayerWithInfo[] layers, byte[][] textures,
+                   String outputDir) {
+    this.layers = layers;
+    this.textures = textures;
+    this.outputDir = outputDir;
+  }
+
+  void convert() {
     for (DirectoryChooser.LayerWithInfo layerInfo : layers) {
       PrintWriter writer = null;
 
       try {
-
         writer = new PrintWriter(outputDir + layerInfo.filename);
 
         int width = layerInfo.layer.getWidth();
@@ -25,7 +35,7 @@ public class Converter {
             buffer.append(getTile(
                 layerInfo.layer.getCell(x, y).getTile().getTextureRegion().getTexture()
                     .getTextureData()
-                    .consumePixmap().getPixels().array(), textures));
+                    .consumePixmap().getPixels().array()));
           }
           writer.println(buffer);
         }
@@ -40,12 +50,11 @@ public class Converter {
     }
   }
 
-  private String getTile(byte[] tileBytes, byte[][] textureBytes) {
+  private String getTile(byte[] tileBytes) {
     return "i";
   }
 
   public static void main(String[] args) {
-
     DirectoryChooser chooser = new DirectoryChooser();
     Converter converter =
         new Converter(chooser.getLayers(), chooser.getTextures(), chooser.getOutputDirectory());
