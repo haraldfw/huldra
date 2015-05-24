@@ -5,6 +5,7 @@ import com.polarbirds.huldra.model.entity.inanimateobject.Interactable;
 import com.smokebox.lib.utils.IntVector2;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
@@ -34,8 +35,6 @@ public enum WorldType {
       { // place spawn
         SectionBounds spawn = new SectionBounds(0, 0, 1, 1);
 
-        // Create a side to replace the sides of the spawn.
-
         sectionBoundsList.add(spawn);
         System.out.println("Placed spawn");
       }
@@ -47,13 +46,20 @@ public enum WorldType {
         System.out.println("amountofsections " + sectionsPlaced + "/" + amountOfSections);
 
         // find dimensions for a new sectionBounds
-        int width = 1 + (int) Math.abs(random.nextGaussian() * sizeGaussianScale
-                                       * SectionBounds.MAX_WIDTH);
-        int height = 1 + (int) Math.abs(random.nextGaussian() * sizeGaussianScale
-                                        * SectionBounds.MAX_HEIGHT);
+        int width = 1 + (int) Math.abs(random.nextGaussian() * sizeGaussianScale);
+        int height = 1 + (int) Math.abs(random.nextGaussian() * sizeGaussianScale);
+
+        if (width > SectionBounds.MAX_WIDTH) {
+          width = SectionBounds.MAX_WIDTH;
+        }
+        if (height > SectionBounds.MAX_HEIGHT) {
+          height = SectionBounds.MAX_HEIGHT;
+        }
 
         // find a section to expand from, and place a section there
+        System.out.println("Finding combined location for dimensions: " + width + ", " + height);
         for (int iterations2 = 0; iterations2 < 10000; iterations2++) {
+          System.out.print("a");
           // choose a random section to try to expand from
           SectionBounds sectionBounds =
               sectionBoundsList.get(random.nextInt(sectionBoundsList.size()));
@@ -61,6 +67,7 @@ public enum WorldType {
           // get this location's openLocations
           IntVector2 location =
               getCombinedLocation(width, height, sectionBoundsList, sectionBounds, random);
+
           // if no open locations, go to next iteration. This location is no good.
           if (location.isZero()) {
             continue;
@@ -70,6 +77,7 @@ public enum WorldType {
           sectionsPlaced++;
           break;
         }
+        System.out.println();
 
         if (sectionsPlaced >= amountOfSections) {
           break;
@@ -116,46 +124,41 @@ public enum WorldType {
                                                 SectionBounds bounds,
                                                 Random random) {
     List<IntVector2> possibleLocations = new ArrayList<>();
+    SectionBounds newBounds = new SectionBounds(0, 0, width, height);
 
-    for (int x = bounds.x - width + 1; x < bounds.x + width - 1; x++) {
-      if (collides(x, bounds.y + bounds.height, width, height, boundsList)) {
-        possibleLocations.add(new IntVector2(x, bounds.y + bounds.height));
-      }
-      if (collides(x, bounds.y - height, width, height, boundsList)) {
-        possibleLocations.add(new IntVector2(x, bounds.y - height));
-      }
+    for (int x = bounds.x - newBounds.width + 1;
+         x < bounds.x + bounds.width + newBounds.width - 1;
+         x++) {
+      newBounds.x = x;
+      newBounds.y = bounds.y + bounds.height;
+      addIfNotCollides(newBounds, boundsList, possibleLocations);
+
+      newBounds.x = x;
+      newBounds.y = bounds.y - newBounds.height;
+      addIfNotCollides(newBounds, boundsList, possibleLocations);
     }
 
-    for (int y = bounds.y - height + 1; y < bounds.y + height - 1; y++) {
-      if (collides(bounds.x + bounds.width, y, width, height, boundsList)) {
-        possibleLocations.add(new IntVector2(bounds.x + bounds.width, y));
-      }
-      if (collides(bounds.x - width, y, width, height, boundsList)) {
-        possibleLocations.add(new IntVector2(bounds.x - width, y));
-      }
+    for (int y = bounds.y - newBounds.height + 1;
+         y < bounds.y + bounds.width + newBounds.height - 1;
+         y++) {
+      newBounds.x = bounds.x + bounds.width;
+      newBounds.y = y;
+      addIfNotCollides(newBounds, boundsList, possibleLocations);
+
+      newBounds.x = bounds.x - newBounds.width;
+      newBounds.y = y;
+      addIfNotCollides(newBounds, boundsList, possibleLocations);
     }
 
     return possibleLocations.size() == 0 ? new IntVector2() :
            possibleLocations.get(random.nextInt(possibleLocations.size()));
   }
 
-  /**
-   * Returns a boolean representing if the given rect-bounds collide with any
-   *
-   * @param x          X-value of bounds to check collision for
-   * @param y          Y-value of bounds to check collision for
-   * @param width      Width of bounds to check collision for
-   * @param height     Height of bounds to check collision for
-   * @param boundsList List of bounds to check collisions with
-   */
-  private static boolean collides(int x, int y, int width, int height,
-                                  Iterable<SectionBounds> boundsList) {
-    for (SectionBounds boundsFromList : boundsList) {
-      if (boundsFromList.collides(x, y, width, height)) {
-        return true;
-      }
+  private static void addIfNotCollides(SectionBounds bounds, Iterable<SectionBounds> otherBounds,
+                                Collection<IntVector2> locs) {
+    if (!bounds.collidesList(otherBounds)) {
+      locs.add(new IntVector2(bounds.x, bounds.y));
     }
-    return false;
   }
 
   public abstract HuldraWorld getNew(double amountLargeSections, int amountOfSections, long seed,

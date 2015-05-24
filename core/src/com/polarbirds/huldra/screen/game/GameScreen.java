@@ -27,7 +27,7 @@ public class GameScreen implements Screen {
 
     stage.setViewport(new ScreenViewport(game.camera));
 
-    world = WorldType.CAVES.getNew(3.0, 100, new Random().nextLong(), game.camera);
+    world = WorldType.CAVES.getNew(1, 100, new Random().nextLong(), game.camera);
 
     //stage.addActor(new Parallax());
   }

@@ -28,28 +28,6 @@ public class Section {
     reachableOpenings.put(Side.BOTTOM, new boolean[TILES_PER_SIDE * bounds.width]);
   }
 
-  static TileType[][] getTiles() {
-    TileType[][] tiles = new TileType[][]{
-        {TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID,
-         TileType.SOLID, TileType.SOLID, TileType.SOLID},
-        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY,
-         TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
-        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY,
-         TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
-        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY,
-         TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
-        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY,
-         TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
-        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY,
-         TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
-        {TileType.SOLID, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.EMPTY,
-         TileType.EMPTY, TileType.EMPTY, TileType.SOLID},
-        {TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID, TileType.SOLID,
-         TileType.SOLID, TileType.SOLID, TileType.SOLID}
-    };
-    return tiles;
-  }
-
   /**
    * Changes the given coordinate of the given side to the given boolean.
    *

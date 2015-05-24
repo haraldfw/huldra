@@ -38,8 +38,8 @@ public final class HuldraWorld {
 
     for (SectionBounds sectionBounds : boundsList) {
       TileType[][] sectionTiles = getTilesForSection(worldType, sectionBounds);
-      int baseX = sectionBounds.x*Section.TILES_PER_SIDE;
-      int baseY = sectionBounds.y*Section.TILES_PER_SIDE;
+      int baseX = sectionBounds.x * Section.TILES_PER_SIDE;
+      int baseY = sectionBounds.y * Section.TILES_PER_SIDE;
       for (int x = 0; x < sectionTiles.length; x++) {
         System.arraycopy(sectionTiles[x], 0, mapTiles[baseX + x], baseY, sectionTiles[0].length);
       }
@@ -80,22 +80,6 @@ public final class HuldraWorld {
     }
   }
 
-  /**
-   * Returns tiles for the given sectionBounds, taking into account the sectionBounds openings
-   */
-  private TileType[][] getTilesForSection(WorldType type, SectionBounds sectionBounds) {
-    TileType[][] tiles =
-        new TileType
-            [sectionBounds.width * Section.TILES_PER_SIDE]
-            [sectionBounds.height * Section.TILES_PER_SIDE];
-    for (int x = 0; x < tiles.length; x++) {
-      for (int y = 0; y < tiles[0].length; y++) {
-
-      }
-    }
-    return Section.getTiles();
-  }
-
   public static Parallax getParallax(OrthographicCamera camera, WorldType type) {
     Parallax parallax = null;
 
@@ -118,7 +102,7 @@ public final class HuldraWorld {
    * negative coordinates, and the lowest coordinates will be (0, 0)
    *
    * @param boundsList List of bounds to normalize
-   * @return IntVector representing the shift that was executed
+   * @return IntVector of the shift that was applied
    */
   private static IntVector2 normalizeBoundsList(Iterable<SectionBounds> boundsList) {
     IntVector2 shift = new IntVector2(Integer.MAX_VALUE, Integer.MAX_VALUE);
@@ -161,6 +145,13 @@ public final class HuldraWorld {
 
     }
     return max;
+  }
+
+  /**
+   * Returns tiles for the given sectionBounds, taking into account the sectionBounds' openings
+   */
+  private TileType[][] getTilesForSection(WorldType type, SectionBounds sectionBounds) {
+    return sectionBounds.getTiles();
   }
 
   public void step(float delta) {

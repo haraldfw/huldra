@@ -88,21 +88,21 @@ final class TilesWithOpenings {
     TileType[] tiles = new TileType[string.length()];
 
     // convert string-array to tiles-array
-    for(int i = 0; i < string.length(); i++) {
+    for (int i = 0; i < string.length(); i++) {
       switch (string.charAt(i)) {
-        case 'E' :
+        case 'E':
           tiles[i] = TileType.EMPTY;
           break;
-        case 'L' :
+        case 'L':
           tiles[i] = TileType.LADDER;
           break;
-        case 'P' :
+        case 'P':
           tiles[i] = TileType.PLATFORM;
           break;
-        case 'T' :
+        case 'T':
           tiles[i] = TileType.TOP_LADDER_PLATFORM;
           break;
-        default : // case 'S'
+        default: // case 'S'
           tiles[i] = TileType.SOLID;
           break;
       }
@@ -115,12 +115,12 @@ final class TilesWithOpenings {
     boolean[] tiles = new boolean[string.length()];
 
     // convert string-array to tiles-array
-    for(int i = 0; i < string.length(); i++) {
+    for (int i = 0; i < string.length(); i++) {
       switch (string.charAt(i)) {
-        case 'T' :
+        case 'T':
           tiles[i] = true;
           break;
-        default : // case 'F'
+        default: // case 'F'
           tiles[i] = false;
           break;
       }
