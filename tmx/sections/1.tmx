@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-up" width="8" height="8" tilewidth="16" tileheight="16" nextobjectid="1">
+ <properties>
+  <property name="BOTTOM" value="FFTFFFFF"/>
+  <property name="LEFT" value="TFFTTTFT"/>
+  <property name="RIGHT" value="FTTFTTFF"/>
+  <property name="TOP" value="FFFFTTFF"/>
+ </properties>
  <tileset firstgid="1" name="standard" tilewidth="16" tileheight="16">
   <tile id="0">
    <image width="16" height="16" source="../textures/EMPTY.png"/>
@@ -28,71 +34,15 @@
   </tile>
  </tileset>
  <layer name="Tile Layer 1" width="8" height="8">
-  <data>
-   <tile gid="4"/>
-   <tile gid="4"/>
-   <tile gid="4"/>
-   <tile gid="4"/>
-   <tile gid="5"/>
-   <tile gid="3"/>
-   <tile gid="4"/>
-   <tile gid="4"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="2"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="4"/>
-   <tile gid="4"/>
-   <tile gid="3"/>
-   <tile gid="3"/>
-   <tile gid="3"/>
-   <tile gid="5"/>
-   <tile gid="3"/>
-   <tile gid="3"/>
-   <tile gid="3"/>
-   <tile gid="4"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="2"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="4"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="2"/>
-   <tile gid="4"/>
-   <tile gid="4"/>
-   <tile gid="4"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="2"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="2"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="4"/>
-   <tile gid="4"/>
-   <tile gid="5"/>
-   <tile gid="4"/>
-   <tile gid="4"/>
-   <tile gid="4"/>
-   <tile gid="4"/>
-   <tile gid="4"/>
-  </data>
+  <data encoding="csv">
+4,4,4,4,5,3,4,4,
+1,1,1,1,2,1,1,4,
+4,3,3,3,5,3,3,3,
+4,1,1,1,2,1,1,1,
+4,1,1,1,2,4,4,4,
+1,1,1,1,2,1,1,1,
+1,1,1,1,2,1,1,1,
+4,4,5,4,4,4,4,4
+</data>
  </layer>
 </map>
