@@ -93,9 +93,6 @@ class DirectoryChooser extends JFileChooser {
   }
 
   private File[] getDirectoryContents() {
-    String[] files = getFile().list();
-    for(String f : files)
-    System.out.println(f);
     return getFile().listFiles();
   }
 
