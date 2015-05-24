@@ -1,48 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-up" width="8" height="8" tilewidth="16" tileheight="16" nextobjectid="1">
  <properties>
-  <property name="BOTTOM" value="FFTFFFFF"/>
-  <property name="LEFT" value="TFFTTTFT"/>
-  <property name="RIGHT" value="FTTFTTFF"/>
-  <property name="TOP" value="FFFFTTFF"/>
+  <property name="BOTTOM" value="FFFTTFFF"/>
+  <property name="LEFT" value="FTTTFTTF"/>
+  <property name="RIGHT" value="FTFFTTTF"/>
+  <property name="TOP" value="FFFTTFFF"/>
  </properties>
  <tileset firstgid="1" name="standard" tilewidth="16" tileheight="16">
   <tile id="0">
-   <image width="16" height="16" source="../textures/EMPTY.png"/>
+   <image width="16" height="16" source="../textures/E.png"/>
   </tile>
   <tile id="1">
-   <image width="16" height="16" source="../textures/LADDER.png"/>
+   <image width="16" height="16" source="../textures/L.png"/>
   </tile>
   <tile id="2">
-   <image width="16" height="16" source="../textures/PLATFORM.png"/>
+   <properties>
+    <property name="LEFT" value="FTTTFFT"/>
+   </properties>
+   <image width="16" height="16" source="../textures/P.png"/>
   </tile>
   <tile id="3">
-   <properties>
-    <property name="BOTTOM" value="FFTFFFFF"/>
-    <property name="LEFT" value="FTTFFFTF"/>
-    <property name="RIGHT" value="FTTFTTFF"/>
-    <property name="SPAWN" value="2,2 6,2 6,4"/>
-    <property name="TOP" value="FFFFTTFF"/>
-   </properties>
-   <image width="16" height="16" source="../textures/SOLID.png"/>
+   <image width="16" height="16" source="../textures/S.png"/>
   </tile>
   <tile id="4">
-   <image width="16" height="16" source="../textures/TOP_LADDER_PLATFORM.png"/>
+   <image width="16" height="16" source="../textures/T.png"/>
   </tile>
   <tile id="5">
-   <image width="16" height="16" source="../textures/WATER.png"/>
+   <image width="16" height="16" source="../textures/W.png"/>
   </tile>
  </tileset>
  <layer name="Tile Layer 1" width="8" height="8">
   <data encoding="csv">
-4,4,4,4,5,3,4,4,
-1,1,1,1,2,1,1,4,
-4,3,3,3,5,3,3,3,
-4,1,1,1,2,1,1,1,
-4,1,1,1,2,4,4,4,
-1,1,1,1,2,1,1,1,
-1,1,1,1,2,1,1,1,
-4,4,5,4,4,4,4,4
+4,4,4,5,3,4,4,4,
+1,1,1,2,1,1,1,1,
+1,1,1,2,1,1,1,1,
+4,4,4,5,4,3,3,3,
+1,1,1,2,1,1,1,4,
+1,1,1,2,1,1,4,4,
+1,1,1,2,1,1,1,1,
+4,4,4,5,3,4,4,4
 </data>
  </layer>
 </map>
