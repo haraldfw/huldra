@@ -1,6 +1,5 @@
 package com.polarbirds.huldra.tools.tmxconverter;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -57,7 +56,8 @@ class DirectoryChooser extends JFileChooser {
       System.out.println("Loading file " + fileString);
       TiledMap map = loader.load(fileString);
       layers.add(new LayerWithInfo((TiledMapTileLayer) map.getLayers().get(0),
-                           fileString.substring(fileString.lastIndexOf("/")), map.getProperties()));
+                                   fileString.substring(fileString.lastIndexOf("/")),
+                                   map.getProperties()));
     }
 
     return (LayerWithInfo[]) layers.toArray();

@@ -19,6 +19,12 @@ public class Converter {
     this.outputDir = outputDir;
   }
 
+  public static void main(String[] args) {
+    DirectoryChooser chooser = new DirectoryChooser();
+    Converter converter =
+        new Converter(chooser.getLayers(), chooser.getTextures(), chooser.getOutputDirectory());
+  }
+
   void convert() {
     for (DirectoryChooser.LayerWithInfo layerInfo : layers) {
       PrintWriter writer = null;
@@ -52,11 +58,5 @@ public class Converter {
 
   private String getTile(byte[] tileBytes) {
     return "i";
-  }
-
-  public static void main(String[] args) {
-    DirectoryChooser chooser = new DirectoryChooser();
-    Converter converter =
-        new Converter(chooser.getLayers(), chooser.getTextures(), chooser.getOutputDirectory());
   }
 }
