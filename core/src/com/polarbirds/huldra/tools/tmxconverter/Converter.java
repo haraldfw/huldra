@@ -23,6 +23,7 @@ public class Converter {
     DirectoryChooser chooser = new DirectoryChooser();
     Converter converter =
         new Converter(chooser.getLayers(), chooser.getTextures(), chooser.getOutputDirectory());
+    converter.convert();
   }
 
   void convert() {

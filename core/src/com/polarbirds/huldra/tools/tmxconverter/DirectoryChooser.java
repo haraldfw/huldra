@@ -51,8 +51,8 @@ class DirectoryChooser extends JFileChooser {
     Collection<LayerWithInfo> layers = new ArrayList<>();
 
     for (File file : sectionFiles) {
-      TmxMapLoader loader = new TmxMapLoader();
-      String fileString = file.getAbsolutePath();
+      TmxMapLoader loader = new TmxMapLoader(new ExternalFileResolver());
+      String fileString = file.toString();
       System.out.println("Loading file " + fileString);
       TiledMap map = loader.load(fileString);
       layers.add(new LayerWithInfo((TiledMapTileLayer) map.getLayers().get(0),
