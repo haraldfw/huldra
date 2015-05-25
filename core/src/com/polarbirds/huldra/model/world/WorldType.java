@@ -64,7 +64,7 @@ public enum WorldType {
           Bounds bounds =
               sectionBoundsList.get(random.nextInt(sectionBoundsList.size()));
 
-          System.out.print("SB:" + bounds.width + "," + bounds.height + ".");
+          System.out.print("SB:(" + bounds.width + "," + bounds.height + ")#");
           // Vector to store
           IntVector2 location;
           {
@@ -143,7 +143,7 @@ public enum WorldType {
                        boundsList, possibleLocations);
     }
 
-    System.out.print(possibleLocations.size());
+    System.out.print(possibleLocations.size() + " ");
     return possibleLocations;
   }
 
