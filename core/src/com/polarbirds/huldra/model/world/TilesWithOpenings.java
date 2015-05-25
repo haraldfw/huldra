@@ -32,6 +32,16 @@ final class TilesWithOpenings {
     sectionHeight = tiles[0].length / Section.TILES_PER_SIDE;
   }
 
+  boolean matches(Map<Side, boolean[]> requiredOpenings, int reqStart, int reqEnd,
+                  int tStart, int tEnd) {
+    for (int i = 0; i < reqEnd - reqStart; i++) {
+      ArrayList<boolean[]> groups = new ArrayList<>();
+
+    }
+    return false;
+  }
+
+
   static List<TilesWithOpenings> loadAndGetList() {
     List<TilesWithOpenings> sections = new ArrayList<>();
     for (FileHandle file : Gdx.files.internal("sections").list()) {

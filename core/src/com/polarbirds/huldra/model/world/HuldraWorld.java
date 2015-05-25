@@ -27,7 +27,7 @@ public final class HuldraWorld {
   private Parallax parallax;
 
   HuldraWorld(WorldType worldType, Iterable<Bounds> boundsList) {
-    List<TilesWithOpenings> tiles = TilesWithOpenings.loadAndGetList();
+    List<TilesWithOpenings> twos = TilesWithOpenings.loadAndGetList();
 
     // normalize bounds. Since the spawn was previously on 0,0 it is now located on the shift
     // applied
@@ -52,7 +52,7 @@ public final class HuldraWorld {
 
     // Add the section's tiles to the map
     for (Section section : sections) {
-      TileType[][] sectionTiles = getTilesForSection(worldType, section);
+      TileType[][] sectionTiles = getTilesForSection(section, reachableOpenings, twos);
       int baseX = section.bounds.x * Section.TILES_PER_SIDE;
       int baseY = section.bounds.y * Section.TILES_PER_SIDE;
       for (int x = 0; x < sectionTiles.length; x++) {
@@ -85,8 +85,23 @@ public final class HuldraWorld {
   /**
    * Returns tiles for the given sectionBounds, taking into account the sectionBounds' openings
    */
-  private TileType[][] getTilesForSection(WorldType type, Section section) {
+  private TileType[][] getTilesForSection(Section section, boolean[][] openings,
+                                          Iterable<TilesWithOpenings> twos) {
+    for (TilesWithOpenings two : twos) {
+
+    }
     return placeholderTiles(section);
+  }
+
+  private boolean overlaps(boolean[] required, boolean[] booleans) {
+    for (int i = 0; i < required.length; i++) {
+      boolean r = required[i];
+      boolean b = booleans[i];
+      if (r && !b) {
+        return true;
+      }
+    }
+    return true;
   }
 
   private TileType[][] placeholderTiles(Section section) {
@@ -95,31 +110,62 @@ public final class HuldraWorld {
                                                                     * Section.TILES_PER_SIDE];
     for (int x = 0; x < tiles.length; x++) {
       for (int y = 0; y < tiles[0].length; y++) {
-        tiles[x][y] =
-            x == 0 || y == 0 || x == tiles.length - 1 || y == tiles[0].length - 1 ? TileType.SOLID
-                                                                                  : TileType.EMPTY;
+        tiles[x][y] = x == 0 || y == 0 || x == tiles.length - 1 || y == tiles[0].length - 1
+                      ? TileType.SOLID : TileType.EMPTY;
       }
     }
     return tiles;
   }
 
   private static boolean[][] addSectionOpenings(Iterable<Section> sections, boolean[][] openings) {
+    // create an array to keep track of where there are sections
+    boolean[][] fills = new boolean[openings.length][openings[0].length];
+    for (Section section : sections) {
+      Bounds b = section.bounds;
+      for (int x = b.x * Section.TILES_PER_SIDE; x < (b.x + b.width) * Section.TILES_PER_SIDE;
+           x++) {
+        for (int y = b.y * Section.TILES_PER_SIDE; y < (b.y + b.height) * Section.TILES_PER_SIDE;
+             y++) {
+          fills[x][y] = true;
+        }
+      }
+    }
+
     // Make sure boundaries of sections are true in reachableOpenings-array
     for (Section section : sections) {
-      boolean[] booleans1 = section.openings.get(Side.LEFT);
-      boolean[] booleans2 = section.openings.get(Side.RIGHT);
-      for (int y = 0; y < booleans1.length; y++) {
-        openings[section.bounds.x][y] = booleans1[y];
-        openings[section.bounds.x + section.bounds.width - 1][y] = booleans2[y];
+      Bounds b = section.bounds;
+      for (int y = b.y * Section.TILES_PER_SIDE; y < (b.y + b.height) * Section.TILES_PER_SIDE;
+           y++) {
+        if (fills[b.x * Section.TILES_PER_SIDE - 1][y]) {
+          openings[b.x * Section.TILES_PER_SIDE][y] = true;
+        }
+        if (fills[(b.x + b.width) * Section.TILES_PER_SIDE][y]) {
+          openings[(b.x + b.width) * Section.TILES_PER_SIDE - 1][y] = true;
+        }
       }
-      booleans1 = section.openings.get(Side.TOP);
-      booleans2 = section.openings.get(Side.BOTTOM);
-      for (int x = 0; x < booleans1.length; x++) {
-        openings[x][section.bounds.y] = booleans1[x];
-        openings[x][section.bounds.y + section.bounds.height - 1] = booleans2[x];
+      for (int x = b.x * Section.TILES_PER_SIDE; x < (b.x + b.width) * Section.TILES_PER_SIDE;
+           x++) {
+        if (fills[x][b.y * Section.TILES_PER_SIDE - 1]) {
+          openings[x][b.y * Section.TILES_PER_SIDE] = true;
+        }
+        if (fills[x][(b.y + b.height) * Section.TILES_PER_SIDE]) {
+          openings[x][(b.y + b.height) * Section.TILES_PER_SIDE - 1] = true;
+        }
       }
     }
     return openings;
+  }
+
+  private static void placeVerTrue(int startX, int startY, int length, boolean[][] openings) {
+    for (int y = 0; y < length; y++) {
+      openings[startX][startY + y] = true;
+    }
+  }
+
+  private static void placeHorTrue(int startX, int startY, int length, boolean[][] openings) {
+    for (int x = 0; x < length; x++) {
+      openings[startX + x][startY] = true;
+    }
   }
 
   private static int[][] getInts(TileType[][] mapTiles, TileType checkFor) {

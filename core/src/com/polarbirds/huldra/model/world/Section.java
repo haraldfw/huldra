@@ -39,6 +39,4 @@ public class Section {
     Arrays.fill(booleans, true);
     return booleans;
   }
-
-
 }
