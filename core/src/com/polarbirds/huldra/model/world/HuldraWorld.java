@@ -66,8 +66,37 @@ public final class HuldraWorld {
 
     UnifiablePolyedge p = new UnifiablePolyedge(ints);
     p.unify();
+    createBodies(p.getEdges(), box2dWorld);
+  }
 
-    for (Line l : p.getEdges()) {
+  /**
+   * Returns tiles for the given sectionBounds, taking into account the sectionBounds' openings
+   */
+  private TileType[][] getTilesForSection(WorldType type, Bounds bounds) {
+
+    return placeholderTiles(bounds);
+  }
+
+  private TileType[][] placeholderTiles(Bounds bounds) {
+    TileType[][] tiles =
+        new TileType[bounds.width * Section.TILES_PER_SIDE][bounds.height * Section.TILES_PER_SIDE];
+    for (int x = 0; x < tiles.length; x++) {
+      for (int y = 0; y < tiles[0].length; y++) {
+        tiles[x][y] =
+            x == 0 || y == 0 || x == tiles.length - 1 || y == tiles[0].length - 1 ? TileType.SOLID
+                                                                                  : TileType.EMPTY;
+      }
+    }
+
+    return tiles;
+  }
+
+  public void step(float delta) {
+    box2dWorld.step(delta, 8, 8); // update box2d box2dWorld
+  }
+
+  private static void createBodies(Iterable<Line> edges, World box2dWorld) {
+    for (Line l : edges) {
       EdgeShape edgeShape = new EdgeShape();
       edgeShape.set(l.x, l.y, l.x2, l.y2);
 
@@ -147,31 +176,5 @@ public final class HuldraWorld {
 
     }
     return max;
-  }
-
-  /**
-   * Returns tiles for the given sectionBounds, taking into account the sectionBounds' openings
-   */
-  private TileType[][] getTilesForSection(WorldType type, Bounds bounds) {
-
-    return placeholderTiles(bounds);
-  }
-
-  private TileType[][] placeholderTiles(Bounds bounds) {
-    TileType[][] tiles =
-        new TileType[bounds.width * Section.TILES_PER_SIDE][bounds.height * Section.TILES_PER_SIDE];
-    for (int x = 0; x < tiles.length; x++) {
-      for (int y = 0; y < tiles[0].length; y++) {
-        tiles[x][y] =
-            x == 0 || y == 0 || x == tiles.length - 1 || y == tiles[0].length - 1 ? TileType.SOLID
-                                                                                  : TileType.EMPTY;
-      }
-    }
-
-    return tiles;
-  }
-
-  public void step(float delta) {
-    box2dWorld.step(delta, 8, 8); // update box2d box2dWorld
   }
 }

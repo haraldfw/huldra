@@ -1,7 +1,5 @@
 package com.polarbirds.huldra.screen.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -29,7 +27,7 @@ public class GameScreen implements Screen {
 
     stage.setViewport(new ScreenViewport(game.camera));
 
-    world = WorldType.CAVES.getNew(10, 25, new Random().nextLong(), game.camera);
+    world = WorldType.CAVES.getNew(1, 25, new Random().nextLong(), game.camera);
   }
 
   @Override

@@ -105,6 +105,9 @@ public enum WorldType {
     }
   };
 
+  public abstract HuldraWorld getNew(double amountLargeSections, int amountOfSections, long seed,
+                                     OrthographicCamera camera);
+
   /**
    * Returns the location of where bounds2 can be placed with no intersections. Note: Can safely
    * return (0, 0) because this place will always be filled with spawn-section.
@@ -151,7 +154,4 @@ public enum WorldType {
       locations.add(new IntVector2(bounds.x, bounds.y));
     }
   }
-
-  public abstract HuldraWorld getNew(double amountLargeSections, int amountOfSections, long seed,
-                                     OrthographicCamera camera);
 }
