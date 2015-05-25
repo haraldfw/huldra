@@ -2,8 +2,8 @@
 <map version="1.0" orientation="orthogonal" renderorder="right-up" width="8" height="8" tilewidth="16" tileheight="16" nextobjectid="1">
  <properties>
   <property name="BOTTOM" value="FFFFFFFF"/>
-  <property name="LEFT" value="FTTFFFFF"/>
-  <property name="RIGHT" value="FFTTFFFF"/>
+  <property name="LEFT" value="FTTTFFFF"/>
+  <property name="RIGHT" value="FFTTTFFF"/>
   <property name="TOP" value="FFFFFFFF"/>
  </properties>
  <tileset firstgid="1" name="standard" tilewidth="16" tileheight="16">
@@ -28,7 +28,7 @@
  </tileset>
  <layer name="Tile Layer 1" width="8" height="8">
   <data encoding="csv">
-4,4,1,1,1,1,4,4,
+4,4,4,4,4,4,4,4,
 4,1,1,1,1,1,1,4,
 4,1,1,1,1,1,1,1,
 1,1,1,1,1,1,1,1,

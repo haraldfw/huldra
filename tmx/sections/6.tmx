@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-up" width="8" height="8" tilewidth="16" tileheight="16" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-up" width="16" height="8" tilewidth="16" tileheight="16" nextobjectid="1">
  <properties>
-  <property name="BOTTOM" value="TTTTTTTT"/>
+  <property name="BOTTOM" value="TTTTTTTTTTTTTTTT"/>
   <property name="LEFT" value="TTTTTTTT"/>
   <property name="RIGHT" value="TTTTTTTT"/>
-  <property name="TOP" value="TTTTTTTT"/>
+  <property name="TOP" value="TTTTTTTTTTTTTTTT"/>
  </properties>
  <tileset firstgid="1" name="s" tilewidth="16" tileheight="16">
   <tile id="0">
@@ -26,16 +26,16 @@
    <image width="16" height="16" source="../textures/W.png"/>
   </tile>
  </tileset>
- <layer name="Tile Layer 1" width="8" height="8">
+ <layer name="Tile Layer 1" width="16" height="8">
   <data encoding="csv">
-2,1,1,1,1,1,1,2,
-5,3,3,3,3,3,3,5,
-2,1,1,1,1,1,1,2,
-2,4,4,4,1,1,1,2,
-2,4,4,4,4,4,4,5,
-2,1,1,4,4,1,1,2,
-2,1,1,1,1,1,1,2,
-5,3,3,3,3,5,3,5
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+5,3,3,3,3,3,4,4,4,4,4,4,4,4,4,5,
+2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,
+2,4,4,4,5,4,4,4,1,1,1,1,1,1,1,2,
+2,4,4,4,2,4,4,4,4,1,1,1,1,1,1,1,
+2,1,1,1,2,1,4,4,4,4,4,1,1,4,4,3,
+2,1,1,1,2,1,1,1,1,1,1,1,4,1,1,1,
+3,3,3,3,3,3,3,3,3,3,3,5,2,5,5,5
 </data>
  </layer>
 </map>

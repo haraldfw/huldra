@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-up" width="24" height="24" tilewidth="16" tileheight="16" nextobjectid="1">
+ <properties>
+  <property name="BOTTOM" value="TTTTTTTTTTTTTTTTTTTTTTTT"/>
+  <property name="LEFT" value="TTTTTTTTTTTTTTTTTTTTTTTT"/>
+  <property name="RIGHT" value="TTTTTTTTTTTTTTTTTTTTTTTT"/>
+  <property name="TOP" value="TTTTTTTTTTTTTTTTTTTTTTTT"/>
+ </properties>
+ <tileset firstgid="1" name="s" tilewidth="16" tileheight="16">
+  <tile id="0">
+   <image width="16" height="16" source="../textures/E.png"/>
+  </tile>
+  <tile id="1">
+   <image width="16" height="16" source="../textures/L.png"/>
+  </tile>
+  <tile id="2">
+   <image width="16" height="16" source="../textures/P.png"/>
+  </tile>
+  <tile id="3">
+   <image width="16" height="16" source="../textures/S.png"/>
+  </tile>
+  <tile id="4">
+   <image width="16" height="16" source="../textures/T.png"/>
+  </tile>
+  <tile id="5">
+   <image width="16" height="16" source="../textures/W.png"/>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="24" height="24">
+  <data encoding="csv">
+2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,
+5,4,4,4,3,3,3,5,3,3,3,3,3,3,3,3,3,3,5,3,3,3,3,5,
+2,4,4,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,2,
+2,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,
+5,4,1,1,1,1,4,4,4,4,1,4,4,4,4,4,4,1,1,1,1,1,1,2,
+2,4,1,1,1,4,4,4,4,1,1,1,1,1,4,4,4,4,4,1,1,1,1,2,
+2,4,1,4,4,4,4,4,4,1,1,1,4,1,1,1,1,4,4,4,1,1,1,2,
+2,1,1,4,4,1,4,4,4,4,1,1,4,4,1,1,1,1,4,4,4,1,1,2,
+2,1,4,4,1,1,1,1,4,4,1,1,4,1,1,4,4,4,4,4,4,4,4,5,
+2,1,4,4,1,1,1,1,1,1,1,4,4,1,1,1,1,1,1,4,4,4,1,2,
+5,4,4,1,1,1,4,4,4,4,4,4,4,4,3,3,5,4,4,4,4,1,1,2,
+2,4,4,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,4,4,1,1,2,
+2,4,4,4,4,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4,1,1,2,
+2,4,4,4,4,4,4,4,4,4,1,1,5,3,3,3,3,4,4,4,4,4,1,2,
+2,1,1,1,1,4,4,4,4,4,4,1,2,1,1,1,1,1,4,4,4,4,4,5,
+2,1,1,1,1,1,1,1,1,4,4,1,2,1,4,4,4,4,4,4,4,4,4,2,
+5,4,4,4,1,1,1,1,1,1,1,1,2,1,1,1,1,1,4,4,4,4,4,2,
+2,1,1,4,4,4,1,1,1,1,1,1,2,1,1,1,1,1,1,4,4,1,4,2,
+2,1,1,1,4,4,4,4,4,4,4,4,4,4,4,4,4,1,1,4,1,1,4,2,
+2,1,1,1,1,1,4,4,4,4,4,4,4,4,4,4,4,1,1,1,1,4,4,2,
+2,1,4,4,4,4,4,4,1,1,1,1,1,1,4,4,4,4,1,1,1,1,1,2,
+2,1,1,4,4,1,1,1,1,1,4,1,1,1,1,1,4,4,4,4,1,1,1,2,
+2,1,1,1,1,1,1,1,1,4,4,1,4,1,1,1,1,1,1,1,1,1,1,2,
+5,3,3,3,3,3,3,3,5,3,3,5,3,3,3,3,3,3,3,3,3,3,3,5
+</data>
+ </layer>
+</map>
