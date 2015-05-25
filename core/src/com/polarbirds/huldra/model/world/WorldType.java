@@ -3,6 +3,7 @@ package com.polarbirds.huldra.model.world;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.polarbirds.huldra.model.entity.inanimateobject.Interactable;
 import com.smokebox.lib.utils.IntVector2;
+import com.smokebox.lib.utils.geom.Bounds;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,10 +31,10 @@ public enum WorldType {
 
       Random random = new Random(seed);
 
-      ArrayList<SectionBounds> sectionBoundsList = new ArrayList<>();
+      ArrayList<Bounds> sectionBoundsList = new ArrayList<>();
 
       { // place spawn
-        SectionBounds spawn = new SectionBounds(0, 0, 1, 1);
+        Bounds spawn = new Bounds(0, 0, 1, 1);
 
         sectionBoundsList.add(spawn);
         System.out.println("Placed spawn");
@@ -49,18 +50,18 @@ public enum WorldType {
         int width = 1 + (int) Math.abs(random.nextGaussian() * sizeGaussianScale);
         int height = 1 + (int) Math.abs(random.nextGaussian() * sizeGaussianScale);
 
-        if (width > SectionBounds.MAX_WIDTH) {
-          width = SectionBounds.MAX_WIDTH;
+        if (width > Section.BOUNDS_MAX_WIDTH) {
+          width = Section.BOUNDS_MAX_WIDTH;
         }
-        if (height > SectionBounds.MAX_HEIGHT) {
-          height = SectionBounds.MAX_HEIGHT;
+        if (height > Section.BOUNDS_MAX_HEIGHT) {
+          height = Section.BOUNDS_MAX_HEIGHT;
         }
 
         // find a section to expand from, and place a section there
         System.out.println("Finding combined location for dimensions: " + width + ", " + height);
         for (int iterations2 = 0; iterations2 < 10000; iterations2++) {
           // choose a random section to try to expand from
-          SectionBounds bounds =
+          Bounds bounds =
               sectionBoundsList.get(random.nextInt(sectionBoundsList.size()));
 
           System.out.print("SB:" + bounds.width + "," + bounds.height + ".");
@@ -78,7 +79,7 @@ public enum WorldType {
             }
           }
 
-          sectionBoundsList.add(new SectionBounds(location.x, location.y, width, height));
+          sectionBoundsList.add(new Bounds(location.x, location.y, width, height));
           sectionsPlaced++;
           break;
         }
@@ -97,21 +98,12 @@ public enum WorldType {
     @Override
     public HuldraWorld getNew(double amountLargeSections, int amountOfSections, long seed,
                               OrthographicCamera camera) {
-      ArrayList<SectionBounds> sectionBoundsList = new ArrayList<>();
-      sectionBoundsList.add(new SectionBounds(0, 0, 1, 1));
+      ArrayList<Bounds> sectionBoundsList = new ArrayList<>();
+      sectionBoundsList.add(new Bounds(0, 0, 1, 1));
       ArrayList<Interactable> interactables = new ArrayList<>();
       return new HuldraWorld(this, sectionBoundsList);
     }
   };
-
-  private static SectionBounds getSectionAt(IntVector2 v, Iterable<SectionBounds> sections) {
-    for (SectionBounds s : sections) {
-      if (s.contains(v)) {
-        return s;
-      }
-    }
-    return null;
-  }
 
   /**
    * Returns the location of where bounds2 can be placed with no intersections. Note: Can safely
@@ -125,27 +117,27 @@ public enum WorldType {
    * they could not be combined at all
    */
   private static List<IntVector2> getLocationsAround(int width, int height,
-                                                     Iterable<SectionBounds> boundsList,
-                                                     SectionBounds bounds,
+                                                     Iterable<Bounds> boundsList,
+                                                     Bounds bounds,
                                                      Random random) {
     List<IntVector2> possibleLocations = new ArrayList<>();
-    SectionBounds newBounds = new SectionBounds(0, 0, width, height);
+    Bounds newBounds = new Bounds(0, 0, width, height);
 
     for (int x = bounds.x - newBounds.width + 1;
          x < bounds.x + bounds.width;
          x++) {
-      addIfNotCollides(new SectionBounds(x, bounds.y + bounds.height, width, height),
+      addIfNotCollides(new Bounds(x, bounds.y + bounds.height, width, height),
                        boundsList, possibleLocations);
-      addIfNotCollides(new SectionBounds(x, bounds.y - height, width, height),
+      addIfNotCollides(new Bounds(x, bounds.y - height, width, height),
                        boundsList, possibleLocations);
     }
 
     for (int y = bounds.y - newBounds.height + 1;
-         y < bounds.y + bounds.width;
+         y < bounds.y + bounds.height;
          y++) {
-      addIfNotCollides(new SectionBounds(bounds.x + bounds.width, y, width, height),
+      addIfNotCollides(new Bounds(bounds.x + bounds.width, y, width, height),
                        boundsList, possibleLocations);
-      addIfNotCollides(new SectionBounds(bounds.x - width, y, width, height),
+      addIfNotCollides(new Bounds(bounds.x - width, y, width, height),
                        boundsList, possibleLocations);
     }
 
@@ -153,9 +145,9 @@ public enum WorldType {
     return possibleLocations;
   }
 
-  private static void addIfNotCollides(SectionBounds bounds, Iterable<SectionBounds> boundsList,
+  private static void addIfNotCollides(Bounds bounds, Iterable<Bounds> boundsList,
                                        Collection<IntVector2> locations) {
-    if (!bounds.collidesList(boundsList)) {
+    if (!bounds.overlapsList(boundsList)) {
       locations.add(new IntVector2(bounds.x, bounds.y));
     }
   }

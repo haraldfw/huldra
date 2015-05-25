@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.smokebox.lib.utils.IntVector2;
+import com.smokebox.lib.utils.geom.Bounds;
 import com.smokebox.lib.utils.geom.Line;
 import com.smokebox.lib.utils.geom.UnifiablePolyedge;
 
@@ -21,7 +22,7 @@ public final class HuldraWorld {
 
   private Parallax parallax;
 
-  HuldraWorld(WorldType worldType, Iterable<SectionBounds> boundsList) {
+  HuldraWorld(WorldType worldType, Iterable<Bounds> boundsList) {
 
     TilesWithOpenings.loadAndGetList();
 
@@ -32,13 +33,12 @@ public final class HuldraWorld {
     box2dWorld = new World(new Vector2(0, -9.81f), false);
 
     IntVector2 maxBounds = getMaxBounds(boundsList);
-    TileType[][]
-        mapTiles =
+    TileType[][] mapTiles =
         new TileType[maxBounds.x * Section.TILES_PER_SIDE][maxBounds.y * Section.TILES_PER_SIDE];
 
     boolean[][] reachableOpenings = new boolean[mapTiles.length][mapTiles[0].length];
 
-    for (SectionBounds sectionBounds : boundsList) {
+    for (Bounds sectionBounds : boundsList) {
       TileType[][] sectionTiles = getTilesForSection(worldType, sectionBounds);
       int baseX = sectionBounds.x * Section.TILES_PER_SIDE;
       int baseY = sectionBounds.y * Section.TILES_PER_SIDE;
@@ -106,10 +106,10 @@ public final class HuldraWorld {
    * @param boundsList List of bounds to normalize
    * @return IntVector of the shift that was applied
    */
-  private static IntVector2 normalizeBoundsList(Iterable<SectionBounds> boundsList) {
+  private static IntVector2 normalizeBoundsList(Iterable<Bounds> boundsList) {
     IntVector2 shift = new IntVector2(Integer.MAX_VALUE, Integer.MAX_VALUE);
 
-    for (SectionBounds bounds : boundsList) {
+    for (Bounds bounds : boundsList) {
       if (bounds.x < shift.x) {
         shift.x = bounds.x;
       }
@@ -118,7 +118,7 @@ public final class HuldraWorld {
       }
     }
 
-    for (SectionBounds bounds : boundsList) {
+    for (Bounds bounds : boundsList) {
       bounds.x -= shift.x;
       bounds.y -= shift.y;
     }
@@ -132,10 +132,10 @@ public final class HuldraWorld {
    * @param boundsList A normalized list of bounds-objects
    * @return The max bounds as an IntVector2
    */
-  private static IntVector2 getMaxBounds(Iterable<SectionBounds> boundsList) {
+  private static IntVector2 getMaxBounds(Iterable<Bounds> boundsList) {
     IntVector2 max = new IntVector2(Integer.MIN_VALUE, Integer.MIN_VALUE);
 
-    for (SectionBounds bounds : boundsList) {
+    for (Bounds bounds : boundsList) {
 
       if (bounds.x + bounds.width > max.x) {
         max.x = bounds.x + bounds.width;
@@ -152,8 +152,23 @@ public final class HuldraWorld {
   /**
    * Returns tiles for the given sectionBounds, taking into account the sectionBounds' openings
    */
-  private TileType[][] getTilesForSection(WorldType type, SectionBounds sectionBounds) {
-    return sectionBounds.getTiles();
+  private TileType[][] getTilesForSection(WorldType type, Bounds bounds) {
+
+    return placeholderTiles(bounds);
+  }
+
+  private TileType[][] placeholderTiles(Bounds bounds) {
+    TileType[][] tiles =
+        new TileType[bounds.width * Section.TILES_PER_SIDE][bounds.height * Section.TILES_PER_SIDE];
+    for (int x = 0; x < tiles.length; x++) {
+      for (int y = 0; y < tiles[0].length; y++) {
+        tiles[x][y] =
+            x == 0 || y == 0 || x == tiles.length - 1 || y == tiles[0].length - 1 ? TileType.SOLID
+                                                                                  : TileType.EMPTY;
+      }
+    }
+
+    return tiles;
   }
 
   public void step(float delta) {

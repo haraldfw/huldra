@@ -1,5 +1,7 @@
 package com.polarbirds.huldra.model.world;
 
+import com.smokebox.lib.utils.geom.Bounds;
+
 import java.util.HashMap;
 
 /**
@@ -8,8 +10,10 @@ import java.util.HashMap;
 public class Section {
 
   public static final int TILES_PER_SIDE = 8;
+  public static final int BOUNDS_MAX_HEIGHT = 3;
+  public static final int BOUNDS_MAX_WIDTH = 3;
 
-  SectionBounds bounds;
+  Bounds bounds;
 
   /*
   A hashtable of boolean-arrays representing the sides of the section with
@@ -17,7 +21,7 @@ public class Section {
   */
   private HashMap<Side, boolean[]> reachableOpenings;
 
-  Section(SectionBounds bounds) {
+  Section(Bounds bounds) {
     this.bounds = bounds;
 
     reachableOpenings = new HashMap<>();

@@ -19,7 +19,7 @@ import java.util.Random;
 public class GameScreen implements Screen {
 
   public final HuldraGame game;
-  public HuldraWorld world;
+  public final HuldraWorld world;
   public final Stage stage; // stage containing game actors
   private final Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
 
@@ -29,9 +29,7 @@ public class GameScreen implements Screen {
 
     stage.setViewport(new ScreenViewport(game.camera));
 
-    world = WorldType.CAVES.getNew(1, 10, new Random().nextLong(), game.camera);
-
-    //stage.addActor(new Parallax());
+    world = WorldType.CAVES.getNew(10, 25, new Random().nextLong(), game.camera);
   }
 
   @Override
@@ -40,9 +38,6 @@ public class GameScreen implements Screen {
     world.step(delta);
     stage.draw();
     debugRenderer.render(world.box2dWorld, game.camera.combined);
-    if (Gdx.input.isKeyPressed(Input.Keys.R)) {
-      world = WorldType.CAVES.getNew(1, 10, new Random().nextLong(), game.camera);
-    }
   }
 
   @Override
