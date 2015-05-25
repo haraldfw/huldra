@@ -2,6 +2,7 @@ package com.polarbirds.huldra.model.world;
 
 import com.smokebox.lib.utils.geom.Bounds;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -26,10 +27,16 @@ public class Section {
 
     reachableOpenings = new HashMap<>();
 
-    reachableOpenings.put(Side.LEFT, new boolean[TILES_PER_SIDE * bounds.height]);
-    reachableOpenings.put(Side.RIGHT, new boolean[TILES_PER_SIDE * bounds.height]);
-    reachableOpenings.put(Side.TOP, new boolean[TILES_PER_SIDE * bounds.width]);
-    reachableOpenings.put(Side.BOTTOM, new boolean[TILES_PER_SIDE * bounds.width]);
+    reachableOpenings.put(Side.LEFT, getTrueBoolean2(TILES_PER_SIDE * bounds.height));
+    reachableOpenings.put(Side.RIGHT, getTrueBoolean2(TILES_PER_SIDE * bounds.height));
+    reachableOpenings.put(Side.TOP, getTrueBoolean2(TILES_PER_SIDE * bounds.width));
+    reachableOpenings.put(Side.BOTTOM, getTrueBoolean2(TILES_PER_SIDE * bounds.width));
+  }
+
+  private boolean[] getTrueBoolean2(int length) {
+    boolean[] booleans = new boolean[length];
+    Arrays.fill(booleans, true);
+    return booleans;
   }
 
   /**
