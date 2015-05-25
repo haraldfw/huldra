@@ -73,7 +73,6 @@ public final class HuldraWorld {
    * Returns tiles for the given sectionBounds, taking into account the sectionBounds' openings
    */
   private TileType[][] getTilesForSection(WorldType type, Bounds bounds) {
-
     return placeholderTiles(bounds);
   }
 
@@ -87,7 +86,6 @@ public final class HuldraWorld {
                                                                                   : TileType.EMPTY;
       }
     }
-
     return tiles;
   }
 

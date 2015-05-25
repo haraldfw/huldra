@@ -89,7 +89,6 @@ public enum WorldType {
           break;
         }
       }
-
       return new HuldraWorld(this, sectionBoundsList);
     }
   },
