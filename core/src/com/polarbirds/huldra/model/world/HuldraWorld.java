@@ -21,6 +21,7 @@ import java.util.List;
  */
 public final class HuldraWorld {
 
+
   public final World box2dWorld;
 
   private Parallax parallax;
@@ -47,7 +48,7 @@ public final class HuldraWorld {
 
     // Array of reachable openings
     boolean[][] reachableOpenings =
-        addSectionsOpenings(sections, new boolean[mapTiles.length][mapTiles[0].length]);
+        addSectionOpenings(sections, new boolean[mapTiles.length][mapTiles[0].length]);
 
     // Add the section's tiles to the map
     for (Section section : sections) {
@@ -77,6 +78,10 @@ public final class HuldraWorld {
     }
   }
 
+  public void step(float delta) {
+    box2dWorld.step(delta, 8, 8); // update box2dWorld
+  }
+
   /**
    * Returns tiles for the given sectionBounds, taking into account the sectionBounds' openings
    */
@@ -98,11 +103,7 @@ public final class HuldraWorld {
     return tiles;
   }
 
-  public void step(float delta) {
-    box2dWorld.step(delta, 8, 8); // update box2dWorld
-  }
-
-  private static boolean[][] addSectionsOpenings(Iterable<Section> sections, boolean[][] openings) {
+  private static boolean[][] addSectionOpenings(Iterable<Section> sections, boolean[][] openings) {
     // Make sure boundaries of sections are true in reachableOpenings-array
     for (Section section : sections) {
       boolean[] booleans1 = section.openings.get(Side.LEFT);
