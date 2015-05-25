@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * A class to hold a name of a section and it's openings Created by Harald on 23.5.15.
@@ -31,19 +32,17 @@ final class TilesWithOpenings {
     sectionHeight = tiles[0].length / Section.TILES_PER_SIDE;
   }
 
-  static ArrayList<TilesWithOpenings> loadAndGetList() {
-    ArrayList<TilesWithOpenings> sections = new ArrayList<>();
-    for (FileHandle file : Gdx.files.internal("section").list()) {
-      if (!file.name().contains(".sec")) {
-        // file is not a section-file
-        continue;
+  static List<TilesWithOpenings> loadAndGetList() {
+    List<TilesWithOpenings> sections = new ArrayList<>();
+    for (FileHandle file : Gdx.files.internal("sections").list()) {
+      if (file.name().contains(".sec")) {
+        sections.add(parseSection(file.file()));
       }
-      sections.add(getObject(file.file()));
     }
     return sections;
   }
 
-  private static TilesWithOpenings getObject(File file) {
+  private static TilesWithOpenings parseSection(File file) {
     try {
       FileInputStream inputStream = new FileInputStream(file);
 

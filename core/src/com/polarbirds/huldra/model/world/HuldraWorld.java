@@ -12,6 +12,9 @@ import com.smokebox.lib.utils.geom.Bounds;
 import com.smokebox.lib.utils.geom.Line;
 import com.smokebox.lib.utils.geom.UnifiablePolyedge;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A class for this game's World. HuldraWorld contains a 2d array of Tile objects and an ArrayList
  * of Interactables. Created by Harald on 30.4.15.
@@ -23,8 +26,7 @@ public final class HuldraWorld {
   private Parallax parallax;
 
   HuldraWorld(WorldType worldType, Iterable<Bounds> boundsList) {
-
-    TilesWithOpenings.loadAndGetList();
+    List<TilesWithOpenings> tiles = TilesWithOpenings.loadAndGetList();
 
     // normalize bounds. Since the spawn was previously on 0,0 it is now located on the shift
     // applied
@@ -32,53 +34,60 @@ public final class HuldraWorld {
 
     box2dWorld = new World(new Vector2(0, -9.81f), false);
 
+    List<Section> sections = new ArrayList<>();
+    for (Bounds bounds : boundsList) {
+      sections.add(new Section(bounds));
+    }
+
     IntVector2 maxBounds = getMaxBounds(boundsList);
+
+    // Array for map-tiles
     TileType[][] mapTiles =
         new TileType[maxBounds.x * Section.TILES_PER_SIDE][maxBounds.y * Section.TILES_PER_SIDE];
 
-    boolean[][] reachableOpenings = new boolean[mapTiles.length][mapTiles[0].length];
+    // Array of reachable openings
+    boolean[][] reachableOpenings =
+        addSectionsOpenings(sections, new boolean[mapTiles.length][mapTiles[0].length]);
 
-    for (Bounds sectionBounds : boundsList) {
-      TileType[][] sectionTiles = getTilesForSection(worldType, sectionBounds);
-      int baseX = sectionBounds.x * Section.TILES_PER_SIDE;
-      int baseY = sectionBounds.y * Section.TILES_PER_SIDE;
+    // Add the section's tiles to the map
+    for (Section section : sections) {
+      TileType[][] sectionTiles = getTilesForSection(worldType, section);
+      int baseX = section.bounds.x * Section.TILES_PER_SIDE;
+      int baseY = section.bounds.y * Section.TILES_PER_SIDE;
       for (int x = 0; x < sectionTiles.length; x++) {
         System.arraycopy(sectionTiles[x], 0, mapTiles[baseX + x], baseY, sectionTiles[0].length);
       }
     }
 
-    // create int-array of what blocks are solid and not, to pass into UnifiablePolyedge
-    int[][] ints = new int[mapTiles.length][mapTiles[0].length];
-    for (int x = 0; x < mapTiles.length; x++) {
-      for (int y = 0; y < mapTiles[0].length; y++) {
-        TileType tile = mapTiles[x][y];
-        if (tile != null) {
-          switch (tile) {
-            default:
-              break;
-            case SOLID:
-              ints[x][y] = 1;
-              break;
+    UnifiablePolyedge p = new UnifiablePolyedge(getInts(mapTiles, TileType.SOLID));
+    p.unify();
+    createBodies(p.getEdges(), box2dWorld);
+    p = new UnifiablePolyedge(getPlatforms(getInts(mapTiles, TileType.PLATFORM)));
+    p.unify();
+    createBodies(p.getEdges(), box2dWorld);
+    for (Bounds bounds : boundsList) {
+      for (int x = 0; x < bounds.width * Section.TILES_PER_SIDE; x++) {
+        for (int y = 0; y < bounds.height * Section.TILES_PER_SIDE; y++) {
+          if (x == 0 || x == bounds.width * Section.TILES_PER_SIDE ||
+              y == 0 || y == Section.TILES_PER_SIDE) {
+            reachableOpenings[x][y] = true;
           }
         }
       }
     }
-
-    UnifiablePolyedge p = new UnifiablePolyedge(ints);
-    p.unify();
-    createBodies(p.getEdges(), box2dWorld);
   }
 
   /**
    * Returns tiles for the given sectionBounds, taking into account the sectionBounds' openings
    */
-  private TileType[][] getTilesForSection(WorldType type, Bounds bounds) {
-    return placeholderTiles(bounds);
+  private TileType[][] getTilesForSection(WorldType type, Section section) {
+    return placeholderTiles(section);
   }
 
-  private TileType[][] placeholderTiles(Bounds bounds) {
+  private TileType[][] placeholderTiles(Section section) {
     TileType[][] tiles =
-        new TileType[bounds.width * Section.TILES_PER_SIDE][bounds.height * Section.TILES_PER_SIDE];
+        new TileType[section.bounds.width * Section.TILES_PER_SIDE][section.bounds.height
+                                                                    * Section.TILES_PER_SIDE];
     for (int x = 0; x < tiles.length; x++) {
       for (int y = 0; y < tiles[0].length; y++) {
         tiles[x][y] =
@@ -90,7 +99,39 @@ public final class HuldraWorld {
   }
 
   public void step(float delta) {
-    box2dWorld.step(delta, 8, 8); // update box2d box2dWorld
+    box2dWorld.step(delta, 8, 8); // update box2dWorld
+  }
+
+  private static boolean[][] addSectionsOpenings(Iterable<Section> sections, boolean[][] openings) {
+    // Make sure boundaries of sections are true in reachableOpenings-array
+    for (Section section : sections) {
+      boolean[] booleans1 = section.getSideArray(Side.LEFT);
+      boolean[] booleans2 = section.getSideArray(Side.RIGHT);
+      for (int y = 0; y < booleans1.length; y++) {
+        openings[section.bounds.x][y] = booleans1[y];
+        openings[section.bounds.x + section.bounds.width - 1][y] = booleans2[y];
+      }
+      booleans1 = section.getSideArray(Side.TOP);
+      booleans2 = section.getSideArray(Side.BOTTOM);
+      for (int x = 0; x < booleans1.length; x++) {
+        openings[x][section.bounds.y] = booleans1[x];
+        openings[x][section.bounds.y + section.bounds.height - 1] = booleans2[x];
+      }
+    }
+    return openings;
+  }
+
+  private static int[][] getInts(TileType[][] mapTiles, TileType checkFor) {
+    int[][] ints = new int[mapTiles.length][mapTiles[0].length];
+    for (int x = 0; x < mapTiles.length; x++) {
+      for (int y = 0; y < mapTiles[0].length; y++) {
+        TileType tile = mapTiles[x][y];
+        if (tile != null && tile == checkFor) {
+          ints[x][y] = 1;
+        }
+      }
+    }
+    return ints;
   }
 
   private static void createBodies(Iterable<Line> edges, World box2dWorld) {
@@ -107,23 +148,6 @@ public final class HuldraWorld {
 
       body.createFixture(fixtureDef);
     }
-  }
-
-  public static Parallax getParallax(OrthographicCamera camera, WorldType type) {
-    Parallax parallax = null;
-
-    switch (type) {
-      case FOREST:
-        // parallax = new Parallax(..);
-        break;
-      case CAVES:
-        // parallax = new Parallax(..);
-        break;
-      default: // case TEST_STAGE
-        // parallax = new Parallax(..);
-        break;
-    }
-    return parallax;
   }
 
   /**
@@ -174,5 +198,35 @@ public final class HuldraWorld {
 
     }
     return max;
+  }
+
+  private static ArrayList<Line> getPlatforms(int[][] ints) {
+    ArrayList<Line> lines = new ArrayList<>();
+    for (int x = 0; x < ints.length; x++) {
+      for (int y = 0; y < ints[0].length; y++) {
+        if (ints[x][y] == 1) {
+          float newY = y + 1;
+          lines.add(new Line(x, newY, x + 1, newY));
+        }
+      }
+    }
+    return lines;
+  }
+
+  public static Parallax getParallax(OrthographicCamera camera, WorldType type) {
+    Parallax parallax = null;
+
+    switch (type) {
+      case FOREST:
+        // parallax = new Parallax(..);
+        break;
+      case CAVES:
+        // parallax = new Parallax(..);
+        break;
+      default: // case TEST_STAGE
+        // parallax = new Parallax(..);
+        break;
+    }
+    return parallax;
   }
 }
