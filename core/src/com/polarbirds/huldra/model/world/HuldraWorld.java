@@ -105,14 +105,14 @@ public final class HuldraWorld {
   private static boolean[][] addSectionsOpenings(Iterable<Section> sections, boolean[][] openings) {
     // Make sure boundaries of sections are true in reachableOpenings-array
     for (Section section : sections) {
-      boolean[] booleans1 = section.getSideArray(Side.LEFT);
-      boolean[] booleans2 = section.getSideArray(Side.RIGHT);
+      boolean[] booleans1 = section.openings.get(Side.LEFT);
+      boolean[] booleans2 = section.openings.get(Side.RIGHT);
       for (int y = 0; y < booleans1.length; y++) {
         openings[section.bounds.x][y] = booleans1[y];
         openings[section.bounds.x + section.bounds.width - 1][y] = booleans2[y];
       }
-      booleans1 = section.getSideArray(Side.TOP);
-      booleans2 = section.getSideArray(Side.BOTTOM);
+      booleans1 = section.openings.get(Side.TOP);
+      booleans2 = section.openings.get(Side.BOTTOM);
       for (int x = 0; x < booleans1.length; x++) {
         openings[x][section.bounds.y] = booleans1[x];
         openings[x][section.bounds.y + section.bounds.height - 1] = booleans2[x];

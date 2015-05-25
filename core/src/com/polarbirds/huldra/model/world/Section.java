@@ -4,6 +4,7 @@ import com.smokebox.lib.utils.geom.Bounds;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Harald on 16.5.15.
@@ -20,17 +21,17 @@ public class Section {
   A hashtable of boolean-arrays representing the sides of the section with
     a boolean array for each side, showing which tiles must be open along the edges
   */
-  private HashMap<Side, boolean[]> reachableOpenings;
+  Map<Side, boolean[]> openings;
 
   Section(Bounds bounds) {
     this.bounds = bounds;
 
-    reachableOpenings = new HashMap<>();
+    openings = new HashMap<>();
 
-    reachableOpenings.put(Side.LEFT, getTrueBoolean2(TILES_PER_SIDE * bounds.height));
-    reachableOpenings.put(Side.RIGHT, getTrueBoolean2(TILES_PER_SIDE * bounds.height));
-    reachableOpenings.put(Side.TOP, getTrueBoolean2(TILES_PER_SIDE * bounds.width));
-    reachableOpenings.put(Side.BOTTOM, getTrueBoolean2(TILES_PER_SIDE * bounds.width));
+    openings.put(Side.LEFT, getTrueBoolean2(TILES_PER_SIDE * bounds.height));
+    openings.put(Side.RIGHT, getTrueBoolean2(TILES_PER_SIDE * bounds.height));
+    openings.put(Side.TOP, getTrueBoolean2(TILES_PER_SIDE * bounds.width));
+    openings.put(Side.BOTTOM, getTrueBoolean2(TILES_PER_SIDE * bounds.width));
   }
 
   private boolean[] getTrueBoolean2(int length) {
@@ -39,6 +40,5 @@ public class Section {
     return booleans;
   }
 
-  
 
 }

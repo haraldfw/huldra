@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A class to hold a name of a section and it's openings Created by Harald on 23.5.15.
@@ -18,13 +19,12 @@ import java.util.List;
 final class TilesWithOpenings {
 
   final TileType[][] tiles;
-  final HashMap<Side, boolean[]> reachableOpenings;
+  final Map<Side, boolean[]> reachableOpenings;
 
   final int sectionWidth;
   final int sectionHeight;
 
-  TilesWithOpenings(TileType[][] tiles,
-                    HashMap<Side, boolean[]> reachableOpenings) {
+  TilesWithOpenings(TileType[][] tiles, Map<Side, boolean[]> reachableOpenings) {
     this.tiles = tiles;
     this.reachableOpenings = reachableOpenings;
 
