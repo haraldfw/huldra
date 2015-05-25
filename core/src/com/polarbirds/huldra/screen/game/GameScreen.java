@@ -1,5 +1,7 @@
 package com.polarbirds.huldra.screen.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -17,7 +19,7 @@ import java.util.Random;
 public class GameScreen implements Screen {
 
   public final HuldraGame game;
-  public final HuldraWorld world;
+  public HuldraWorld world;
   public final Stage stage; // stage containing game actors
   private final Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
 
@@ -27,7 +29,7 @@ public class GameScreen implements Screen {
 
     stage.setViewport(new ScreenViewport(game.camera));
 
-    world = WorldType.CAVES.getNew(1, 100, new Random().nextLong(), game.camera);
+    world = WorldType.CAVES.getNew(1, 10, new Random().nextLong(), game.camera);
 
     //stage.addActor(new Parallax());
   }
@@ -38,6 +40,9 @@ public class GameScreen implements Screen {
     world.step(delta);
     stage.draw();
     debugRenderer.render(world.box2dWorld, game.camera.combined);
+    if (Gdx.input.isKeyPressed(Input.Keys.R)) {
+      world = WorldType.CAVES.getNew(1, 10, new Random().nextLong(), game.camera);
+    }
   }
 
   @Override

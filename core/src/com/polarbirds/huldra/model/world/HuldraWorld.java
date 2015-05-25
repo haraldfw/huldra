@@ -25,7 +25,9 @@ public final class HuldraWorld {
 
     TilesWithOpenings.loadAndGetList();
 
-    IntVector2 shift = normalizeBoundsList(boundsList);
+    // normalize bounds. Since the spawn was previously on 0,0 it is now located on the shift
+    // applied
+    IntVector2 spawn = normalizeBoundsList(boundsList);
 
     box2dWorld = new World(new Vector2(0, -9.81f), false);
 

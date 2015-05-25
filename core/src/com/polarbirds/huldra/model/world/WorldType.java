@@ -43,7 +43,7 @@ public enum WorldType {
       int sectionsPlaced = 1;
       // loop until all sectionBoundsList are placed or the loop uses too many iterations
       for (int iterations = 0; iterations < 10000; iterations++) {
-        System.out.println("amountofsections " + sectionsPlaced + "/" + amountOfSections);
+        System.out.println("Sections placed: " + sectionsPlaced + "/" + amountOfSections);
 
         // find dimensions for a new sectionBounds
         int width = 1 + (int) Math.abs(random.nextGaussian() * sizeGaussianScale);
@@ -59,18 +59,23 @@ public enum WorldType {
         // find a section to expand from, and place a section there
         System.out.println("Finding combined location for dimensions: " + width + ", " + height);
         for (int iterations2 = 0; iterations2 < 10000; iterations2++) {
-          System.out.print("a");
           // choose a random section to try to expand from
-          SectionBounds sectionBounds =
+          SectionBounds bounds =
               sectionBoundsList.get(random.nextInt(sectionBoundsList.size()));
 
-          // get this location's openLocations
-          IntVector2 location =
-              getCombinedLocation(width, height, sectionBoundsList, sectionBounds, random);
-
-          // if no open locations, go to next iteration. This location is no good.
-          if (location.isZero()) {
-            continue;
+          System.out.print("SB:" + bounds.width + "," + bounds.height + ".");
+          // Vector to store
+          IntVector2 location;
+          {
+            // get this location's open possible surrounding locations
+            List<IntVector2> locations =
+                getLocationsAround(width, height, sectionBoundsList, bounds, random);
+            // if no open locations, go to next iteration. This location is no good
+            if (locations.isEmpty()) {
+              continue;
+            } else {
+              location = locations.get(random.nextInt(locations.size()));
+            }
           }
 
           sectionBoundsList.add(new SectionBounds(location.x, location.y, width, height));
@@ -115,49 +120,43 @@ public enum WorldType {
    * @param width      Width of the section to place
    * @param height     Height of the section to place
    * @param boundsList List of bounds to check collisions with
-   * @param bounds     SectionBounds to find location for.
+   * @param bounds     SectionBounds to find location around.
    * @return The location of the bottom left corner of bounds2 if they can be combined, (0, 0) if
    * they could not be combined at all
    */
-  private static IntVector2 getCombinedLocation(int width, int height,
-                                                Iterable<SectionBounds> boundsList,
-                                                SectionBounds bounds,
-                                                Random random) {
+  private static List<IntVector2> getLocationsAround(int width, int height,
+                                                     Iterable<SectionBounds> boundsList,
+                                                     SectionBounds bounds,
+                                                     Random random) {
     List<IntVector2> possibleLocations = new ArrayList<>();
     SectionBounds newBounds = new SectionBounds(0, 0, width, height);
 
     for (int x = bounds.x - newBounds.width + 1;
-         x < bounds.x + bounds.width + newBounds.width - 1;
+         x < bounds.x + bounds.width;
          x++) {
-      newBounds.x = x;
-      newBounds.y = bounds.y + bounds.height;
-      addIfNotCollides(newBounds, boundsList, possibleLocations);
-
-      newBounds.x = x;
-      newBounds.y = bounds.y - newBounds.height;
-      addIfNotCollides(newBounds, boundsList, possibleLocations);
+      addIfNotCollides(new SectionBounds(x, bounds.y + bounds.height, width, height),
+                       boundsList, possibleLocations);
+      addIfNotCollides(new SectionBounds(x, bounds.y - height, width, height),
+                       boundsList, possibleLocations);
     }
 
     for (int y = bounds.y - newBounds.height + 1;
-         y < bounds.y + bounds.width + newBounds.height - 1;
+         y < bounds.y + bounds.width;
          y++) {
-      newBounds.x = bounds.x + bounds.width;
-      newBounds.y = y;
-      addIfNotCollides(newBounds, boundsList, possibleLocations);
-
-      newBounds.x = bounds.x - newBounds.width;
-      newBounds.y = y;
-      addIfNotCollides(newBounds, boundsList, possibleLocations);
+      addIfNotCollides(new SectionBounds(bounds.x + bounds.width, y, width, height),
+                       boundsList, possibleLocations);
+      addIfNotCollides(new SectionBounds(bounds.x - width, y, width, height),
+                       boundsList, possibleLocations);
     }
 
-    return possibleLocations.size() == 0 ? new IntVector2() :
-           possibleLocations.get(random.nextInt(possibleLocations.size()));
+    System.out.print(possibleLocations.size());
+    return possibleLocations;
   }
 
-  private static void addIfNotCollides(SectionBounds bounds, Iterable<SectionBounds> otherBounds,
-                                Collection<IntVector2> locs) {
-    if (!bounds.collidesList(otherBounds)) {
-      locs.add(new IntVector2(bounds.x, bounds.y));
+  private static void addIfNotCollides(SectionBounds bounds, Iterable<SectionBounds> boundsList,
+                                       Collection<IntVector2> locations) {
+    if (!bounds.collidesList(boundsList)) {
+      locations.add(new IntVector2(bounds.x, bounds.y));
     }
   }
 
