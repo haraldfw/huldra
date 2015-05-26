@@ -62,10 +62,10 @@ public final class HuldraWorld {
 
     UnifiablePolyedge p = new UnifiablePolyedge(getInts(mapTiles, TileType.SOLID));
     p.unify();
-    createBodies(p.getEdges(), box2dWorld);
+    createBodies(p.getEdges());
     p = new UnifiablePolyedge(getPlatforms(getInts(mapTiles, TileType.PLATFORM)));
     p.unify();
-    createBodies(p.getEdges(), box2dWorld);
+    createBodies(p.getEdges());
     for (Bounds bounds : boundsList) {
       for (int x = 0; x < bounds.width * Section.TILES_PER_SIDE; x++) {
         for (int y = 0; y < bounds.height * Section.TILES_PER_SIDE; y++) {
@@ -106,7 +106,7 @@ public final class HuldraWorld {
     return tiles;
   }
 
-  private static boolean[][] addSectionOpenings(Iterable<Section> sections, boolean[][] openings) {
+  private boolean[][] addSectionOpenings(Iterable<Section> sections, boolean[][] openings) {
     // create an array to keep track of where there are sections
     boolean[][] fills = new boolean[openings.length][openings[0].length];
     for (Section section : sections) {
@@ -125,39 +125,43 @@ public final class HuldraWorld {
       Bounds b = section.bounds;
       for (int y = b.y * Section.TILES_PER_SIDE; y < (b.y + b.height) * Section.TILES_PER_SIDE;
            y++) {
-        if (fills[b.x * Section.TILES_PER_SIDE - 1][y]) {
-          openings[b.x * Section.TILES_PER_SIDE][y] = true;
+        int xCheck = b.x * Section.TILES_PER_SIDE - 1;
+        if (xCheck >= 0 && fills[xCheck][y]) {
+          openings[xCheck + 1][y] = true;
         }
-        if (fills[(b.x + b.width) * Section.TILES_PER_SIDE][y]) {
-          openings[(b.x + b.width) * Section.TILES_PER_SIDE - 1][y] = true;
+        xCheck = (b.x + b.width) * Section.TILES_PER_SIDE;
+        if (xCheck < fills.length && fills[(b.x + b.width) * Section.TILES_PER_SIDE][y]) {
+          openings[xCheck - 1][y] = true;
         }
       }
       for (int x = b.x * Section.TILES_PER_SIDE; x < (b.x + b.width) * Section.TILES_PER_SIDE;
            x++) {
-        if (fills[x][b.y * Section.TILES_PER_SIDE - 1]) {
-          openings[x][b.y * Section.TILES_PER_SIDE] = true;
+        int yCheck = b.y * Section.TILES_PER_SIDE - 1;
+        if (yCheck >= 0 && fills[x][yCheck]) {
+          openings[x][yCheck + 1] = true;
         }
-        if (fills[x][(b.y + b.height) * Section.TILES_PER_SIDE]) {
-          openings[x][(b.y + b.height) * Section.TILES_PER_SIDE - 1] = true;
+        yCheck = (b.y + b.height) * Section.TILES_PER_SIDE;
+        if (yCheck < fills[0].length && fills[x][yCheck]) {
+          openings[x][yCheck - 1] = true;
         }
       }
     }
     return openings;
   }
 
-  private static void placeVerTrue(int startX, int startY, int length, boolean[][] openings) {
+  private void placeVerTrue(int startX, int startY, int length, boolean[][] openings) {
     for (int y = 0; y < length; y++) {
       openings[startX][startY + y] = true;
     }
   }
 
-  private static void placeHorTrue(int startX, int startY, int length, boolean[][] openings) {
+  private void placeHorTrue(int startX, int startY, int length, boolean[][] openings) {
     for (int x = 0; x < length; x++) {
       openings[startX + x][startY] = true;
     }
   }
 
-  private static int[][] getInts(TileType[][] mapTiles, TileType checkFor) {
+  private int[][] getInts(TileType[][] mapTiles, TileType checkFor) {
     int[][] ints = new int[mapTiles.length][mapTiles[0].length];
     for (int x = 0; x < mapTiles.length; x++) {
       for (int y = 0; y < mapTiles[0].length; y++) {
@@ -170,7 +174,7 @@ public final class HuldraWorld {
     return ints;
   }
 
-  private static void createBodies(Iterable<Line> edges, World box2dWorld) {
+  private void createBodies(Iterable<Line> edges) {
     for (Line l : edges) {
       EdgeShape edgeShape = new EdgeShape();
       edgeShape.set(l.x, l.y, l.x2, l.y2);
@@ -193,7 +197,7 @@ public final class HuldraWorld {
    * @param boundsList List of bounds to normalize
    * @return IntVector of the shift that was applied
    */
-  private static IntVector2 normalizeBoundsList(Iterable<Bounds> boundsList) {
+  private IntVector2 normalizeBoundsList(Iterable<Bounds> boundsList) {
     IntVector2 shift = new IntVector2(Integer.MAX_VALUE, Integer.MAX_VALUE);
 
     for (Bounds bounds : boundsList) {
@@ -219,7 +223,7 @@ public final class HuldraWorld {
    * @param boundsList A normalized list of bounds-objects
    * @return The max bounds as an IntVector2
    */
-  private static IntVector2 getMaxBounds(Iterable<Bounds> boundsList) {
+  private IntVector2 getMaxBounds(Iterable<Bounds> boundsList) {
     IntVector2 max = new IntVector2(Integer.MIN_VALUE, Integer.MIN_VALUE);
 
     for (Bounds bounds : boundsList) {
@@ -236,7 +240,7 @@ public final class HuldraWorld {
     return max;
   }
 
-  private static ArrayList<Line> getPlatforms(int[][] ints) {
+  private ArrayList<Line> getPlatforms(int[][] ints) {
     ArrayList<Line> lines = new ArrayList<>();
     for (int x = 0; x < ints.length; x++) {
       for (int y = 0; y < ints[0].length; y++) {
