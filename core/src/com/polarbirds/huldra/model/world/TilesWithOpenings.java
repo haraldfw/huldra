@@ -33,8 +33,16 @@ final class TilesWithOpenings {
     height = tiles[0].length / Section.TILES_PER_SIDE;
   }
 
-  public boolean matches(Bounds bs, boolean[][] openings) {
+  boolean matches(Bounds bs, boolean[][] openings) {
     return bs.width == width && bs.height == height &&
+        overlaps(getVerLine(bs.x * Section.TILES_PER_SIDE,
+                               bs.y * Section.TILES_PER_SIDE,
+                               Section.TILES_PER_SIDE * bs.height, openings),
+                    reachableOpenings.get(Side.LEFT)) &&
+           overlaps(getVerLine((bs.x + bs.width) * Section.TILES_PER_SIDE - 1,
+                               bs.y * Section.TILES_PER_SIDE,
+                               Section.TILES_PER_SIDE * bs.height, openings),
+                    reachableOpenings.get(Side.RIGHT)) &&
            overlaps(getHorLine(bs.x * Section.TILES_PER_SIDE,
                                bs.y * Section.TILES_PER_SIDE,
                                Section.TILES_PER_SIDE * bs.width, openings),
@@ -42,15 +50,30 @@ final class TilesWithOpenings {
            overlaps(getHorLine(bs.x * Section.TILES_PER_SIDE,
                                (bs.y + bs.height) * Section.TILES_PER_SIDE - 1,
                                Section.TILES_PER_SIDE * bs.width, openings),
-                    reachableOpenings.get(Side.TOP)) &&
-           overlaps(getHorLine(bs.x * Section.TILES_PER_SIDE,
-                               bs.y * Section.TILES_PER_SIDE,
-                               Section.TILES_PER_SIDE * bs.height, openings),
-                    reachableOpenings.get(Side.LEFT)) &&
-           overlaps(getHorLine((bs.x + bs.width) * Section.TILES_PER_SIDE - 1,
-                               bs.y * Section.TILES_PER_SIDE,
-                               Section.TILES_PER_SIDE * bs.height, openings),
-                    reachableOpenings.get(Side.RIGHT));
+                    reachableOpenings.get(Side.TOP));
+  }
+
+  TilesWithOpenings getFlipped() {
+    TileType[][] flippedTiles = new TileType[tiles.length][tiles[0].length];
+    for(int x = 0; x < tiles.length; x++) {
+      for(int y = 0; y < tiles[0].length; y++) {
+        flippedTiles[x][y] = tiles[tiles.length - 1 - x][y];
+      }
+    }
+    Map<Side, boolean[]> flippedSides = new HashMap<>();
+    flippedSides.put(Side.RIGHT, reachableOpenings.get(Side.LEFT));
+    flippedSides.put(Side.LEFT, reachableOpenings.get(Side.RIGHT));
+    boolean[] toFlipTop = reachableOpenings.get(Side.TOP);
+    boolean[] flippedTop = new boolean[toFlipTop.length];
+    boolean[] toFlipBottom = reachableOpenings.get(Side.BOTTOM);
+    boolean[] flippedBottom = new boolean[toFlipBottom.length];
+    for(int i = 0; i < toFlipTop.length; i++) {
+      flippedTop[i] = toFlipTop[toFlipTop.length - 1 - i];
+      flippedBottom[i] = toFlipBottom[toFlipTop.length - 1 - i];
+    }
+    flippedSides.put(Side.TOP, flippedTop);
+    flippedSides.put(Side.BOTTOM, flippedBottom);
+    return new TilesWithOpenings(flippedTiles, flippedSides);
   }
 
   private boolean overlaps(boolean[] required, boolean[] booleans) {

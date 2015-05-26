@@ -125,6 +125,10 @@ public final class HuldraWorld {
       if (two.matches(section.bounds, openings)) {
         candidates.add(two);
       }
+      TilesWithOpenings twoFlipped = two.getFlipped();
+      if(twoFlipped.matches(section.bounds, openings)) {
+        candidates.add(twoFlipped);
+      }
     }
     return candidates.size() != 0 ? candidates.get(random.nextInt(candidates.size())).tiles
                                   : placeholderTiles(section);
