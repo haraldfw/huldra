@@ -93,17 +93,6 @@ public final class HuldraWorld {
     return placeholderTiles(section);
   }
 
-  private boolean overlaps(boolean[] required, boolean[] booleans) {
-    for (int i = 0; i < required.length; i++) {
-      boolean r = required[i];
-      boolean b = booleans[i];
-      if (r && !b) {
-        return true;
-      }
-    }
-    return true;
-  }
-
   private TileType[][] placeholderTiles(Section section) {
     TileType[][] tiles =
         new TileType[section.bounds.width * Section.TILES_PER_SIDE][section.bounds.height

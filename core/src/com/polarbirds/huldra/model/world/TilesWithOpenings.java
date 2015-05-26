@@ -32,15 +32,59 @@ final class TilesWithOpenings {
     sectionHeight = tiles[0].length / Section.TILES_PER_SIDE;
   }
 
-  boolean matches(Map<Side, boolean[]> requiredOpenings, int reqStart, int reqEnd,
-                  int tStart, int tEnd) {
-    for (int i = 0; i < reqEnd - reqStart; i++) {
-      ArrayList<boolean[]> groups = new ArrayList<>();
-
+  public boolean matches(int x, int y, int width, int height, boolean[][] openings) {
+    if (this.sectionWidth != width || this.sectionHeight == height) {
+      return false;
     }
-    return false;
+
+    return true;
   }
 
+  private boolean overlaps(boolean[] required, boolean[] booleans) {
+    List<List<Integer>> groups = getGroups(required);
+    for (List<Integer> group : groups) {
+      boolean covered = false;
+      for (Integer i : group) {
+        if (booleans[i]) {
+          covered = true;
+        }
+      }
+      if (!covered) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private List<List<Integer>> getGroups(boolean[] booleans) {
+    ArrayList<List<Integer>> groups = new ArrayList<>();
+    ArrayList<Integer> group = new ArrayList<>();
+    for (int i = 0; i < booleans.length; i++) {
+      if (booleans[i]) {
+        group.add(i);
+      } else {
+        groups.add(group);
+        group = new ArrayList<>();
+      }
+    }
+    return groups;
+  }
+
+  private boolean[] getHorLine(int sx, int sy, int length, boolean[][] openings) {
+    boolean[] booleans = new boolean[length];
+    for (int x = sx; x < booleans.length; x++) {
+      booleans[0] = openings[x][sy];
+    }
+    return booleans;
+  }
+
+  private boolean[] getVerLine(int sx, int sy, int length, boolean[][] openings) {
+    boolean[] booleans = new boolean[length];
+    for (int y = sy; y < booleans.length; y++) {
+      booleans[0] = openings[sx][y];
+    }
+    return booleans;
+  }
 
   static List<TilesWithOpenings> loadAndGetList() {
     List<TilesWithOpenings> sections = new ArrayList<>();
