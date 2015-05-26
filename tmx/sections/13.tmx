@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-up" width="24" height="8" tilewidth="16" tileheight="16" nextobjectid="1">
+ <properties>
+  <property name="BOTTOM" value="TTTTTTTTTTTTTTTTTTTTTTTT"/>
+  <property name="LEFT" value="TTTTTTTT"/>
+  <property name="RIGHT" value="TTTTTTTT"/>
+  <property name="TOP" value="TTTTTTTTTTTTTTTTTTTTTTTT"/>
+ </properties>
  <tileset firstgid="1" name="s" tilewidth="16" tileheight="16">
   <tile id="0">
    <image width="16" height="16" source="../textures/E.png"/>
