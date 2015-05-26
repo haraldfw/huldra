@@ -54,24 +54,24 @@ final class TilesWithOpenings {
   }
 
   private boolean overlaps(boolean[] required, boolean[] booleans) {
-    System.out.println("Req: ");
-    for (boolean b : required) {
-      System.out.print("[" + (b ? " " : "X") + "]");
-    }
-    System.out.println("bol: ");
+    System.out.print("req: ");
     for (boolean b : booleans) {
       System.out.print("[" + (b ? " " : "X") + "]");
     }
-    List<List<Integer>> groups = getGroups(required);
+    System.out.print("\nbol: ");
+    for (boolean b : required) {
+      System.out.print("[" + (b ? " " : "X") + "]");
+    }
+    List<List<Integer>> groups = getGroups(booleans);
     for (List<Integer> group : groups) {
       boolean covered = false;
       for (Integer i : group) {
-        if (booleans[i]) {
+        if (required[i]) {
           covered = true;
         }
       }
       if (!covered) {
-        System.out.println("NO MATCH");
+        System.out.println("\nNO MATCH");
         return false;
       }
     }
@@ -114,7 +114,7 @@ final class TilesWithOpenings {
     FileHandle dir = Gdx.files.internal("sections");
     System.out.println(dir);
     for (FileHandle file : dir.list()) {
-      System.out.print(file.toString());
+      System.out.print(new FileHandle(file.toString()).file().getAbsolutePath());
       if (file.name().contains(".sec")) {
         sections.add(parseSection(file.file().getAbsoluteFile()));
       }
