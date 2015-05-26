@@ -15,6 +15,7 @@ import com.smokebox.lib.utils.geom.UnifiablePolyedge;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -99,16 +100,6 @@ public final class HuldraWorld {
     p = new UnifiablePolyedge(getPlatforms(getInts(newTiles, TileType.PLATFORM)));
     p.unify();
     createBodies(p.getEdges());
-    for (Bounds bounds : boundsList) {
-      for (int x = 0; x < bounds.width * Section.TILES_PER_SIDE; x++) {
-        for (int y = 0; y < bounds.height * Section.TILES_PER_SIDE; y++) {
-          if (x == 0 || x == bounds.width * Section.TILES_PER_SIDE ||
-              y == 0 || y == Section.TILES_PER_SIDE) {
-            reachableOpenings[x][y] = true;
-          }
-        }
-      }
-    }
   }
 
   public void step(float delta) {
@@ -132,6 +123,13 @@ public final class HuldraWorld {
     }
     return candidates.size() != 0 ? candidates.get(random.nextInt(candidates.size())).tiles
                                   : placeholderTiles(section);
+  }
+
+  private boolean allTrue(boolean[] bs) {
+    for(boolean b : bs) {
+      if(!b) return false;
+    }
+    return true;
   }
 
   private TileType[][] placeholderTiles(Section section) {

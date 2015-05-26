@@ -69,7 +69,7 @@ final class TilesWithOpenings {
     boolean[] flippedBottom = new boolean[toFlipBottom.length];
     for(int i = 0; i < toFlipTop.length; i++) {
       flippedTop[i] = toFlipTop[toFlipTop.length - 1 - i];
-      flippedBottom[i] = toFlipBottom[toFlipTop.length - 1 - i];
+      flippedBottom[i] = toFlipBottom[toFlipBottom.length - 1 - i];
     }
     flippedSides.put(Side.TOP, flippedTop);
     flippedSides.put(Side.BOTTOM, flippedBottom);
@@ -78,37 +78,47 @@ final class TilesWithOpenings {
 
   private boolean overlaps(boolean[] required, boolean[] booleans) {
     System.out.print("req: ");
-    for (boolean b : booleans) {
-      System.out.print("[" + (b ? " " : "X") + "]");
-    }
-    System.out.print("\nbol: ");
     for (boolean b : required) {
       System.out.print("[" + (b ? " " : "X") + "]");
     }
-    List<List<Integer>> groups = getGroups(booleans);
+    System.out.print("\nbol: ");
+    for (boolean b : booleans) {
+      System.out.print("[" + (b ? " " : "X") + "]");
+    }
+    List<List<Integer>> groups = getGroups(required);
+    boolean allCovered = true;
+    System.out.println(groups.size());
     for (List<Integer> group : groups) {
       boolean covered = false;
       for (Integer i : group) {
-        if (required[i]) {
+        System.out.print("{" + i + "}");
+        if (booleans[i]) {
           covered = true;
+          break;
         }
       }
       if (!covered) {
-        System.out.println("\nNO MATCH");
-        return false;
+        allCovered = false;
       }
     }
-    System.out.println("\nMATCHES");
-    return true;
+    if(allCovered) {
+      System.out.println("\nMATCHES");
+      return true;
+    } else {
+      System.out.println("\nNO MATCH");
+      return false;
+    }
   }
 
   private List<List<Integer>> getGroups(boolean[] booleans) {
-    ArrayList<List<Integer>> groups = new ArrayList<>();
-    ArrayList<Integer> group = new ArrayList<>();
+    System.out.print("\nGetting group for: ");
+    for(boolean b : booleans) System.out.print(b);
+    List<List<Integer>> groups = new ArrayList<>();
+    List<Integer> group = new ArrayList<>();
     for (int i = 0; i < booleans.length; i++) {
       if (booleans[i]) {
         group.add(i);
-      } else {
+      } else if(!group.isEmpty()) {
         groups.add(group);
         group = new ArrayList<>();
       }
@@ -118,16 +128,16 @@ final class TilesWithOpenings {
 
   private boolean[] getHorLine(int sx, int sy, int length, boolean[][] openings) {
     boolean[] booleans = new boolean[length];
-    for (int x = sx; x < booleans.length; x++) {
-      booleans[0] = openings[x][sy];
+    for (int x = 0; x < booleans.length; x++) {
+      booleans[x] = openings[sx + x][sy];
     }
     return booleans;
   }
 
   private boolean[] getVerLine(int sx, int sy, int length, boolean[][] openings) {
     boolean[] booleans = new boolean[length];
-    for (int y = sy; y < booleans.length; y++) {
-      booleans[0] = openings[sx][y];
+    for (int y = 0; y < booleans.length; y++) {
+      booleans[y] = openings[sx][sy + y];
     }
     return booleans;
   }
