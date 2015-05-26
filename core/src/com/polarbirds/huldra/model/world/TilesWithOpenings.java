@@ -123,6 +123,7 @@ final class TilesWithOpenings {
         group = new ArrayList<>();
       }
     }
+    if(!group.isEmpty()) groups.add(group);
     return groups;
   }
 
