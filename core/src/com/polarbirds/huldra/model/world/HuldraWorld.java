@@ -13,6 +13,7 @@ import com.smokebox.lib.utils.geom.Line;
 import com.smokebox.lib.utils.geom.UnifiablePolyedge;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
@@ -36,7 +37,7 @@ public final class HuldraWorld {
 
     box2dWorld = new World(new Vector2(0, -9.81f), false);
 
-    List<Section> sections = new ArrayList<>();
+    Collection<Section> sections = new ArrayList<>();
     for (Bounds bounds : boundsList) {
       sections.add(new Section(bounds));
     }
@@ -61,10 +62,41 @@ public final class HuldraWorld {
       }
     }
 
-    UnifiablePolyedge p = new UnifiablePolyedge(getInts(mapTiles, TileType.SOLID));
+    for(Bounds bounds : boundsList) {
+      for (int x = 0; x < bounds.width * Section.TILES_PER_SIDE; x++) {
+        for (int y = 0; y < bounds.height * Section.TILES_PER_SIDE; y++) {
+          reachableOpenings[bounds.x*Section.TILES_PER_SIDE + x][bounds.y * Section.TILES_PER_SIDE + y] = true;
+        }
+      }
+    }
+
+    for (int x = 0; x < reachableOpenings.length; x++) {
+      for (int y = 0; y < reachableOpenings[0].length; y++) {
+        if (!reachableOpenings[x][y]) {
+          mapTiles[x][y] = TileType.SOLID;
+        }
+      }
+    }
+
+    TileType[][] newTiles = new TileType[mapTiles.length + 2][mapTiles[0].length + 2];
+    for (int x = 0; x < mapTiles.length; x++) {
+      for (int y = 0; y < mapTiles[0].length; y++) {
+        newTiles[x + 1][y + 1] = mapTiles[x][y];
+      }
+    }
+
+    for (int x = 0; x < newTiles.length; x++) {
+      for (int y = 0; y < newTiles[0].length; y++) {
+        if (x == 0 || x == newTiles.length - 1 || y == 0 || y == newTiles[0].length - 1) {
+          newTiles[x][y] = TileType.SOLID;
+        }
+      }
+    }
+
+    UnifiablePolyedge p = new UnifiablePolyedge(getInts(newTiles, TileType.SOLID));
     p.unify();
     createBodies(p.getEdges());
-    p = new UnifiablePolyedge(getPlatforms(getInts(mapTiles, TileType.PLATFORM)));
+    p = new UnifiablePolyedge(getPlatforms(getInts(newTiles, TileType.PLATFORM)));
     p.unify();
     createBodies(p.getEdges());
     for (Bounds bounds : boundsList) {
@@ -88,13 +120,14 @@ public final class HuldraWorld {
    */
   private TileType[][] getTilesForSection(Section section, boolean[][] openings,
                                           Iterable<TilesWithOpenings> twos, Random random) {
-    ArrayList<TilesWithOpenings> candidates = new ArrayList<>();
+    List<TilesWithOpenings> candidates = new ArrayList<>();
     for (TilesWithOpenings two : twos) {
-      if(two.matches(section.bounds, openings)) {
+      if (two.matches(section.bounds, openings)) {
         candidates.add(two);
       }
     }
-    return candidates.size() != 0 ? candidates.get(random.nextInt(candidates.size())).tiles : placeholderTiles(section);
+    return candidates.size() != 0 ? candidates.get(random.nextInt(candidates.size())).tiles
+                                  : placeholderTiles(section);
   }
 
   private TileType[][] placeholderTiles(Section section) {

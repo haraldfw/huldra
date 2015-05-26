@@ -75,7 +75,7 @@ final class TilesWithOpenings {
         return false;
       }
     }
-    System.out.println("MATCHES");
+    System.out.println("\nMATCHES");
     return true;
   }
 
