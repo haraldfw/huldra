@@ -147,7 +147,6 @@ final class TilesWithOpenings {
     FileHandle dir = Gdx.files.internal("sections");
     System.out.println(dir);
     for (FileHandle file : dir.list()) {
-      System.out.print(new FileHandle(file.toString()).file().getAbsolutePath());
       if (file.name().contains(".sec")) {
         sections.add(parseSection(file.file().getAbsoluteFile()));
       }
@@ -213,6 +212,9 @@ final class TilesWithOpenings {
           break;
         case 'T':
           tiles[i] = TileType.TOP_LADDER_PLATFORM;
+          break;
+        case 'W':
+          tiles[i] = TileType.WATER;
           break;
         default: // case 'S'
           tiles[i] = TileType.SOLID;

@@ -71,14 +71,6 @@ public final class HuldraWorld {
       }
     }
 
-    for (int x = 0; x < reachableOpenings.length; x++) {
-      for (int y = 0; y < reachableOpenings[0].length; y++) {
-        if (!reachableOpenings[x][y]) {
-          mapTiles[x][y] = TileType.SOLID;
-        }
-      }
-    }
-
     TileType[][] newTiles = new TileType[mapTiles.length + 2][mapTiles[0].length + 2];
     for (int x = 0; x < mapTiles.length; x++) {
       for (int y = 0; y < mapTiles[0].length; y++) {
@@ -91,6 +83,12 @@ public final class HuldraWorld {
         if (x == 0 || x == newTiles.length - 1 || y == 0 || y == newTiles[0].length - 1) {
           newTiles[x][y] = TileType.SOLID;
         }
+      }
+    }
+
+    for (int x = 0; x < mapTiles.length; x++) {
+      for (int y = 0; y < mapTiles[0].length; y++) {
+        if(mapTiles[x][y] == null) newTiles[x + 1][y + 1] = TileType.SOLID;
       }
     }
 
@@ -205,7 +203,7 @@ public final class HuldraWorld {
     for (int x = 0; x < mapTiles.length; x++) {
       for (int y = 0; y < mapTiles[0].length; y++) {
         TileType tile = mapTiles[x][y];
-        if (tile != null && tile == checkFor) {
+        if (tile == checkFor) {
           ints[x][y] = 1;
         }
       }
