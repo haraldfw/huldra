@@ -17,19 +17,17 @@ public enum WorldType {
 
   FOREST {
     @Override
-    public HuldraWorld getNew(double amountLargeSections, int amountOfSections, long seed,
+    public HuldraWorld getNew(double amountLargeSections, int amountOfSections, Random random,
                               OrthographicCamera camera) {
-      return TEST_STAGE.getNew(amountLargeSections, amountOfSections, seed, camera);
+      return TEST_STAGE.getNew(amountLargeSections, amountOfSections, random, camera);
     }
   },
 
   CAVES {
     @Override
-    public HuldraWorld getNew(double sizeGaussianScale, int amountOfSections, long seed,
+    public HuldraWorld getNew(double sizeGaussianScale, int amountOfSections, Random random,
                               OrthographicCamera camera) {
       System.out.println("Creating Caves with " + amountOfSections + " sections");
-
-      Random random = new Random(seed);
 
       ArrayList<Bounds> sectionBoundsList = new ArrayList<>();
 
@@ -89,23 +87,23 @@ public enum WorldType {
           break;
         }
       }
-      return new HuldraWorld(this, sectionBoundsList);
+      return new HuldraWorld(this, random, sectionBoundsList);
     }
   },
 
   TEST_STAGE {
     @Override
-    public HuldraWorld getNew(double amountLargeSections, int amountOfSections, long seed,
+    public HuldraWorld getNew(double amountLargeSections, int amountOfSections, Random random,
                               OrthographicCamera camera) {
       ArrayList<Bounds> sectionBoundsList = new ArrayList<>();
       sectionBoundsList.add(new Bounds(0, 0, 1, 1));
       ArrayList<Interactable> interactables = new ArrayList<>();
-      return new HuldraWorld(this, sectionBoundsList);
+      return new HuldraWorld(this, random, sectionBoundsList);
     }
   };
 
-  public abstract HuldraWorld getNew(double amountLargeSections, int amountOfSections, long seed,
-                                     OrthographicCamera camera);
+  public abstract HuldraWorld getNew(double amountLargeSections, int amountOfSections,
+                                     Random random, OrthographicCamera camera);
 
   /**
    * Returns the location of where bounds2 can be placed with no intersections. Note: Can safely

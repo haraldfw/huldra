@@ -2,6 +2,7 @@ package com.polarbirds.huldra.model.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.smokebox.lib.utils.geom.Bounds;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,26 +22,46 @@ final class TilesWithOpenings {
   final TileType[][] tiles;
   final Map<Side, boolean[]> reachableOpenings;
 
-  final int sectionWidth;
-  final int sectionHeight;
+  final int width;
+  final int height;
 
   TilesWithOpenings(TileType[][] tiles, Map<Side, boolean[]> reachableOpenings) {
     this.tiles = tiles;
     this.reachableOpenings = reachableOpenings;
 
-    sectionWidth = tiles.length / Section.TILES_PER_SIDE;
-    sectionHeight = tiles[0].length / Section.TILES_PER_SIDE;
+    width = tiles.length / Section.TILES_PER_SIDE;
+    height = tiles[0].length / Section.TILES_PER_SIDE;
   }
 
-  public boolean matches(int x, int y, int width, int height, boolean[][] openings) {
-    if (this.sectionWidth != width || this.sectionHeight == height) {
-      return false;
-    }
-
-    return true;
+  public boolean matches(Bounds bs, boolean[][] openings) {
+    return bs.width == width && bs.height == height &&
+           overlaps(getHorLine(bs.x * Section.TILES_PER_SIDE,
+                               bs.y * Section.TILES_PER_SIDE,
+                               Section.TILES_PER_SIDE * bs.width, openings),
+                    reachableOpenings.get(Side.BOTTOM)) &&
+           overlaps(getHorLine(bs.x * Section.TILES_PER_SIDE,
+                               (bs.y + bs.height) * Section.TILES_PER_SIDE - 1,
+                               Section.TILES_PER_SIDE * bs.width, openings),
+                    reachableOpenings.get(Side.TOP)) &&
+           overlaps(getHorLine(bs.x * Section.TILES_PER_SIDE,
+                               bs.y * Section.TILES_PER_SIDE,
+                               Section.TILES_PER_SIDE * bs.height, openings),
+                    reachableOpenings.get(Side.LEFT)) &&
+           overlaps(getHorLine((bs.x + bs.width) * Section.TILES_PER_SIDE - 1,
+                               bs.y * Section.TILES_PER_SIDE,
+                               Section.TILES_PER_SIDE * bs.height, openings),
+                    reachableOpenings.get(Side.RIGHT));
   }
 
   private boolean overlaps(boolean[] required, boolean[] booleans) {
+    System.out.println("Req: ");
+    for (boolean b : required) {
+      System.out.print("[" + (b ? " " : "X") + "]");
+    }
+    System.out.println("bol: ");
+    for (boolean b : booleans) {
+      System.out.print("[" + (b ? " " : "X") + "]");
+    }
     List<List<Integer>> groups = getGroups(required);
     for (List<Integer> group : groups) {
       boolean covered = false;
@@ -50,9 +71,11 @@ final class TilesWithOpenings {
         }
       }
       if (!covered) {
+        System.out.println("NO MATCH");
         return false;
       }
     }
+    System.out.println("MATCHES");
     return true;
   }
 
@@ -88,11 +111,15 @@ final class TilesWithOpenings {
 
   static List<TilesWithOpenings> loadAndGetList() {
     List<TilesWithOpenings> sections = new ArrayList<>();
-    for (FileHandle file : Gdx.files.internal("sections").list()) {
+    FileHandle dir = Gdx.files.internal("sections");
+    System.out.println(dir);
+    for (FileHandle file : dir.list()) {
+      System.out.print(file.toString());
       if (file.name().contains(".sec")) {
-        sections.add(parseSection(file.file()));
+        sections.add(parseSection(file.file().getAbsoluteFile()));
       }
     }
+    System.out.println("Loaded " + sections.size() + " TilesWithOpenings-files!");
     return sections;
   }
 
@@ -116,7 +143,6 @@ final class TilesWithOpenings {
         for (int x = 0; x < width; x++) {
           tiles[x][y] = tileRow[x];
         }
-        break;
       }
 
       HashMap<Side, boolean[]> reachableOpenings = new HashMap<>();

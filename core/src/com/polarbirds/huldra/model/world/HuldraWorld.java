@@ -14,6 +14,7 @@ import com.smokebox.lib.utils.geom.UnifiablePolyedge;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A class for this game's World. HuldraWorld contains a 2d array of Tile objects and an ArrayList
@@ -26,7 +27,7 @@ public final class HuldraWorld {
 
   private Parallax parallax;
 
-  HuldraWorld(WorldType worldType, Iterable<Bounds> boundsList) {
+  HuldraWorld(WorldType worldType, Random random, Iterable<Bounds> boundsList) {
     List<TilesWithOpenings> twos = TilesWithOpenings.loadAndGetList();
 
     // normalize bounds. Since the spawn was previously on 0,0 it is now located on the shift
@@ -52,7 +53,7 @@ public final class HuldraWorld {
 
     // Add the section's tiles to the map
     for (Section section : sections) {
-      TileType[][] sectionTiles = getTilesForSection(section, reachableOpenings, twos);
+      TileType[][] sectionTiles = getTilesForSection(section, reachableOpenings, twos, random);
       int baseX = section.bounds.x * Section.TILES_PER_SIDE;
       int baseY = section.bounds.y * Section.TILES_PER_SIDE;
       for (int x = 0; x < sectionTiles.length; x++) {
@@ -86,11 +87,14 @@ public final class HuldraWorld {
    * Returns tiles for the given sectionBounds, taking into account the sectionBounds' openings
    */
   private TileType[][] getTilesForSection(Section section, boolean[][] openings,
-                                          Iterable<TilesWithOpenings> twos) {
+                                          Iterable<TilesWithOpenings> twos, Random random) {
+    ArrayList<TilesWithOpenings> candidates = new ArrayList<>();
     for (TilesWithOpenings two : twos) {
-
+      if(two.matches(section.bounds, openings)) {
+        candidates.add(two);
+      }
     }
-    return placeholderTiles(section);
+    return candidates.size() != 0 ? candidates.get(random.nextInt(candidates.size())).tiles : placeholderTiles(section);
   }
 
   private TileType[][] placeholderTiles(Section section) {
