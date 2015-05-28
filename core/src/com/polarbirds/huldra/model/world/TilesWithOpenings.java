@@ -231,6 +231,9 @@ final class TilesWithOpenings {
     List<IntVector2> locs = new ArrayList<>();
     String[] splits = string.split(" ");
     for (String s : splits) {
+      if (s.isEmpty()) {
+        break;
+      }
       String[] coord = s.split(",");
       locs.add(new IntVector2(Integer.parseInt(coord[0]), Integer.parseInt(coord[1])));
     }
