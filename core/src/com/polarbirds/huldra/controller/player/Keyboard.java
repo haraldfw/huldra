@@ -2,12 +2,12 @@ package com.polarbirds.huldra.controller.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.polarbirds.huldra.controller.MotiveProcessor;
+import com.polarbirds.huldra.controller.IMotiveProcessor;
 
 /**
  * Created by Harald on 14.5.15.
  */
-public class Keyboard implements MotiveProcessor {
+public class Keyboard implements IMotiveProcessor {
 
   @Override
   public void update() {

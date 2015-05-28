@@ -2,7 +2,7 @@ package com.polarbirds.huldra.model.entity.player;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.polarbirds.huldra.controller.MotiveProcessor;
+import com.polarbirds.huldra.controller.IMotiveProcessor;
 import com.polarbirds.huldra.screen.game.GameScreen;
 
 /**
@@ -17,10 +17,10 @@ public abstract class PlayerCharacter extends Image {
   GameScreen game;
   private Body body;
 
-  private MotiveProcessor input;
+  private IMotiveProcessor input;
 
   public PlayerCharacter(Body body, float mass, float moveStrength, float jumpStrength,
-                         float baseDamage, GameScreen game, MotiveProcessor input) {
+                         float baseDamage, GameScreen game, IMotiveProcessor input) {
     this.mass = mass;
     this.moveStrength = moveStrength;
     this.jumpStrength = jumpStrength;

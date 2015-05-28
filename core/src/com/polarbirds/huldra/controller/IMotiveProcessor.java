@@ -4,7 +4,7 @@ package com.polarbirds.huldra.controller;
  * An interface for defining a motive. I. e.  xbox-controller, keyboard or an intelligence Created
  * by Harald on 14.5.15.
  */
-public interface MotiveProcessor {
+public interface IMotiveProcessor {
 
   float moveX();
 

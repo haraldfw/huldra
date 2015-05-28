@@ -2,7 +2,7 @@ package com.polarbirds.huldra.model.entity.player;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import com.polarbirds.huldra.controller.MotiveProcessor;
+import com.polarbirds.huldra.controller.IMotiveProcessor;
 import com.polarbirds.huldra.screen.game.GameScreen;
 
 /**
@@ -11,7 +11,7 @@ import com.polarbirds.huldra.screen.game.GameScreen;
 public class Knight extends PlayerCharacter {
 
   public Knight(GameScreen screen, float mass, float moveStrength,
-                float jumpStrength, float baseDamage, MotiveProcessor input) {
+                float jumpStrength, float baseDamage, IMotiveProcessor input) {
     super(createBody(screen.world.box2dWorld),
           mass, moveStrength, jumpStrength, baseDamage, screen, input);
   }

@@ -1,7 +1,7 @@
 package com.polarbirds.huldra.controller.player;
 
 import com.badlogic.gdx.controllers.Controller;
-import com.polarbirds.huldra.controller.MotiveProcessor;
+import com.polarbirds.huldra.controller.IMotiveProcessor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * A motive-processor for Xbox-controllers, intended for player-use Created by Harald on 14.5.15.
  */
-public class XboxController implements MotiveProcessor {
+public class XboxController implements IMotiveProcessor {
 
   Controller controller;
 
