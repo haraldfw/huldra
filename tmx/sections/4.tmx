@@ -4,6 +4,7 @@
   <property name="BOTTOM" value="FFFFFFFF"/>
   <property name="LEFT" value="FFFTTFTF"/>
   <property name="RIGHT" value="FFFTTFTF"/>
+  <property name="SPAWN" value="1,6"/>
   <property name="TOP" value="FFFFFFFF"/>
  </properties>
  <tileset firstgid="1" name="s" tilewidth="16" tileheight="16">
