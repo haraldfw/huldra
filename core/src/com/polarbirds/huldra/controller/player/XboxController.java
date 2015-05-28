@@ -106,7 +106,8 @@ public class XboxController implements IMotiveProcessor {
 
   @Override
   public float moveX() {
-    return controller.getAxis(1);
+    float move = controller.getAxis(1);
+    return Math.abs(move) > 0.25f ? move : 0;
   }
 
   @Override
