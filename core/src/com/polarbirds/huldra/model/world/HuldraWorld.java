@@ -25,17 +25,18 @@ import java.util.Random;
 public final class HuldraWorld {
 
   public final World box2dWorld;
-
+  public Vector2 spawn;
   private Parallax parallax;
 
   HuldraWorld(WorldType worldType, Random random, Iterable<Bounds> boundsList) {
     List<TilesWithOpenings> twos = TilesWithOpenings.loadAndGetList();
 
     // normalize bounds. Since the spawn was previously on 0,0 it is now located on the shift
-    // applied
-    IntVector2 spawn = normalizeBoundsList(boundsList);
+    // that was applied
+    IntVector2 intSpawn = normalizeBoundsList(boundsList);
 
-    box2dWorld = new World(new Vector2(0, -9.81f), false);
+    box2dWorld = new World(new Vector2(0, -25f), false);
+    World.setVelocityThreshold(0.1f);
 
     Collection<Section> sections = new ArrayList<>();
     for (Bounds bounds : boundsList) {
@@ -59,7 +60,9 @@ public final class HuldraWorld {
 
     // Add the section's tiles to the map
     for (Section section : sections) {
-      TileType[][] sectionTiles = getTilesForSection(section, reachableOpenings, twos, random);
+      TilesWithOpenings two = getTilesForSection(section, reachableOpenings, twos, random);
+      TileType[][] sectionTiles = two.tiles;
+      section.tilesWithOpenings = two;
       int baseX = section.bounds.x * Section.TILES_PER_SIDE;
       int baseY = section.bounds.y * Section.TILES_PER_SIDE;
       for (int x = 0; x < sectionTiles.length; x++) {
@@ -78,6 +81,22 @@ public final class HuldraWorld {
       }
     }
 
+    {
+      Section spawnSection = null;
+      for (Section s : sections) {
+        if (intSpawn.isLike(-s.bounds.x, -s.bounds.y)) {
+          spawnSection = s;
+        }
+      }
+      if (spawnSection == null) {
+        throw new NullPointerException("SpawnSection not in 'shift'!");
+      }
+      List<IntVector2> spawns = spawnSection.tilesWithOpenings.locs.get("SPAWN");
+      IntVector2 gottenSpawn = spawns.get(spawns.size() - 1);
+      spawn = new Vector2(spawnSection.bounds.x * Section.TILES_PER_SIDE + gottenSpawn.x,
+                          spawnSection.bounds.y * Section.TILES_PER_SIDE + gottenSpawn.y);
+    }
+
     UnifiablePolyedge p = new UnifiablePolyedge(getInts(mapTiles, TileType.SOLID));
     p.unify();
     createBodies(p.getEdges());
@@ -93,8 +112,8 @@ public final class HuldraWorld {
   /**
    * Returns tiles for the given sectionBounds, taking into account the sectionBounds' openings
    */
-  private TileType[][] getTilesForSection(Section section, boolean[][] openings,
-                                          Iterable<TilesWithOpenings> twos, Random random) {
+  private TilesWithOpenings getTilesForSection(Section section, boolean[][] openings,
+                                               Iterable<TilesWithOpenings> twos, Random random) {
     List<TilesWithOpenings> candidates = new ArrayList<>();
     for (TilesWithOpenings two : twos) {
       if (two.matches(section.bounds, openings)) {
@@ -105,8 +124,7 @@ public final class HuldraWorld {
         candidates.add(twoFlipped);
       }
     }
-    return candidates.size() != 0 ? candidates.get(random.nextInt(candidates.size())).tiles
-                                  : placeholderTiles(section);
+    return candidates.get(random.nextInt(candidates.size()));
   }
 
   private boolean allTrue(boolean[] bs) {
@@ -206,6 +224,7 @@ public final class HuldraWorld {
 
       FixtureDef fixtureDef = new FixtureDef();
       fixtureDef.shape = edgeShape;
+      fixtureDef.friction = l.isPerfectVertical() ? 0 : 0.8f;
 
       BodyDef bodyDef = new BodyDef();
       bodyDef.type = BodyDef.BodyType.StaticBody;

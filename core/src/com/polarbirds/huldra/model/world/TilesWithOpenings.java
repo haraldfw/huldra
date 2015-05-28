@@ -89,8 +89,7 @@ final class TilesWithOpenings {
       List<IntVector2> flipped = new ArrayList<>();
       for (IntVector2 vector : entry.getValue()) {
         IntVector2 fv =
-            new IntVector2(width * Section.TILES_PER_SIDE - vector.x,
-                           height * Section.TILES_PER_SIDE - vector.y);
+            new IntVector2(width * Section.TILES_PER_SIDE - vector.x, vector.y);
         flipped.add(fv);
       }
       flippedLocations.put(entry.getKey(), flipped);

@@ -17,6 +17,8 @@ public class Section {
 
   Bounds bounds;
 
+  TilesWithOpenings tilesWithOpenings;
+
   /*
   A hashtable of boolean-arrays representing the sides of the section with
     a boolean array for each side, showing which tiles must be open along the edges
