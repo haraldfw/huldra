@@ -24,7 +24,6 @@ import java.util.Random;
  */
 public final class HuldraWorld {
 
-
   public final World box2dWorld;
 
   private Parallax parallax;
@@ -50,8 +49,8 @@ public final class HuldraWorld {
         new TileType[maxBounds.x * Section.TILES_PER_SIDE + 2][maxBounds.y * Section.TILES_PER_SIDE
                                                                + 2];
 
-    for (int x = 0; x < mapTiles.length; x++) {
-      Arrays.fill(mapTiles[x], TileType.SOLID);
+    for (TileType[] tileTypes : mapTiles) {
+      Arrays.fill(tileTypes, TileType.SOLID);
     }
 
     // Array of reachable openings

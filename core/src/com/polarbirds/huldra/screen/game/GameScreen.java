@@ -19,9 +19,9 @@ import java.util.Random;
 public class GameScreen implements Screen {
 
   public final HuldraGame game;
-  public HuldraWorld world;
   public final Stage stage; // stage containing game actors
   private final Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
+  public HuldraWorld world;
 
   public GameScreen(HuldraGame game) {
     this.game = game;
@@ -38,7 +38,7 @@ public class GameScreen implements Screen {
     world.step(delta);
     stage.draw();
     debugRenderer.render(world.box2dWorld, game.camera.combined);
-    if(Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+    if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
       world = WorldType.CAVES.getNew(1, 50, new Random(), game.camera);
     }
   }
