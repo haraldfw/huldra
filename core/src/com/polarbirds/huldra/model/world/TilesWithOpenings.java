@@ -2,6 +2,7 @@ package com.polarbirds.huldra.model.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.smokebox.lib.utils.IntVector2;
 import com.smokebox.lib.utils.geom.Bounds;
 
 import java.io.BufferedReader;
@@ -21,13 +22,16 @@ final class TilesWithOpenings {
 
   final TileType[][] tiles;
   final Map<Side, boolean[]> reachableOpenings;
+  final Map<String, List<IntVector2>> locs;
 
   final int width;
   final int height;
 
-  TilesWithOpenings(TileType[][] tiles, Map<Side, boolean[]> reachableOpenings) {
+  TilesWithOpenings(TileType[][] tiles, Map<Side, boolean[]> reachableOpenings,
+                    Map<String, List<IntVector2>> locs) {
     this.tiles = tiles;
     this.reachableOpenings = reachableOpenings;
+    this.locs = locs;
 
     width = tiles.length / Section.TILES_PER_SIDE;
     height = tiles[0].length / Section.TILES_PER_SIDE;
@@ -35,7 +39,7 @@ final class TilesWithOpenings {
 
   boolean matches(Bounds bs, boolean[][] openings) {
     return bs.width == width && bs.height == height &&
-        overlaps(getVerLine(bs.x * Section.TILES_PER_SIDE,
+           overlaps(getVerLine(bs.x * Section.TILES_PER_SIDE,
                                bs.y * Section.TILES_PER_SIDE,
                                Section.TILES_PER_SIDE * bs.height, openings),
                     reachableOpenings.get(Side.LEFT)) &&
@@ -55,25 +59,44 @@ final class TilesWithOpenings {
 
   TilesWithOpenings getFlipped() {
     TileType[][] flippedTiles = new TileType[tiles.length][tiles[0].length];
-    for(int x = 0; x < tiles.length; x++) {
-      for(int y = 0; y < tiles[0].length; y++) {
+
+    for (int x = 0; x < tiles.length; x++) {
+      for (int y = 0; y < tiles[0].length; y++) {
         flippedTiles[x][y] = tiles[tiles.length - 1 - x][y];
       }
     }
+
     Map<Side, boolean[]> flippedSides = new HashMap<>();
+
     flippedSides.put(Side.RIGHT, reachableOpenings.get(Side.LEFT));
     flippedSides.put(Side.LEFT, reachableOpenings.get(Side.RIGHT));
+
     boolean[] toFlipTop = reachableOpenings.get(Side.TOP);
     boolean[] flippedTop = new boolean[toFlipTop.length];
     boolean[] toFlipBottom = reachableOpenings.get(Side.BOTTOM);
     boolean[] flippedBottom = new boolean[toFlipBottom.length];
-    for(int i = 0; i < toFlipTop.length; i++) {
+
+    for (int i = 0; i < toFlipTop.length; i++) {
       flippedTop[i] = toFlipTop[toFlipTop.length - 1 - i];
       flippedBottom[i] = toFlipBottom[toFlipBottom.length - 1 - i];
     }
+
     flippedSides.put(Side.TOP, flippedTop);
     flippedSides.put(Side.BOTTOM, flippedBottom);
-    return new TilesWithOpenings(flippedTiles, flippedSides);
+
+    Map<String, List<IntVector2>> flippedLocations = new HashMap<>();
+    for (Map.Entry<String, List<IntVector2>> entry : this.locs.entrySet()) {
+      List<IntVector2> flipped = new ArrayList<>();
+      for (IntVector2 vector : entry.getValue()) {
+        IntVector2 fv =
+            new IntVector2(width * Section.TILES_PER_SIDE - vector.x,
+                           height * Section.TILES_PER_SIDE - vector.y);
+        flipped.add(fv);
+      }
+      flippedLocations.put(entry.getKey(), flipped);
+    }
+
+    return new TilesWithOpenings(flippedTiles, flippedSides, flippedLocations);
   }
 
   private boolean overlaps(boolean[] required, boolean[] booleans) {
@@ -101,7 +124,7 @@ final class TilesWithOpenings {
         allCovered = false;
       }
     }
-    if(allCovered) {
+    if (allCovered) {
       System.out.println("\nMATCHES");
       return true;
     } else {
@@ -112,18 +135,22 @@ final class TilesWithOpenings {
 
   private List<List<Integer>> getGroups(boolean[] booleans) {
     System.out.print("\nGetting group for: ");
-    for(boolean b : booleans) System.out.print(b);
+    for (boolean b : booleans) {
+      System.out.print(b);
+    }
     List<List<Integer>> groups = new ArrayList<>();
     List<Integer> group = new ArrayList<>();
     for (int i = 0; i < booleans.length; i++) {
       if (booleans[i]) {
         group.add(i);
-      } else if(!group.isEmpty()) {
+      } else if (!group.isEmpty()) {
         groups.add(group);
         group = new ArrayList<>();
       }
     }
-    if(!group.isEmpty()) groups.add(group);
+    if (!group.isEmpty()) {
+      groups.add(group);
+    }
     return groups;
   }
 
@@ -185,15 +212,31 @@ final class TilesWithOpenings {
       reachableOpenings.put(Side.TOP, getStringAsBooleans(br.readLine()));
       reachableOpenings.put(Side.BOTTOM, getStringAsBooleans(br.readLine()));
 
+      Map<String, List<IntVector2>> locMap = new HashMap<>();
+      locMap.put("SPAWN", getStringAsVectors(br.readLine()));
+      locMap.put("CHEST", getStringAsVectors(br.readLine()));
+      locMap.put("ENEMY", getStringAsVectors(br.readLine()));
+
       br.close();
 
-      return new TilesWithOpenings(tiles, reachableOpenings);
+      return new TilesWithOpenings(tiles, reachableOpenings, locMap);
 
     } catch (IOException e) {
       e.printStackTrace();
       return null;
     }
   }
+
+  private static List<IntVector2> getStringAsVectors(String string) {
+    List<IntVector2> locs = new ArrayList<>();
+    String[] splits = string.split(" ");
+    for (String s : splits) {
+      String[] coord = s.split(",");
+      locs.add(new IntVector2(Integer.parseInt(coord[0]), Integer.parseInt(coord[1])));
+    }
+    return locs;
+  }
+
 
   private static TileType[] getStringAsTiles(String string) {
     // array of the tiles to return
