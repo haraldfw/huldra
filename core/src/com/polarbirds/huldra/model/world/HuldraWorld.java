@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -48,7 +47,8 @@ public final class HuldraWorld {
 
     // Array for map-tiles
     TileType[][] mapTiles =
-        new TileType[maxBounds.x * Section.TILES_PER_SIDE + 2][maxBounds.y * Section.TILES_PER_SIDE + 2];
+        new TileType[maxBounds.x * Section.TILES_PER_SIDE + 2][maxBounds.y * Section.TILES_PER_SIDE
+                                                               + 2];
 
     for (int x = 0; x < mapTiles.length; x++) {
       Arrays.fill(mapTiles[x], TileType.SOLID);
@@ -64,15 +64,17 @@ public final class HuldraWorld {
       int baseX = section.bounds.x * Section.TILES_PER_SIDE;
       int baseY = section.bounds.y * Section.TILES_PER_SIDE;
       for (int x = 0; x < sectionTiles.length; x++) {
-        System.arraycopy(sectionTiles[x], 0, mapTiles[baseX + x + 1], baseY + 1, sectionTiles[0].length);
+        System.arraycopy(sectionTiles[x], 0, mapTiles[baseX + x + 1], baseY + 1,
+                         sectionTiles[0].length);
       }
     }
 
     // add an opening in all tiles in each bounds
-    for(Bounds bounds : boundsList) {
+    for (Bounds bounds : boundsList) {
       for (int x = 0; x < bounds.width * Section.TILES_PER_SIDE; x++) {
         for (int y = 0; y < bounds.height * Section.TILES_PER_SIDE; y++) {
-          reachableOpenings[bounds.x*Section.TILES_PER_SIDE + x][bounds.y * Section.TILES_PER_SIDE + y] = true;
+          reachableOpenings[bounds.x * Section.TILES_PER_SIDE + x]
+              [bounds.y * Section.TILES_PER_SIDE + y] = true;
         }
       }
     }
@@ -100,7 +102,7 @@ public final class HuldraWorld {
         candidates.add(two);
       }
       TilesWithOpenings twoFlipped = two.getFlipped();
-      if(twoFlipped.matches(section.bounds, openings)) {
+      if (twoFlipped.matches(section.bounds, openings)) {
         candidates.add(twoFlipped);
       }
     }
@@ -109,8 +111,10 @@ public final class HuldraWorld {
   }
 
   private boolean allTrue(boolean[] bs) {
-    for(boolean b : bs) {
-      if(!b) return false;
+    for (boolean b : bs) {
+      if (!b) {
+        return false;
+      }
     }
     return true;
   }
