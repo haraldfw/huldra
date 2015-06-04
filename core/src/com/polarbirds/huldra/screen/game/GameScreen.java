@@ -3,13 +3,11 @@ package com.polarbirds.huldra.screen.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.controllers.Controllers;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.polarbirds.huldra.HuldraGame;
-import com.polarbirds.huldra.controller.player.XboxController;
+import com.polarbirds.huldra.controller.player.Keyboard;
 import com.polarbirds.huldra.model.entity.player.Knight;
 import com.polarbirds.huldra.model.entity.player.PlayerCharacter;
 import com.polarbirds.huldra.model.world.HuldraWorld;
@@ -24,20 +22,24 @@ import java.util.Random;
 public class GameScreen implements Screen {
 
   public final HuldraGame game;
-  public final Stage stage; // stage containing game actors
+  public Stage stage; // stage containing game actors
   private final Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
   public HuldraWorld world;
   private PlayerCharacter player;
 
   public GameScreen(HuldraGame game) {
     this.game = game;
+    init();
+  }
+
+  private void init() {
     stage = new Stage(); // create the game stage
 
     stage.setViewport(new ScreenViewport(game.camera));
 
     world = WorldType.CAVES.getNew(1, 50, new Random(), game.camera);
     player = new Knight(this, world.spawn,
-                        new XboxController(Controllers.getControllers().get(0)));
+                        new Keyboard());
     stage.addActor(player);
   }
 
@@ -49,7 +51,7 @@ public class GameScreen implements Screen {
     stage.draw();
     debugRenderer.render(world.box2dWorld, game.camera.combined);
     if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
-      world = WorldType.CAVES.getNew(1, 50, new Random(), game.camera);
+      init();
     }
   }
 

@@ -6,9 +6,8 @@ import com.smokebox.lib.utils.IntVector2;
 import com.smokebox.lib.utils.geom.Bounds;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -175,16 +174,17 @@ final class TilesWithOpenings {
     System.out.println(dir);
     for (FileHandle file : dir.list()) {
       if (file.name().contains(".sec")) {
-        sections.add(parseSection(file.file().getAbsoluteFile()));
+        sections.add(parseSection(file));
       }
     }
+    sections.add(parseSection(Gdx.files.internal("sections/1.sec")));
     System.out.println("Loaded " + sections.size() + " TilesWithOpenings-files!");
     return sections;
   }
 
-  private static TilesWithOpenings parseSection(File file) {
+  private static TilesWithOpenings parseSection(FileHandle fileHandle) {
     try {
-      FileInputStream inputStream = new FileInputStream(file);
+      InputStream inputStream = fileHandle.read();
 
       //Construct BufferedReader from InputStreamReader
       BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
