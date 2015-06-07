@@ -21,26 +21,24 @@ public final class Keyboard extends InputProcessor {
 
   @Override
   public float moveX() {
-    float left = Gdx.input.isKeyPressed(Input.Keys.A) ? -1 : 0;
-    float right = Gdx.input.isKeyPressed(Input.Keys.D) ? 1 : 0;
-    return left + right;
+    return (Gdx.input.isKeyPressed(Input.Keys.A) ? -1 : 0) +
+           (Gdx.input.isKeyPressed(Input.Keys.D) ? 1 : 0);
   }
 
   @Override
   public float moveY() {
-    float up = Gdx.input.isKeyPressed(Input.Keys.W) ? 1 : 0;
-    float down = Gdx.input.isKeyPressed(Input.Keys.S) ? -1 : 0;
-    return up + down;
+    return (Gdx.input.isKeyPressed(Input.Keys.W) ? 1 : 0) +
+           (Gdx.input.isKeyPressed(Input.Keys.S) ? -1 : 0);
   }
 
   @Override
   public float lookX() {
-    return Gdx.input.getX() / (float) HuldraGame.X_PIXELS - camera.position.x;
+    return 1 - 1 / ((Gdx.input.getX() - HuldraGame.X_PIXELS / 2) / (float) HuldraGame.X_PIXELS + 1);
   }
 
   @Override
   public float lookY() {
-    return Gdx.input.getY() / (float) HuldraGame.Y_PIXELS - camera.position.y;
+    return 1 - 1 / ((Gdx.input.getY() - HuldraGame.Y_PIXELS / 2) / (float) HuldraGame.Y_PIXELS + 1);
   }
 
   @Override
