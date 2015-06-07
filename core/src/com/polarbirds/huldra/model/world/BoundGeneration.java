@@ -13,14 +13,14 @@ import java.util.Random;
  */
 final class BoundGeneration {
 
-  float csHor;
-  float csVer;
-  float csSpread;
-  double csSize;
-  Random random;
+  private float csHor;
+  private float csVer;
+  private float csSpread;
+  private double csSize;
+  private Random random;
 
   BoundGeneration(float csHor, float csVer, float csSpread, double csSize,
-                         Random random) {
+                  Random random) {
     this.csHor = csHor;
     this.csVer = csVer;
     this.csSize = csSize;
@@ -45,7 +45,8 @@ final class BoundGeneration {
     return new IntVector2(width, height);
   }
 
-  private IntVector2 getLocation(IntVector2 dimensions, Iterable<Bounds> boundsList, Bounds bounds) {
+  private IntVector2 getLocation(IntVector2 dimensions, Iterable<Bounds> boundsList,
+                                 Bounds bounds) {
     // get this location's open possible surrounding locations
     List<IntVector2> locations = getLocationsAround(dimensions.x, dimensions.y, boundsList, bounds);
     // if no open locations, return null, This bounds-object is no good
