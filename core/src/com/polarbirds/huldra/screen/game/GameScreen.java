@@ -39,7 +39,7 @@ public class GameScreen implements Screen {
 
     world = WorldType.CAVES.getNew(1, 50, new Random(), game.camera);
     player = new Knight(this, world.spawn,
-                        new Keyboard());
+                        new Keyboard(game.camera));
     stage.addActor(player);
   }
 

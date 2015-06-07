@@ -1,7 +1,7 @@
 package com.polarbirds.huldra.model.world;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.polarbirds.huldra.model.inanimate.Interactable;
+import com.polarbirds.huldra.model.entity.inanimate.Interactable;
 import com.smokebox.lib.utils.IntVector2;
 import com.smokebox.lib.utils.geom.Bounds;
 
@@ -29,65 +29,8 @@ public enum WorldType {
                               OrthographicCamera camera) {
       System.out.println("Creating Caves with " + amountOfSections + " sections");
 
-      ArrayList<Bounds> sectionBoundsList = new ArrayList<>();
-
-      { // place spawn
-        Bounds spawn = new Bounds(0, 0, 1, 1);
-
-        sectionBoundsList.add(spawn);
-        System.out.println("Placed spawn");
-      }
-
-      // place down section until requirement amountOfSections is met
-      int sectionsPlaced = 1;
-      // loop until all sectionBoundsList are placed or the loop uses too many iterations
-      for (int iterations = 0; iterations < 10000; iterations++) {
-        System.out.println("Sections placed: " + sectionsPlaced + "/" + amountOfSections);
-
-        // find dimensions for a new sectionBounds
-        int width = 1 + (int) Math.abs(random.nextGaussian() * sizeGaussianScale);
-        int height = 1 + (int) Math.abs(random.nextGaussian() * sizeGaussianScale);
-
-        if (width > Section.BOUNDS_MAX_WIDTH) {
-          width = Section.BOUNDS_MAX_WIDTH;
-        }
-        if (height > Section.BOUNDS_MAX_HEIGHT) {
-          height = Section.BOUNDS_MAX_HEIGHT;
-        }
-
-        // find a section to expand from, and place a section there
-        System.out.println("Finding combined location for dimensions: " + width + ", " + height);
-        for (int iterations2 = 0; iterations2 < 10000; iterations2++) {
-          // choose a random section to try to expand from
-          Bounds bounds =
-              sectionBoundsList.get(random.nextInt(sectionBoundsList.size()));
-
-          System.out.print("SB:(" + bounds.width + "," + bounds.height + ")#");
-          // Vector to store
-          IntVector2 location;
-          {
-            // get this location's open possible surrounding locations
-            List<IntVector2> locations =
-                getLocationsAround(width, height, sectionBoundsList, bounds, random);
-            // if no open locations, go to next iteration. This location is no good
-            if (locations.isEmpty()) {
-              continue;
-            } else {
-              location = locations.get(random.nextInt(locations.size()));
-            }
-          }
-
-          sectionBoundsList.add(new Bounds(location.x, location.y, width, height));
-          sectionsPlaced++;
-          break;
-        }
-        System.out.println();
-
-        if (sectionsPlaced >= amountOfSections) {
-          break;
-        }
-      }
-      return new HuldraWorld(this, random, sectionBoundsList);
+      return new HuldraWorld(this, random,
+                             generateBoundsList(amountOfSections, 1, 1, 0.8f, sizeGaussianScale, random));
     }
   },
 
@@ -104,6 +47,83 @@ public enum WorldType {
 
   public abstract HuldraWorld getNew(double amountLargeSections, int amountOfSections,
                                      Random random, OrthographicCamera camera);
+
+  private static List<Bounds> generateBoundsList(int amountOfSections,
+                                                 float csHorizontal,
+                                                 float csVertical,
+                                                 float csSpread,
+                                                 double csSize,
+                                                 Random random) {
+    csHorizontal = cap(csHorizontal, 0, 1);
+    csVertical = cap(csVertical, 0, 1);
+
+    ArrayList<Bounds> boundsList = new ArrayList<>();
+
+    { // place spawn
+      Bounds spawn = new Bounds(0, 0, 1, 1);
+
+      boundsList.add(spawn);
+      System.out.println("Placed spawn");
+    }
+
+    // place down section until required amountOfSections is met
+    int sectionsPlaced = 1;
+    // loop until all sectionBoundsList are placed or the loop uses too many iterations
+    for (int iterations = 0; iterations < 10000; iterations++) {
+      System.out.println("Sections placed: " + sectionsPlaced + "/" + amountOfSections);
+
+      // find dimensions for a new sectionBounds
+      int width = 1 + (int) Math.abs(random.nextGaussian() * csSize);
+      int height = 1 + (int) Math.abs(random.nextGaussian() * csSize);
+
+      if (width > Section.BOUNDS_MAX_WIDTH) {
+        width = Section.BOUNDS_MAX_WIDTH;
+      }
+      if (height > Section.BOUNDS_MAX_HEIGHT) {
+        height = Section.BOUNDS_MAX_HEIGHT;
+      }
+
+      SpreadComparator spreadComparator = new SpreadComparator();
+
+      // find a section to expand from, and place a section there
+      System.out.println("Finding combined location for dimensions: " + width + ", " + height);
+      for (int iterations2 = 0; iterations2 < 10000; iterations2++) {
+        // choose a random section to try to expand from
+        boundsList.sort(spreadComparator);
+        Bounds bounds =
+            boundsList.get((int) random.nextGaussian(boundsList.size()));
+
+        System.out.print("SB:(" + bounds.width + "," + bounds.height + ")#");
+        // Vector to store
+        IntVector2 location;
+        {
+          // get this location's open possible surrounding locations
+          List<IntVector2> locations =
+              getLocationsAround(width, height, boundsList, bounds, random);
+          // if no open locations, go to next iteration. This location is no good
+          if (locations.isEmpty()) {
+            continue;
+          } else {
+            location = locations.get(random.nextInt(locations.size()));
+          }
+        }
+
+        boundsList.add(new Bounds(location.x, location.y, width, height));
+        sectionsPlaced++;
+        break;
+      }
+      System.out.println();
+
+      if (sectionsPlaced >= amountOfSections) {
+        break;
+      }
+    }
+    return boundsList;
+  }
+
+  private static float cap(float nr, float bottom, float top) {
+    return nr < bottom ? bottom : nr > top ? top : nr;
+  }
 
   /**
    * Returns the location of where bounds2 can be placed with no intersections. Note: Can safely

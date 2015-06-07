@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.model.inanimate;
+package com.polarbirds.huldra.model.entity.inanimate;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.polarbirds.huldra.model.entity.player.PlayerCharacter;
