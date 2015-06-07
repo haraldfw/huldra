@@ -1,7 +1,7 @@
 package com.polarbirds.huldra.model.world;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.polarbirds.huldra.model.entity.Interactable;
+import com.polarbirds.huldra.model.inanimate.Interactable;
 import com.smokebox.lib.utils.IntVector2;
 import com.smokebox.lib.utils.geom.Bounds;
 
