@@ -134,7 +134,7 @@ final class TilesWithOpenings {
   private List<List<Integer>> getGroups(boolean[] booleans) {
     System.out.print("\nGetting group for: ");
     for (boolean b : booleans) {
-      System.out.print(b);
+      System.out.print("[" + (b ? "t" : "f") + "]");
     }
     List<List<Integer>> groups = new ArrayList<>();
     List<Integer> group = new ArrayList<>();
@@ -171,7 +171,6 @@ final class TilesWithOpenings {
   static List<TilesWithOpenings> loadAndGetList() {
     List<TilesWithOpenings> sections = new ArrayList<>();
     FileHandle dir = Gdx.files.internal("sections");
-    System.out.println(dir);
     for (FileHandle file : dir.list()) {
       if (file.name().contains(".sec")) {
         sections.add(parseSection(file));
