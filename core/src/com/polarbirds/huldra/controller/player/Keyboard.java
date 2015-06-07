@@ -2,16 +2,21 @@ package com.polarbirds.huldra.controller.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.polarbirds.huldra.controller.IMotiveProcessor;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.polarbirds.huldra.HuldraGame;
+
+import java.util.HashMap;
 
 /**
  * Created by Harald on 14.5.15.
  */
-public class Keyboard implements IMotiveProcessor {
+public final class Keyboard extends InputProcessor {
 
-  @Override
-  public void update() {
+  OrthographicCamera camera;
 
+  public Keyboard(OrthographicCamera camera) {
+    super(getKeys());
+    this.camera = camera;
   }
 
   @Override
@@ -30,45 +35,27 @@ public class Keyboard implements IMotiveProcessor {
 
   @Override
   public float lookX() {
-    float left = Gdx.input.isKeyPressed(Input.Keys.LEFT) ? -1 : 0;
-    float right = Gdx.input.isKeyPressed(Input.Keys.RIGHT) ? 1 : 0;
-    return left + right;
+    return Gdx.input.getX() / (float) HuldraGame.X_PIXELS - camera.position.x;
   }
 
   @Override
   public float lookY() {
-    float up = Gdx.input.isKeyPressed(Input.Keys.UP) ? 1 : 0;
-    float down = Gdx.input.isKeyPressed(Input.Keys.DOWN) ? -1 : 0;
-    return up + down;
+    return Gdx.input.getY() / (float) HuldraGame.Y_PIXELS - camera.position.y;
   }
 
   @Override
-  public boolean attack1() {
-    return false;
+  protected boolean getPressed(int key) {
+    return Gdx.input.isKeyPressed(key);
   }
 
-  @Override
-  public boolean attack2() {
-    return false;
-  }
-
-  @Override
-  public boolean jump() {
-    return Gdx.input.isKeyPressed(Input.Keys.SPACE);
-  }
-
-  @Override
-  public boolean interact() {
-    return Gdx.input.isKeyPressed(Input.Keys.E);
-  }
-
-  @Override
-  public boolean pause() {
-    return false;
-  }
-
-  @Override
-  public boolean toggleMenu() {
-    return false;
+  private static HashMap<String, Integer> getKeys() {
+    HashMap<String, Integer> keys = new HashMap<>();
+    keys.put("attack1", Input.Keys.J);
+    keys.put("attack2", Input.Keys.K);
+    keys.put("jump", Input.Keys.SPACE);
+    keys.put("interact", Input.Keys.E);
+    keys.put("menu", Input.Keys.TAB);
+    keys.put("pause", Input.Keys.ESCAPE);
+    return keys;
   }
 }
