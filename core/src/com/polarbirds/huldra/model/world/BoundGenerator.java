@@ -127,14 +127,12 @@ final class BoundGenerator {
       // find dimensions for a new sectionBounds
       IntVector2 dimensions = getSize();
 
-      SpreadComparator spreadComparator = new SpreadComparator(csHor, csVer);
-
       // find a section to expand from, and place a section there
       System.out.println(
           "Finding combined location for dimensions: " + dimensions.y + ", " + dimensions.y);
       for (int iterations2 = 0; iterations2 < 10000; iterations2++) {
         // Sort boundsList by their distance from spawn
-        boundsList.sort(spreadComparator);
+        boundsList.sort(new SpreadComparator(csHor, csVer));
 
         // choose a random section to try to expand from
         Bounds bounds = boundsList.get(getNewSelection(boundsList.size()));

@@ -10,9 +10,17 @@ import java.util.Comparator;
  */
 class SpreadComparator implements Comparator<Bounds> {
 
+  private final float csHor;
+  private final float csVer;
+
+  public SpreadComparator(float csHor, float csVer) {
+    this.csHor = csHor;
+    this.csVer = csVer;
+  }
+
   @Override
   public int compare(Bounds b1, Bounds b2) {
-    return (b1.x + b1.width / 2f) * (b1.y + b1.height / 2f) <
-           (b2.x + b2.width / 2f) * (b2.y + b2.height / 2f) ? -1 : 1;
+    return (b1.x + b1.width / 2f) + (b1.y + b1.height / 2f) <
+           (b2.x + b2.width / 2f) + (b2.y + b2.height / 2f) ? -1 : 1;
   }
 }
