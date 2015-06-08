@@ -14,30 +14,27 @@ public enum WorldType {
 
   FOREST {
     @Override
-    public HuldraWorld getNew(double amountLargeSections, int amountOfSections, Random random,
-                              OrthographicCamera camera) {
-      return TEST_STAGE.getNew(amountLargeSections, amountOfSections, random, camera);
+    public HuldraWorld getNew(double csSize, int sectionCount, Random random) {
+      return TEST_STAGE.getNew(csSize, sectionCount, random);
     }
   },
 
   CAVES {
     @Override
-    public HuldraWorld getNew(double sizeGaussianScale, int amountOfSections, Random random,
-                              OrthographicCamera camera) {
-      System.out.println("Creating Caves with " + amountOfSections + " sections");
+    public HuldraWorld getNew(double csSize, int sectionCount, Random random) {
+      System.out.println("Creating Caves with " + sectionCount + " sections");
 
       return new HuldraWorld(
           this,
           random,
-          new BoundGenerator(1, 1, 0, sizeGaussianScale, random).generateBoundsList(amountOfSections)
+          new BoundGenerator(1, 1, 0, csSize, random).generateBoundsList(sectionCount)
       );
     }
   },
 
   TEST_STAGE {
     @Override
-    public HuldraWorld getNew(double amountLargeSections, int amountOfSections, Random random,
-                              OrthographicCamera camera) {
+    public HuldraWorld getNew(double csSize, int sectionCount, Random random) {
       ArrayList<Bounds> sectionBoundsList = new ArrayList<>();
       sectionBoundsList.add(new Bounds(0, 0, 1, 1));
       ArrayList<Interactable> interactables = new ArrayList<>();
@@ -45,6 +42,13 @@ public enum WorldType {
     }
   };
 
-  public abstract HuldraWorld getNew(double amountLargeSections, int amountOfSections,
-                                     Random random, OrthographicCamera camera);
+  /**
+   * Method for generating a HuldraWorld-object of the given type and parameters.
+   * @param csSize        Chance scale size. The higher the number, the more large rooms.
+   * @param sectionCount How many sections to generate
+   * @param random       Random-object to use
+   * @return             A HuldraWorld instance with the information
+   */
+  public abstract HuldraWorld getNew(double csSize, int sectionCount,
+                                     Random random);
 }

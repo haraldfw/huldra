@@ -37,7 +37,7 @@ public class GameScreen implements Screen {
 
     stage.setViewport(new ScreenViewport(game.camera));
 
-    world = WorldType.CAVES.getNew(1, 50, new Random(), game.camera);
+    world = WorldType.CAVES.getNew(1, 20, new Random());
     player = new Knight(this, world.spawn,
                         new Keyboard(game.camera));
     stage.addActor(player);
