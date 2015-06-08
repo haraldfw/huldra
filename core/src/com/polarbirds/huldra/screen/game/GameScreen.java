@@ -22,8 +22,8 @@ import java.util.Random;
 public class GameScreen implements Screen {
 
   public final HuldraGame game;
-  public Stage stage; // stage containing game actors
   private final Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
+  public Stage stage; // stage containing game actors
   public HuldraWorld world;
   private PlayerCharacter player;
 

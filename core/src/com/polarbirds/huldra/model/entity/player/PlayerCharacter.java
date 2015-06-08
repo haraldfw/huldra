@@ -11,7 +11,7 @@ import com.polarbirds.huldra.screen.game.GameScreen;
  */
 public abstract class PlayerCharacter extends Image {
 
-  private static final float sJump = 5f; // probably should be around 8
+  private static final float sJump = 5f;
   private final float moveStrength;
   private final float baseDamage;
   private final float halfWidth;
@@ -51,4 +51,5 @@ public abstract class PlayerCharacter extends Image {
   public void setCanJump(boolean canJump) {
     this.canJump = canJump;
   }
+
 }

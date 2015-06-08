@@ -25,7 +25,6 @@ public class Knight extends PlayerCharacter {
   }
 
   private static Body createBody(Vector2 pos, World world) {
-
     PolygonShape shape = new PolygonShape();
     shape.setAsBox(halfWidth, halfHeight);
 
@@ -44,8 +43,6 @@ public class Knight extends PlayerCharacter {
 
     Body body = world.createBody(bodyDef);
     body.createFixture(fixtureDef);
-
-
 
     return body;
   }

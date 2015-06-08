@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * A class to generate the boundslist used in the WorldTypes
- * Created by Harald Wilhelmsen on 7/6/2015.
+ * A class to generate the boundslist used in the WorldTypes. Created by Harald Wilhelmsen on
+ * 7/6/2015.
  */
 final class BoundGenerator {
 
