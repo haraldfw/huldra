@@ -2,11 +2,9 @@ package com.polarbirds.huldra.model.world;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.polarbirds.huldra.model.entity.inanimate.Interactable;
-import com.smokebox.lib.utils.IntVector2;
 import com.smokebox.lib.utils.geom.Bounds;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -31,7 +29,7 @@ public enum WorldType {
       return new HuldraWorld(
           this,
           random,
-          new BoundGeneration(1, 1, 0, sizeGaussianScale, random).generateBoundsList(amountOfSections)
+          new BoundGenerator(1, 1, 0, sizeGaussianScale, random).generateBoundsList(amountOfSections)
       );
     }
   },
