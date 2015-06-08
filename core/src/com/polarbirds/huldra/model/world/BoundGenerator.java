@@ -51,11 +51,10 @@ final class BoundGenerator {
     // get this location's open possible surrounding locations
     List<IntVector2> locations = getLocationsAround(dimensions.x, dimensions.y, boundsList, bounds);
     // if no open locations, return null, This bounds-object is no good
-    if (locations.isEmpty()) {
-      return null;
-    } else {
+    if (!locations.isEmpty()) {
       return locations.get(random.nextInt(locations.size()));
     }
+    return null;
   }
 
   /**
