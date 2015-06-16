@@ -8,8 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.polarbirds.huldra.HuldraGame;
 import com.polarbirds.huldra.controller.player.Keyboard;
-import com.polarbirds.huldra.model.entity.player.Knight;
-import com.polarbirds.huldra.model.entity.player.PlayerCharacter;
+import com.polarbirds.huldra.model.entity.character.player.Knight;
+import com.polarbirds.huldra.model.entity.character.player.PlayerCharacter;
 import com.polarbirds.huldra.model.world.HuldraWorld;
 import com.polarbirds.huldra.model.world.WorldType;
 

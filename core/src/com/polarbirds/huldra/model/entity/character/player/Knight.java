@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.model.entity.player;
+package com.polarbirds.huldra.model.entity.character.player;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;

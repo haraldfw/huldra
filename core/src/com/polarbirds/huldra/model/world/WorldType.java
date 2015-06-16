@@ -1,6 +1,6 @@
 package com.polarbirds.huldra.model.world;
 
-import com.polarbirds.huldra.model.entity.inanimate.Interactable;
+import com.polarbirds.huldra.model.entity.character.inanimate.Interactable;
 import com.smokebox.lib.utils.geom.Bounds;
 
 import java.util.ArrayList;

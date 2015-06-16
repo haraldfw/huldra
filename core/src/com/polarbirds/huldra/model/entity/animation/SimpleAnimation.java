@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.model.entity;
+package com.polarbirds.huldra.model.entity.animation;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 

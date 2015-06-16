@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.model.entity;
+package com.polarbirds.huldra.model.entity.animation;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,14 +11,12 @@ public abstract class AAnimation {
 
   protected float timePassed;
 
-  public final boolean update(float delta) {
+  public void update(float delta) {
     timePassed += delta;
     float totalTime = getTotalTime();
     if (timePassed > totalTime) {
       timePassed -= totalTime;
-      return true;
     }
-    return false;
   }
 
   protected abstract float getTotalTime();

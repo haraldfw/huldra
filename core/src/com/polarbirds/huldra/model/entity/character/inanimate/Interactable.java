@@ -1,7 +1,7 @@
-package com.polarbirds.huldra.model.entity.inanimate;
+package com.polarbirds.huldra.model.entity.character.inanimate;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.polarbirds.huldra.model.entity.player.PlayerCharacter;
+import com.polarbirds.huldra.model.entity.character.player.PlayerCharacter;
 
 /**
  * An object than can be interacted with. Some by the player, and some by other entities like

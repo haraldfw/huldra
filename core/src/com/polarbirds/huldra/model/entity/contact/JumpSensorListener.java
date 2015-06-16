@@ -1,6 +1,6 @@
 package com.polarbirds.huldra.model.entity.contact;
 
-import com.polarbirds.huldra.model.entity.player.PlayerCharacter;
+import com.polarbirds.huldra.model.entity.character.player.PlayerCharacter;
 
 /**
  * Created by Harald on 28.5.15.
@@ -14,7 +14,7 @@ public class JumpSensorListener implements SensorListener {
   }
 
   @Override
-  public void doTheThing() {
+  public void activated() {
     playerCharacter.setCanJump(true);
   }
 }
