@@ -5,5 +5,5 @@ package com.polarbirds.huldra.model.entity.contact;
  */
 public interface SensorListener {
 
-  void activated();
+  void activate();
 }

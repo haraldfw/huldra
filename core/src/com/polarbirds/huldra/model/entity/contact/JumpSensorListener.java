@@ -14,7 +14,7 @@ public class JumpSensorListener implements SensorListener {
   }
 
   @Override
-  public void activated() {
+  public void activate() {
     playerCharacter.setCanJump(true);
   }
 }

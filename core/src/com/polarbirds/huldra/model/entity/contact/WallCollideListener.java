@@ -14,7 +14,7 @@ public class WallCollideListener implements SensorListener {
   }
 
   @Override
-  public void activated() {
+  public void activate() {
 
   }
 }
