@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.polarbirds.huldra.HuldraGame;
 import com.polarbirds.huldra.controller.player.Keyboard;
+import com.polarbirds.huldra.model.entity.Team;
 import com.polarbirds.huldra.model.entity.character.player.Knight;
 import com.polarbirds.huldra.model.entity.character.player.PlayerCharacter;
 import com.polarbirds.huldra.model.world.HuldraWorld;
@@ -38,8 +39,7 @@ public class GameScreen implements Screen {
     stage.setViewport(new ScreenViewport(game.camera));
 
     world = WorldType.CAVES.getNew(1, 20, new Random());
-    player = new Knight(this, world.spawn,
-                        new Keyboard(game.camera));
+    player = new Knight(world.spawn, world.box2dWorld, Team.PLAYER, new Keyboard(game.camera));
     stage.addActor(player);
   }
 

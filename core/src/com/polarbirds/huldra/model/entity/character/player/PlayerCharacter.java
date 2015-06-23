@@ -1,38 +1,23 @@
 package com.polarbirds.huldra.model.entity.character.player;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.physics.box2d.World;
 import com.polarbirds.huldra.controller.IMotiveProcessor;
-import com.polarbirds.huldra.screen.game.GameScreen;
+import com.polarbirds.huldra.model.entity.Team;
+import com.polarbirds.huldra.model.entity.character.AWalkingCharacter;
 
 /**
  * Created by Harald on 1.5.15.
  */
-public abstract class PlayerCharacter extends Image {
+public abstract class PlayerCharacter extends AWalkingCharacter {
 
   private static final float sJump = 5f;
-  private final float moveStrength;
-  private final float baseDamage;
-  private final float halfWidth;
-  private final float halfHeight;
-
-  GameScreen game;
 
   private boolean canJump = false;
-  private Body body;
   private IMotiveProcessor input;
 
-  public PlayerCharacter(Body body, float halfWidth, float halfHeight, float moveStrength,
-                         float baseDamage, GameScreen game, IMotiveProcessor input) {
-    this.body = body;
-    this.halfWidth = halfWidth;
-    this.halfHeight = halfHeight;
-    this.moveStrength = moveStrength;
-    this.baseDamage = baseDamage;
-
-    this.game = game;
+  public PlayerCharacter(Vector2 pos, World world, Team team, IMotiveProcessor input) {
+    super(pos, world, team);
     this.input = input;
   }
 
@@ -40,15 +25,10 @@ public abstract class PlayerCharacter extends Image {
   public void act(float delta) {
     super.act(delta);
     input.update();
-    if (input.jump()) {
-      body.applyLinearImpulse(0, sJump, halfWidth, halfHeight, true);
+    if (canJump && input.jump()) {
+      body.applyLinearImpulse(0, sJump, getHalfWidth(), getHalfHeight(), true);
     }
-    body.applyForce(input.moveX() * moveStrength, 0, halfWidth, halfHeight, true);
-  }
-
-  @Override
-  public void draw(Batch batch, float parentAlpha) {
-    super.draw(batch, parentAlpha);
+    body.applyForce(input.moveX() * getMoveStrength(), 0, getHalfWidth(), getHalfHeight(), true);
   }
 
   public Vector2 getPosition() {
@@ -59,4 +39,9 @@ public abstract class PlayerCharacter extends Image {
     this.canJump = canJump;
   }
 
+  // TODO Implement a system for storing base-stats.
+  @Override
+  protected float getMoveStrength() {
+    return 25f;
+  }
 }
