@@ -48,24 +48,14 @@ public abstract class ACharacter extends Image {
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.DynamicBody;
     bodyDef.allowSleep = false;
-    bodyDef.position.set(new Vector2(pos).add(-getHalfWidth(), -getHalfHeight()));
+    bodyDef.position.set(new Vector2(pos).add(getHalfWidth(), getHalfHeight()));
     bodyDef.fixedRotation = true;
     bodyDef.linearDamping = 0.5f;
 
     Body body = world.createBody(bodyDef);
     body.createFixture(fixtureDef);
 
-    for (FixtureDef f : getSensors()) {
-      body.createFixture(f);
-    }
-
     return body;
-  }
-
-  protected abstract ArrayList<FixtureDef> getSensors();
-
-  protected ArrayList<FixtureDef> concatSensors() {
-    return new ArrayList<>();
   }
 
   protected abstract float getHalfWidth();

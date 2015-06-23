@@ -29,9 +29,4 @@ public class Knight extends PlayerCharacter {
   protected float getHalfHeight() {
     return 0.35f;
   }
-
-  @Override
-  protected ArrayList<FixtureDef> getSensors() {
-    return concatSensors();
-  }
 }

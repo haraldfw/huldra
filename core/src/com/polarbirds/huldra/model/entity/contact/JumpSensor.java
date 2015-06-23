@@ -1,15 +1,16 @@
 package com.polarbirds.huldra.model.entity.contact;
 
+import com.polarbirds.huldra.model.entity.character.AWalkingCharacter;
 import com.polarbirds.huldra.model.entity.character.player.PlayerCharacter;
 
 /**
  * Created by Harald on 28.5.15.
  */
-public class JumpSensorListener implements SensorListener {
+public class JumpSensor implements SensorListener {
 
-  private final PlayerCharacter playerCharacter;
+  private final AWalkingCharacter playerCharacter;
 
-  public JumpSensorListener(PlayerCharacter playerCharacter) {
+  public JumpSensor(AWalkingCharacter playerCharacter) {
     this.playerCharacter = playerCharacter;
   }
 

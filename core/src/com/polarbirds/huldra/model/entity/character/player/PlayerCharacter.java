@@ -11,11 +11,6 @@ import com.polarbirds.huldra.model.entity.character.AWalkingCharacter;
  */
 public abstract class PlayerCharacter extends AWalkingCharacter {
 
-  private static final float sJump = 5f;
-
-  private boolean canJump = false;
-  private IMotiveProcessor input;
-
   public PlayerCharacter(Vector2 pos, World world, Team team, IMotiveProcessor input) {
     super(pos, world, team);
     this.input = input;
@@ -24,24 +19,20 @@ public abstract class PlayerCharacter extends AWalkingCharacter {
   @Override
   public void act(float delta) {
     super.act(delta);
-    input.update();
-    if (canJump && input.jump()) {
-      body.applyLinearImpulse(0, sJump, getHalfWidth(), getHalfHeight(), true);
-    }
-    body.applyForce(input.moveX() * getMoveStrength(), 0, getHalfWidth(), getHalfHeight(), true);
   }
 
   public Vector2 getPosition() {
     return new Vector2(body.getPosition());
   }
 
-  public void setCanJump(boolean canJump) {
-    this.canJump = canJump;
-  }
-
   // TODO Implement a system for storing base-stats.
   @Override
   protected float getMoveStrength() {
     return 25f;
+  }
+
+  @Override
+  protected float getJumpStrength() {
+    return 5f;
   }
 }
