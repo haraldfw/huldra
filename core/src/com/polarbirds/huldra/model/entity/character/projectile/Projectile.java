@@ -9,9 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 public abstract class Projectile extends Image {
 
 
-
   public Projectile(float x, float y, World world) {
   }
 
-  public void hit()
+  public abstract void hit();
 }
