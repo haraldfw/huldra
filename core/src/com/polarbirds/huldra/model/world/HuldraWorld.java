@@ -7,6 +7,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.polarbirds.huldra.model.entity.contact.HuldraContactListener;
+import com.polarbirds.huldra.model.entity.contact.HuldraContactFilter;
 import com.smokebox.lib.utils.IntVector2;
 import com.smokebox.lib.utils.geom.Bounds;
 import com.smokebox.lib.utils.geom.Line;
@@ -36,6 +38,8 @@ public final class HuldraWorld {
     IntVector2 intSpawn = normalizeBoundsList(boundsList);
 
     box2dWorld = new World(new Vector2(0, -25f), false);
+    box2dWorld.setContactFilter(new HuldraContactFilter());
+    box2dWorld.setContactListener(new HuldraContactListener());
     World.setVelocityThreshold(0.1f);
 
     Collection<Section> sections = new ArrayList<>();
