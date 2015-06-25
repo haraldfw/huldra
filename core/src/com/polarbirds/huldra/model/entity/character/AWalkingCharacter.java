@@ -43,11 +43,17 @@ public abstract class AWalkingCharacter extends ACharacter {
   }
 
   private void applySensors() {
-    SensorListener.createSensor(body, new WallJumpSensor(this, true), 0.05f, getHalfHeight());
-    SensorListener.createSensor(body, new WallJumpSensor(this, false), 0.05f, getHalfHeight());
-    SensorListener.createSensor(body, new JumpSensor(this), getHalfWidth(), 0.05f);
+    float sensorThickness = 0.05f;
+    float xShift = getHalfWidth() + sensorThickness / 3;
+    SensorListener.createSensor(body, new WallJumpSensor(this, true), -xShift, 0,
+                                sensorThickness, getHalfHeight());
+    SensorListener.createSensor(body, new WallJumpSensor(this, false), xShift, 0,
+                                sensorThickness, getHalfHeight());
+    SensorListener.createSensor(body, new JumpSensor(this), 0, - getHalfHeight() - sensorThickness / 3,
+                                getHalfWidth(), sensorThickness);
   }
 
   protected abstract float getMoveStrength();
+
   protected abstract float getJumpStrength();
 }
