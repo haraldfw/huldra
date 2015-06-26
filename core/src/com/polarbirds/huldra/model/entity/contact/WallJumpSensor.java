@@ -17,7 +17,12 @@ public class WallJumpSensor implements SensorListener {
   }
 
   @Override
-  public void activate() {
+  public void activate(Object userData) {
+
+  }
+
+  @Override
+  public void deactivate() {
 
   }
 }

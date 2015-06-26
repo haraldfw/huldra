@@ -2,6 +2,10 @@ package com.polarbirds.huldra.model.entity.character;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.polarbirds.huldra.controller.IMotiveProcessor;
 import com.polarbirds.huldra.model.entity.Team;
@@ -16,7 +20,7 @@ public abstract class AWalkingCharacter extends ACharacter {
 
   public IMotiveProcessor input;
 
-  private boolean canJump = false;
+  private boolean onGround = false;
 
   public AWalkingCharacter(Vector2 pos, World world, Team team) {
     super(pos, world, team);
@@ -24,11 +28,36 @@ public abstract class AWalkingCharacter extends ACharacter {
   }
 
   @Override
+  protected Body createBody(Vector2 pos, World world) {
+    PolygonShape shape = new PolygonShape();
+    shape.setAsBox(getHalfWidth(), getHalfHeight());
+
+    FixtureDef fixtureDef = new FixtureDef();
+    fixtureDef.shape = shape;
+    fixtureDef.restitution = 0.05f;
+    fixtureDef.density = 1f;
+    fixtureDef.friction = 1;
+
+    BodyDef bodyDef = new BodyDef();
+    bodyDef.type = BodyDef.BodyType.DynamicBody;
+    bodyDef.allowSleep = false;
+    bodyDef.position.set(new Vector2(pos).add(getHalfWidth(), getHalfHeight()));
+    bodyDef.fixedRotation = true;
+    bodyDef.linearDamping = 0.5f;
+
+    Body body = world.createBody(bodyDef);
+    body.createFixture(fixtureDef);
+
+    return body;
+  }
+
+  @Override
   public void act(float delta) {
     super.act(delta);
     input.update();
-    if (canJump && input.jump()) {
+    if (onGround && input.jump()) {
       body.applyLinearImpulse(0, getJumpStrength(), getHalfWidth(), getHalfHeight(), true);
+      setOnGround(false);
     }
     body.applyForce(input.moveX() * getMoveStrength(), 0, getHalfWidth(), getHalfHeight(), true);
   }
@@ -38,8 +67,12 @@ public abstract class AWalkingCharacter extends ACharacter {
     super.draw(batch, parentAlpha);
   }
 
-  public void setCanJump(boolean canJump) {
-    this.canJump = canJump;
+  public void setOnGround(boolean onGround) {
+    this.onGround = onGround;
+  }
+
+  public boolean isOnGround() {
+    return onGround;
   }
 
   private void applySensors() {

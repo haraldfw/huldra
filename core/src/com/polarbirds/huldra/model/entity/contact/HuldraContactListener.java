@@ -12,13 +12,15 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 public class HuldraContactListener implements ContactListener {
 
   @Override
-  public void preSolve(Contact contact, Manifold oldManifold) {
-
-  }
-
-  @Override
   public void beginContact(Contact contact) {
+    Fixture a = contact.getFixtureA();
+    Fixture b = contact.getFixtureB();
 
+    if (a.isSensor()) {
+      ((SensorListener) a.getUserData()).activate(b.getUserData());
+    } else if (b.isSensor()) {
+      ((SensorListener) b.getUserData()).activate(a.getUserData());
+    }
   }
 
   @Override
@@ -26,21 +28,18 @@ public class HuldraContactListener implements ContactListener {
     Fixture a = contact.getFixtureA();
     Fixture b = contact.getFixtureB();
 
-    if(a.isSensor()) {
-      reactSensor(a.getUserData(), b);
-    } else if(b.isSensor()) {
-      reactSensor(b.getUserData(), a);
-    }
-  }
-
-  private void reactSensor(Object sensor, Fixture fixture) {
-    if(sensor instanceof SensorListener) {
-      ((SensorListener) sensor).activate();
+    if (a.isSensor()) {
+      ((SensorListener) a.getUserData()).deactivate();
+    } else if (b.isSensor()) {
+      ((SensorListener) b.getUserData()).deactivate();
     }
   }
 
   @Override
-  public void postSolve(Contact contact, ContactImpulse impulse) {
+  public void preSolve(Contact contact, Manifold oldManifold) {
+  }
 
+  @Override
+  public void postSolve(Contact contact, ContactImpulse impulse) {
   }
 }

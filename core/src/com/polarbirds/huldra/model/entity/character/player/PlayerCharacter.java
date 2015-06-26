@@ -1,8 +1,11 @@
 package com.polarbirds.huldra.model.entity.character.player;
 
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.polarbirds.huldra.controller.IMotiveProcessor;
+import com.polarbirds.huldra.HuldraGame;
+import com.polarbirds.huldra.controller.player.Keyboard;
+import com.polarbirds.huldra.controller.player.XboxController;
 import com.polarbirds.huldra.model.entity.Team;
 import com.polarbirds.huldra.model.entity.character.AWalkingCharacter;
 
@@ -11,9 +14,11 @@ import com.polarbirds.huldra.model.entity.character.AWalkingCharacter;
  */
 public abstract class PlayerCharacter extends AWalkingCharacter {
 
-  public PlayerCharacter(Vector2 pos, World world, Team team, IMotiveProcessor input) {
+  public PlayerCharacter(Vector2 pos, World world, Team team, HuldraGame game) {
     super(pos, world, team);
-    this.input = input;
+    this.input = Controllers.getControllers().size > 0 ?
+                 new XboxController(Controllers.getControllers().get(0))
+                                                       : new Keyboard(game.camera);
   }
 
   @Override

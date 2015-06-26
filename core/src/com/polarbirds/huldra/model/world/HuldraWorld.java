@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.polarbirds.huldra.model.entity.contact.HuldraContactListener;
@@ -37,7 +38,7 @@ public final class HuldraWorld {
     // that was applied
     IntVector2 intSpawn = normalizeBoundsList(boundsList);
 
-    box2dWorld = new World(new Vector2(0, -25f), false);
+    box2dWorld = new World(new Vector2(0, -9.81f), false);
     box2dWorld.setContactFilter(new HuldraContactFilter());
     box2dWorld.setContactListener(new HuldraContactListener());
     World.setVelocityThreshold(0.1f);
@@ -97,8 +98,8 @@ public final class HuldraWorld {
       }
       List<IntVector2> spawns = spawnSection.tilesWithOpenings.locs.get("SPAWN");
       IntVector2 gottenSpawn = spawns.get(spawns.size() - 1);
-      spawn = new Vector2(spawnSection.bounds.x * Section.TILES_PER_SIDE + gottenSpawn.x,
-                          spawnSection.bounds.y * Section.TILES_PER_SIDE + gottenSpawn.y);
+      spawn = new Vector2(spawnSection.bounds.x * Section.TILES_PER_SIDE + gottenSpawn.x + 1,
+                          spawnSection.bounds.y * Section.TILES_PER_SIDE + gottenSpawn.y + 1);
     }
 
     UnifiablePolyedge p = new UnifiablePolyedge(getInts(mapTiles, TileType.SOLID));
@@ -234,7 +235,9 @@ public final class HuldraWorld {
       bodyDef.type = BodyDef.BodyType.StaticBody;
       Body body = box2dWorld.createBody(bodyDef);
 
-      body.createFixture(fixtureDef);
+      Fixture f = body.createFixture(fixtureDef);
+
+      f.setUserData(l.isPerfectHorizontal() ? "ground" : " wall");
     }
   }
 

@@ -1,7 +1,6 @@
 package com.polarbirds.huldra.model.entity.contact;
 
 import com.polarbirds.huldra.model.entity.character.AWalkingCharacter;
-import com.polarbirds.huldra.model.entity.character.player.PlayerCharacter;
 
 /**
  * Created by Harald on 28.5.15.
@@ -15,7 +14,14 @@ public class JumpSensor implements SensorListener {
   }
 
   @Override
-  public void activate() {
-    playerCharacter.setCanJump(true);
+  public void activate(Object userData) {
+    if (userData != null && userData.equals("ground")) {
+      playerCharacter.setOnGround(true);
+    }
+  }
+
+  @Override
+  public void deactivate() {
+    playerCharacter.setOnGround(false);
   }
 }

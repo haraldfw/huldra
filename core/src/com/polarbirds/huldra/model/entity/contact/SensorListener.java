@@ -11,7 +11,8 @@ import com.polarbirds.huldra.model.entity.character.ACharacter;
  */
 public interface SensorListener {
 
-  void activate();
+  void activate(Object userData);
+  void deactivate();
 
   public static void createSensor(Body body, Object userData, float xShift, float yShift, float width, float height) {
     FixtureDef sensor = new FixtureDef();

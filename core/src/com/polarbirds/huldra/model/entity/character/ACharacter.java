@@ -22,8 +22,10 @@ public abstract class ACharacter extends Image {
 
   public ACharacter(Vector2 pos, World world, Team team) {
     this.team = team;
-    this.body = createBody(pos, world);
+    body = createBody(pos, world);
   }
+
+  protected abstract Body createBody(Vector2 pos, World world);
 
   @Override
   public void act(float delta) {
@@ -33,29 +35,6 @@ public abstract class ACharacter extends Image {
   @Override
   public void draw(Batch batch, float parentAlpha) {
 
-  }
-
-  private Body createBody(Vector2 pos, World world) {
-    PolygonShape shape = new PolygonShape();
-    shape.setAsBox(getHalfWidth(), getHalfHeight());
-
-    FixtureDef fixtureDef = new FixtureDef();
-    fixtureDef.shape = shape;
-    fixtureDef.restitution = 0.05f;
-    fixtureDef.density = 1f;
-    fixtureDef.friction = 1;
-
-    BodyDef bodyDef = new BodyDef();
-    bodyDef.type = BodyDef.BodyType.DynamicBody;
-    bodyDef.allowSleep = false;
-    bodyDef.position.set(new Vector2(pos).add(getHalfWidth(), getHalfHeight()));
-    bodyDef.fixedRotation = true;
-    bodyDef.linearDamping = 0.5f;
-
-    Body body = world.createBody(bodyDef);
-    body.createFixture(fixtureDef);
-
-    return body;
   }
 
   protected abstract float getHalfWidth();
