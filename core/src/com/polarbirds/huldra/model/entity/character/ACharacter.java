@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public abstract class ACharacter extends Image {
 
   protected Team team;
-  protected Body body;
+  public Body body;
 
   public ACharacter(Vector2 pos, World world, Team team) {
     this.team = team;

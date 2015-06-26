@@ -18,11 +18,11 @@ public class WallJumpSensor implements SensorListener {
 
   @Override
   public void activate(Object userData) {
-
+    character.body.getFixtureList().get(0).setFriction(0);
   }
 
   @Override
   public void deactivate() {
-
+    character.body.getFixtureList().get(0).setFriction(1);
   }
 }
