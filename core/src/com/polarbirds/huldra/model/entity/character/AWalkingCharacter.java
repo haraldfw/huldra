@@ -36,7 +36,7 @@ public abstract class AWalkingCharacter extends ACharacter {
     fixtureDef.shape = shape;
     fixtureDef.restitution = 0.05f;
     fixtureDef.density = 1f;
-    fixtureDef.friction = 1;
+    fixtureDef.friction = 0.8f;
 
     BodyDef bodyDef = new BodyDef();
     bodyDef.type = BodyDef.BodyType.DynamicBody;

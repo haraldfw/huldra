@@ -12,6 +12,7 @@ public abstract class InputProcessor implements IMotiveProcessor {
 
   private HashMap<String, Integer> keys;
   private HashMap<String, Boolean> shouldToggle;
+  private HashMap<String, Boolean> wasPressed;
   private HashMap<String, Boolean> isPressed;
 
   public InputProcessor(HashMap<String, Integer> keys) {
@@ -39,6 +40,14 @@ public abstract class InputProcessor implements IMotiveProcessor {
     isPressed.put(interact, false);
     isPressed.put(menu, false);
     isPressed.put(pause, false);
+
+    wasPressed = new HashMap<>();
+    wasPressed.put(attack1, false);
+    wasPressed.put(attack2, false);
+    wasPressed.put(jump, false);
+    wasPressed.put(interact, false);
+    wasPressed.put(menu, false);
+    wasPressed.put(pause, false);
   }
 
   @Override
@@ -76,7 +85,7 @@ public abstract class InputProcessor implements IMotiveProcessor {
     for (Map.Entry<String, Boolean> pressed : isPressed.entrySet()) {
       // check if the key should be a toggle-key
       if (!shouldToggle.get(pressed.getKey())
-          || !getPressed(keys.get(pressed.getKey()))) {
+          || !getIsDown(keys.get(pressed.getKey()))) {
         isPressed.put(pressed.getKey(), false);
       }
     }
@@ -84,14 +93,14 @@ public abstract class InputProcessor implements IMotiveProcessor {
 
   private boolean getToggledButton(String key) {
     if (!shouldToggle.get(key)) {
-      return getPressed(keys.get(key));
+      return getIsDown(keys.get(key));
     }
-    if (getPressed(keys.get(key)) && !isPressed.get(key)) {
+    if (getIsDown(keys.get(key)) && !isPressed.get(key)) {
       isPressed.put(key, true);
       return true;
     }
     return false;
   }
 
-  protected abstract boolean getPressed(int key);
+  protected abstract boolean getIsDown(int key);
 }

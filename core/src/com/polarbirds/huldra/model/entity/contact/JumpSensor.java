@@ -7,21 +7,23 @@ import com.polarbirds.huldra.model.entity.character.AWalkingCharacter;
  */
 public class JumpSensor implements SensorListener {
 
-  private final AWalkingCharacter playerCharacter;
+  private final AWalkingCharacter character;
 
-  public JumpSensor(AWalkingCharacter playerCharacter) {
-    this.playerCharacter = playerCharacter;
+  public JumpSensor(AWalkingCharacter character) {
+    this.character = character;
   }
 
   @Override
   public void activate(Object userData) {
     if (userData != null && userData.equals("ground")) {
-      playerCharacter.setOnGround(true);
+      character.setOnGround(true);
+    } else {
+      deactivate();
     }
   }
 
   @Override
   public void deactivate() {
-    playerCharacter.setOnGround(false);
+    character.setOnGround(false);
   }
 }

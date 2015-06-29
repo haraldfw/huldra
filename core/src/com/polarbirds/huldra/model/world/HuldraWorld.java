@@ -104,10 +104,10 @@ public final class HuldraWorld {
 
     UnifiablePolyedge p = new UnifiablePolyedge(getInts(mapTiles, TileType.SOLID));
     p.unify();
-    createBodies(p.getEdges());
+    createBodies(p.getEdges(), "");
     p = new UnifiablePolyedge(getPlatforms(getInts(mapTiles, TileType.PLATFORM)));
     p.unify();
-    createBodies(p.getEdges());
+    createBodies(p.getEdges(), "platform");
   }
 
   public void step(float delta) {
@@ -222,14 +222,14 @@ public final class HuldraWorld {
     return ints;
   }
 
-  private void createBodies(Iterable<Line> edges) {
+  private void createBodies(Iterable<Line> edges, String userData) {
     for (Line l : edges) {
       EdgeShape edgeShape = new EdgeShape();
       edgeShape.set(l.x, l.y, l.x2, l.y2);
 
       FixtureDef fixtureDef = new FixtureDef();
       fixtureDef.shape = edgeShape;
-      fixtureDef.friction = l.isPerfectVertical() ? 0 : 0.8f;
+      fixtureDef.friction = l.isPerfectVertical() ? 0f : 1f;
 
       BodyDef bodyDef = new BodyDef();
       bodyDef.type = BodyDef.BodyType.StaticBody;
@@ -237,7 +237,7 @@ public final class HuldraWorld {
 
       Fixture f = body.createFixture(fixtureDef);
 
-      f.setUserData(l.isPerfectHorizontal() ? "ground" : " wall");
+      f.setUserData(!userData.isEmpty() ? userData : l.isPerfectHorizontal() ? "ground" : " wall");
     }
   }
 

@@ -42,7 +42,7 @@ public final class Keyboard extends InputProcessor {
   }
 
   @Override
-  protected boolean getPressed(int key) {
+  protected boolean getIsDown(int key) {
     return Gdx.input.isKeyPressed(key);
   }
 
