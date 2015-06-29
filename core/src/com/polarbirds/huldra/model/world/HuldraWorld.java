@@ -34,6 +34,34 @@ public final class HuldraWorld {
     staticBodies = new ArrayList<>();
   }
 
+  public void integrate(float delta) {
+    for (DynamicBody body : dynamicBodies) {
+      body.integrate(delta);
+    }
+  }
+
+  public void debugDraw(ShapeRenderer sr) {
+    for (int x = 0; x < tiles.length; x++) {
+      for (int y = 0; y < tiles[0].length; y++) {
+        switch (tiles[x][y]) {
+          case PLATFORM:
+            sr.line(x, y + 1, x + 1, y + 1);
+            break;
+          case SOLID:
+            sr.rect(x, y, 1, 1);
+            break;
+        }
+      }
+    }
+    for (DynamicBody body : dynamicBodies) {
+      body.debugDraw(sr);
+    }
+  }
+
+  public void addDynamicBody(DynamicBody body) {
+    dynamicBodies.add(body);
+  }
+
   private void convertWorld(Iterable<Bounds> boundsList, Random random) {
     List<TilesWithOpenings> twos = TilesWithOpenings.loadAndGetList();
 
@@ -95,30 +123,6 @@ public final class HuldraWorld {
       IntVector2 gottenSpawn = spawns.get(spawns.size() - 1);
       spawn = new Vector2(spawnSection.bounds.x * Section.TILES_PER_SIDE + gottenSpawn.x + 1,
                           spawnSection.bounds.y * Section.TILES_PER_SIDE + gottenSpawn.y + 1);
-    }
-  }
-
-  public void integrate(float delta) {
-    for (DynamicBody body : dynamicBodies) {
-      body.integrate(delta);
-    }
-  }
-
-  public void debugDraw(ShapeRenderer sr) {
-    for (int x = 0; x < tiles.length; x++) {
-      for (int y = 0; y < tiles[0].length; y++) {
-        switch (tiles[x][y]) {
-          case PLATFORM:
-            sr.line(x, y + 1, x + 1, y + 1);
-            break;
-          case SOLID:
-            sr.rect(x, y, 1, 1);
-            break;
-        }
-      }
-    }
-    for (DynamicBody body : dynamicBodies) {
-      body.debugDraw(sr);
     }
   }
 

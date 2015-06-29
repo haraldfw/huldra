@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.polarbirds.huldra.HuldraGame;
-import com.polarbirds.huldra.model.entity.Team;
+import com.polarbirds.huldra.model.entity.character.Team;
 import com.polarbirds.huldra.model.entity.character.player.Knight;
 import com.polarbirds.huldra.model.entity.character.player.PlayerCharacter;
 import com.polarbirds.huldra.model.world.HuldraWorld;

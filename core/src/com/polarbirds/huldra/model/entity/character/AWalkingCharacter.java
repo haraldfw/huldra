@@ -1,8 +1,6 @@
 package com.polarbirds.huldra.model.entity.character;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.polarbirds.huldra.controller.IMotiveProcessor;
-import com.polarbirds.huldra.model.entity.Team;
 import com.polarbirds.huldra.model.world.physics.DynamicBody;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.polarbirds.huldra.model.world.physics.shape.RectShape;
@@ -31,11 +29,6 @@ public abstract class AWalkingCharacter extends ADynamicCharacter {
       setOnGround(false);
     }
     body.applyForce(input.moveX() * getMoveStrength(), 0);
-  }
-
-  @Override
-  public void draw(Batch batch, float parentAlpha) {
-    super.draw(batch, parentAlpha);
   }
 
   public boolean isOnGround() {

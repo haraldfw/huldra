@@ -3,7 +3,7 @@ package com.polarbirds.huldra.model.entity.character.player;
 import com.badlogic.gdx.controllers.Controllers;
 import com.polarbirds.huldra.controller.player.Keyboard;
 import com.polarbirds.huldra.controller.player.XboxController;
-import com.polarbirds.huldra.model.entity.Team;
+import com.polarbirds.huldra.model.entity.character.Team;
 import com.polarbirds.huldra.model.entity.character.AWalkingCharacter;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.polarbirds.huldra.screen.game.GameScreen;
@@ -23,6 +23,7 @@ public abstract class PlayerCharacter extends AWalkingCharacter {
   @Override
   public void act(float delta) {
     super.act(delta);
+
   }
 
   // TODO Implement a system for storing base-stats.

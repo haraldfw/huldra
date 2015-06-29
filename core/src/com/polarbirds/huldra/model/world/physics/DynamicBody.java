@@ -8,8 +8,8 @@ import com.polarbirds.huldra.model.world.physics.shape.Shape;
 public class DynamicBody extends ABody {
 
   public Vector2 vel;
-  public Vector2 acc;
-  public Vector2 forceAcc;
+  private Vector2 acc;
+  private Vector2 forceAcc;
 
   public float inverseMass;
 

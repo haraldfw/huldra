@@ -1,6 +1,6 @@
 package com.polarbirds.huldra.model.entity.character.player;
 
-import com.polarbirds.huldra.model.entity.Team;
+import com.polarbirds.huldra.model.entity.character.Team;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.polarbirds.huldra.screen.game.GameScreen;
 
