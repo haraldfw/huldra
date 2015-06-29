@@ -2,7 +2,7 @@ package com.polarbirds.huldra.model.entity.animation;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
+import com.polarbirds.huldra.model.world.physics.Vector2;
 
 /**
  * A class for storing, updating and drawing animations. Created by Harald Wilhelmsen on 10/6/2015.

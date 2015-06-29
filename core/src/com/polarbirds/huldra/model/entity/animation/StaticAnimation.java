@@ -3,8 +3,7 @@ package com.polarbirds.huldra.model.entity.animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 /**
- * A class for animations with only one sprite
- * Created by Harald Wilhelmsen on 16/6/2015.
+ * A class for animations with only one sprite Created by Harald Wilhelmsen on 16/6/2015.
  */
 public class StaticAnimation extends AAnimation {
 
@@ -15,7 +14,8 @@ public class StaticAnimation extends AAnimation {
   }
 
   @Override
-  public void update(float delta) {}
+  public void update(float delta) {
+  }
 
   @Override
   protected float getTotalTime() {

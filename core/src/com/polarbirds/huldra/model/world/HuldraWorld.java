@@ -1,19 +1,13 @@
 package com.polarbirds.huldra.model.world;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.EdgeShape;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.World;
-import com.polarbirds.huldra.model.entity.contact.HuldraContactListener;
-import com.polarbirds.huldra.model.entity.contact.HuldraContactFilter;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.polarbirds.huldra.model.world.physics.DynamicBody;
+import com.polarbirds.huldra.model.world.physics.StaticBody;
+import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.smokebox.lib.utils.IntVector2;
 import com.smokebox.lib.utils.geom.Bounds;
 import com.smokebox.lib.utils.geom.Line;
-import com.smokebox.lib.utils.geom.UnifiablePolyedge;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,21 +21,25 @@ import java.util.Random;
  */
 public final class HuldraWorld {
 
-  public final World box2dWorld;
   public Vector2 spawn;
   private Parallax parallax;
 
+  private TileType[][] tiles;
+  private List<DynamicBody> dynamicBodies;
+  private List<StaticBody> staticBodies;
+
   HuldraWorld(WorldType worldType, Random random, Iterable<Bounds> boundsList) {
+    convertWorld(boundsList, random);
+    dynamicBodies = new ArrayList<>();
+    staticBodies = new ArrayList<>();
+  }
+
+  private void convertWorld(Iterable<Bounds> boundsList, Random random) {
     List<TilesWithOpenings> twos = TilesWithOpenings.loadAndGetList();
 
     // normalize bounds. Since the spawn was previously on 0,0 it is now located on the shift
     // that was applied
     IntVector2 intSpawn = normalizeBoundsList(boundsList);
-
-    box2dWorld = new World(new Vector2(0, -9.81f), false);
-    box2dWorld.setContactFilter(new HuldraContactFilter());
-    box2dWorld.setContactListener(new HuldraContactListener());
-    World.setVelocityThreshold(0.1f);
 
     Collection<Section> sections = new ArrayList<>();
     for (Bounds bounds : boundsList) {
@@ -51,17 +49,17 @@ public final class HuldraWorld {
     IntVector2 maxBounds = getMaxBounds(boundsList);
 
     // Array for map-tiles
-    TileType[][] mapTiles =
+    tiles =
         new TileType[maxBounds.x * Section.TILES_PER_SIDE + 2][maxBounds.y * Section.TILES_PER_SIDE
                                                                + 2];
 
-    for (TileType[] tileTypes : mapTiles) {
+    for (TileType[] tileTypes : tiles) {
       Arrays.fill(tileTypes, TileType.SOLID);
     }
 
     // Array of reachable openings
     boolean[][] reachableOpenings =
-        addSectionOpenings(sections, new boolean[mapTiles.length][mapTiles[0].length]);
+        addSectionOpenings(sections, new boolean[tiles.length][tiles[0].length]);
 
     // Add the section's tiles to the map
     for (Section section : sections) {
@@ -71,7 +69,7 @@ public final class HuldraWorld {
       int baseX = section.bounds.x * Section.TILES_PER_SIDE;
       int baseY = section.bounds.y * Section.TILES_PER_SIDE;
       for (int x = 0; x < sectionTiles.length; x++) {
-        System.arraycopy(sectionTiles[x], 0, mapTiles[baseX + x + 1], baseY + 1,
+        System.arraycopy(sectionTiles[x], 0, tiles[baseX + x + 1], baseY + 1,
                          sectionTiles[0].length);
       }
     }
@@ -93,25 +91,35 @@ public final class HuldraWorld {
           spawnSection = s;
         }
       }
-      if (spawnSection == null) {
-        throw new NullPointerException("SpawnSection not in 'shift'!");
-      }
       List<IntVector2> spawns = spawnSection.tilesWithOpenings.locs.get("SPAWN");
       IntVector2 gottenSpawn = spawns.get(spawns.size() - 1);
       spawn = new Vector2(spawnSection.bounds.x * Section.TILES_PER_SIDE + gottenSpawn.x + 1,
                           spawnSection.bounds.y * Section.TILES_PER_SIDE + gottenSpawn.y + 1);
     }
-
-    UnifiablePolyedge p = new UnifiablePolyedge(getInts(mapTiles, TileType.SOLID));
-    p.unify();
-    createBodies(p.getEdges(), "");
-    p = new UnifiablePolyedge(getPlatforms(getInts(mapTiles, TileType.PLATFORM)));
-    p.unify();
-    createBodies(p.getEdges(), "platform");
   }
 
-  public void step(float delta) {
-    box2dWorld.step(delta, 8, 8); // update box2dWorld
+  public void integrate(float delta) {
+    for (DynamicBody body : dynamicBodies) {
+      body.integrate(delta);
+    }
+  }
+
+  public void debugDraw(ShapeRenderer sr) {
+    for (int x = 0; x < tiles.length; x++) {
+      for (int y = 0; y < tiles[0].length; y++) {
+        switch (tiles[x][y]) {
+          case PLATFORM:
+            sr.line(x, y + 1, x + 1, y + 1);
+            break;
+          case SOLID:
+            sr.rect(x, y, 1, 1);
+            break;
+        }
+      }
+    }
+    for (DynamicBody body : dynamicBodies) {
+      body.debugDraw(sr);
+    }
   }
 
   /**
@@ -220,25 +228,6 @@ public final class HuldraWorld {
       }
     }
     return ints;
-  }
-
-  private void createBodies(Iterable<Line> edges, String userData) {
-    for (Line l : edges) {
-      EdgeShape edgeShape = new EdgeShape();
-      edgeShape.set(l.x, l.y, l.x2, l.y2);
-
-      FixtureDef fixtureDef = new FixtureDef();
-      fixtureDef.shape = edgeShape;
-      fixtureDef.friction = l.isPerfectVertical() ? 0f : 1f;
-
-      BodyDef bodyDef = new BodyDef();
-      bodyDef.type = BodyDef.BodyType.StaticBody;
-      Body body = box2dWorld.createBody(bodyDef);
-
-      Fixture f = body.createFixture(fixtureDef);
-
-      f.setUserData(!userData.isEmpty() ? userData : l.isPerfectHorizontal() ? "ground" : " wall");
-    }
   }
 
   /**

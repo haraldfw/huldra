@@ -3,8 +3,8 @@ package com.polarbirds.huldra.model.entity.animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 /**
- * A class for animations with different frametimes per frame.
- * Created by Harald Wilhelmsen on 16/6/2015.
+ * A class for animations with different frametimes per frame. Created by Harald Wilhelmsen on
+ * 16/6/2015.
  */
 public class AdvancedAnimation extends AAnimation {
 
