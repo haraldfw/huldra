@@ -3,7 +3,6 @@ package com.polarbirds.huldra;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.polarbirds.huldra.screen.game.GameScreen;
@@ -15,7 +14,6 @@ public class HuldraGame extends Game {
   public static final int PIXELS_PER_TILESIDE = 16;
   public static final int X_PIXELS = X_TILES * 50;
   public static final int Y_PIXELS = Y_TILES * 50;
-  public static final AssetManager assetManager = new AssetManager();
   public OrthographicCamera camera;
   public float timeStep;
 

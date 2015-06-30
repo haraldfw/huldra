@@ -15,9 +15,10 @@ public abstract class ADynamicCharacter extends Image {
   protected Team team;
   private AAnimation animation;
 
-  public ADynamicCharacter(DynamicBody body, GameScreen game, Team team) {
-    this.team = team;
+  public ADynamicCharacter(DynamicBody body, AAnimation animation, Team team, GameScreen game) {
+    this.animation = animation;
     this.body = body;
+    this.team = team;
   }
 
   @Override
@@ -27,6 +28,6 @@ public abstract class ADynamicCharacter extends Image {
 
   @Override
   public void draw(Batch batch, float parentAlpha) {
-
+    animation.draw(batch, body.pos);
   }
 }

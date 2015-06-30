@@ -1,5 +1,6 @@
 package com.polarbirds.huldra.model.entity.animation;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.polarbirds.huldra.model.world.physics.Vector2;
@@ -23,7 +24,7 @@ public abstract class AAnimation {
 
   protected abstract Sprite getCurrentFrame();
 
-  public final void draw(SpriteBatch sb, Vector2 pos) {
+  public final void draw(Batch sb, Vector2 pos) {
     Sprite s = getCurrentFrame();
     s.setPosition(s.getX() + pos.x, s.getY() + pos.y);
     s.draw(sb);

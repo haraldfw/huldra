@@ -1,6 +1,7 @@
 package com.polarbirds.huldra.model.entity.character;
 
 import com.polarbirds.huldra.controller.IMotiveProcessor;
+import com.polarbirds.huldra.model.entity.animation.AAnimation;
 import com.polarbirds.huldra.model.world.physics.DynamicBody;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.polarbirds.huldra.model.world.physics.shape.RectShape;
@@ -16,8 +17,8 @@ public abstract class AWalkingCharacter extends ADynamicCharacter {
   private boolean onGround = false;
 
   public AWalkingCharacter(Vector2 pos, float width, float height, float inverseMass,
-                           GameScreen game, Team team) {
-    super(new DynamicBody(pos, new RectShape(width, height), inverseMass), game, team);
+                           AAnimation animation, Team team, GameScreen game) {
+    super(new DynamicBody(pos, new RectShape(width, height), inverseMass), animation, team, game);
   }
 
   @Override

@@ -1,5 +1,7 @@
 package com.polarbirds.huldra.model.world;
 
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
 import com.polarbirds.huldra.model.entity.character.inanimate.Interactable;
 import com.smokebox.lib.utils.geom.Bounds;
 
@@ -16,6 +18,11 @@ public enum WorldType {
     public HuldraWorld getNew(double csSize, int sectionCount, Random random) {
       return TEST_STAGE.getNew(csSize, sectionCount, random);
     }
+
+    @Override
+    public void loadTiles(AssetManager astmng) {
+
+    }
   },
 
   CAVES {
@@ -28,6 +35,14 @@ public enum WorldType {
           new BoundGenerator(1, 0, 1000, csSize, random).generateBoundsList(sectionCount)
       );
     }
+
+    @Override
+    public void loadTiles(AssetManager astmng) {
+      astmng.load("tiles/caves_stone.png", Texture.class);
+      astmng.load("tiles/caves_stone_top.png", Texture.class);
+      astmng.load("tiles/caves_stone_corner_left.png", Texture.class);
+      astmng.load("tiles/caves_stone_corner_right.png", Texture.class);
+    }
   },
 
   TEST_STAGE {
@@ -37,6 +52,11 @@ public enum WorldType {
       sectionBoundsList.add(new Bounds(0, 0, 1, 1));
       ArrayList<Interactable> interactables = new ArrayList<>();
       return new HuldraWorld(this, random, sectionBoundsList);
+    }
+
+    @Override
+    public void loadTiles(AssetManager astmng) {
+
     }
   };
 
@@ -49,4 +69,6 @@ public enum WorldType {
    * @return A HuldraWorld instance with the information
    */
   public abstract HuldraWorld getNew(double csSize, int sectionCount, Random random);
+
+  public abstract void loadTiles(AssetManager astmng);
 }

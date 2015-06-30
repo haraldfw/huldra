@@ -3,6 +3,7 @@ package com.polarbirds.huldra.screen.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -25,9 +26,12 @@ public class GameScreen implements Screen {
   public HuldraWorld world;
   private PlayerCharacter player;
 
+  AssetManager astmng;
+
   private ShapeRenderer sr;
 
   public GameScreen(HuldraGame game) {
+    astmng = new AssetManager();
     this.game = game;
     init();
     sr = new ShapeRenderer();
@@ -39,6 +43,7 @@ public class GameScreen implements Screen {
 
     stage.setViewport(new ScreenViewport(game.camera));
 
+    WorldType.CAVES.loadTiles(astmng);
     world = WorldType.CAVES.getNew(1, 20, new Random());
     player = new Knight(world.spawn, Team.PLAYER, this);
     stage.addActor(player);
