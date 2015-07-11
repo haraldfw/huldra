@@ -43,6 +43,10 @@ public class SpriteLoader extends ALoader {
     return loadedSprites.get(path);
   }
 
+  /**
+   * Returns progress in parts per one.
+   * @return Progress as a double
+   */
   @Override
   public double getProgress() {
     double progress = loadedSprites.size() / paths.size();
