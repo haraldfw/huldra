@@ -1,8 +1,8 @@
-package com.polarbirds.huldra.screen.game;
+package com.polarbirds.huldra.model.utility;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.polarbirds.huldra.model.utilities.Sprite;
 import com.polarbirds.huldra.model.world.physics.Vector2;
+import com.polarbirds.huldra.screen.game.GameScreen;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -14,31 +14,31 @@ import java.util.Map;
 /**
  * Created by Harald on 10.7.15.
  */
-public class AssetManager implements Runnable {
+public class SpriteLoader extends ALoader {
 
   private double progress = 0;
   private Collection<String> paths = new ArrayList<>();
   private Map<String, Sprite> loadedSprites;
+  private GameScreen gameScreen;
+  public boolean isDone = false;
+
+  public SpriteLoader(GameScreen gameScreen) {
+    this.gameScreen = gameScreen;
+  }
 
   @Override
   public void run() {
     loadedSprites = new HashMap<>();
 
-    double progressIncrement = 1.0 / (double) paths.size();
+    double progressIncrement = 1.0 / paths.size();
     for (String path : paths) {
       if (!loadedSprites.containsKey(path)) {
         loadedSprites.put(path, new Sprite(new Texture(path), parseGraphicsDescriptor(path)));
       }
-      progress += progressIncrement;
     }
 
-    progress = 0;
     paths.clear();
-  }
-
-  public void startLoading() {
-    Thread t = new Thread(this);
-    t.start();
+    isDone = true;
   }
 
   public void queueAsset(String path) {
@@ -49,20 +49,20 @@ public class AssetManager implements Runnable {
     return loadedSprites.get(path);
   }
 
+  @Override
   public double getProgress() {
+    double progress = loadedSprites.size() / paths.size();
+    System.out.println("Texture-loading progress: " + loadedSprites.size() + "/" + paths.size() + ", " + progress*100 + "%");
     return progress;
-  }
-
-  public boolean isDone() {
-    return progress >= 1.0;
   }
 
   private Vector2 parseGraphicsDescriptor(String path) {
     try {
-      BufferedReader reader = new BufferedReader(new FileReader(path));
+      String graphicsFile = path.substring(path.length() - 4);
+      BufferedReader reader = new BufferedReader(new FileReader(graphicsFile));
       return new Vector2(Float.parseFloat(reader.readLine()), Float.parseFloat(reader.readLine()));
     } catch (Exception e) {
-      System.out.println("No file of name '" + path + "' found. Using shift [0, 0]");
+      System.out.println("No descriptor for png '" + path + "' found. Using shift [0, 0]");
     }
     return new Vector2();
   }

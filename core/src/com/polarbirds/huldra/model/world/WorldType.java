@@ -1,9 +1,7 @@
 package com.polarbirds.huldra.model.world;
 
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
 import com.polarbirds.huldra.model.entity.character.inanimate.Interactable;
-import com.polarbirds.huldra.model.entity.character.player.PlayerCharacter;
+import com.polarbirds.huldra.model.utility.SpriteLoader;
 import com.smokebox.lib.utils.geom.Bounds;
 
 import java.util.ArrayList;
@@ -19,6 +17,11 @@ public enum WorldType {
     public HuldraWorld getNew(double csSize, int sectionCount, Random random) {
       return TEST_STAGE.getNew(csSize, sectionCount, random);
     }
+
+    @Override
+    public void loadTextures(SpriteLoader spriteLoader) {
+
+    }
   },
 
   CAVES {
@@ -31,14 +34,14 @@ public enum WorldType {
           new BoundGenerator(1, 0, 1000, csSize, random).generateBoundsList(sectionCount)
       );
     }
-/*
+
     @Override
-    public void loadTiles(AssetManager astmng) {
-      astmng.load("tiles/caves_stone.png", Texture.class);
-      astmng.load("tiles/caves_stone_top.png", Texture.class);
-      astmng.load("tiles/caves_stone_corner_left.png", Texture.class);
-      astmng.load("tiles/caves_stone_corner_right.png", Texture.class);
-    }*/
+    public void loadTextures(SpriteLoader spriteLoader) {
+      spriteLoader.queueAsset("tiles/caves_stone.png");
+      spriteLoader.queueAsset("tiles/caves_stone_top.png");
+      spriteLoader.queueAsset("tiles/caves_stone_corner_left.png");
+      spriteLoader.queueAsset("tiles/caves_stone_corner_right.png");
+    }
   },
 
   TEST_STAGE {
@@ -49,9 +52,14 @@ public enum WorldType {
       ArrayList<Interactable> interactables = new ArrayList<>();
       return new HuldraWorld(this, random, sectionBoundsList);
     }
+
+    @Override
+    public void loadTextures(SpriteLoader spriteLoader) {
+
+    }
   };
 
-  public abstract String[] getTileStrings();
+  public abstract void loadTextures(SpriteLoader spriteLoader);
 
   /**
    * Method for generating a HuldraWorld-object of the given type and parameters.

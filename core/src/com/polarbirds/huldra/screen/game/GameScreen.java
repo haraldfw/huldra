@@ -3,7 +3,6 @@ package com.polarbirds.huldra.screen.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -11,6 +10,7 @@ import com.polarbirds.huldra.HuldraGame;
 import com.polarbirds.huldra.model.entity.character.Team;
 import com.polarbirds.huldra.model.entity.character.player.Knight;
 import com.polarbirds.huldra.model.entity.character.player.PlayerCharacter;
+import com.polarbirds.huldra.model.utility.SpriteLoader;
 import com.polarbirds.huldra.model.world.HuldraWorld;
 import com.polarbirds.huldra.model.world.WorldType;
 
@@ -26,12 +26,12 @@ public class GameScreen implements Screen {
   public HuldraWorld world;
   private PlayerCharacter player;
 
-  AssetManager astmng;
+  public SpriteLoader spriteLoader;
 
   private ShapeRenderer sr;
 
   public GameScreen(HuldraGame game) {
-    astmng = new AssetManager();
+    spriteLoader = new SpriteLoader();
     this.game = game;
     init();
     sr = new ShapeRenderer();
@@ -43,7 +43,7 @@ public class GameScreen implements Screen {
 
     stage.setViewport(new ScreenViewport(game.camera));
 
-    WorldType.CAVES.loadTiles(astmng);
+    WorldType.CAVES.loadTextures(spriteLoader);
     world = WorldType.CAVES.getNew(1, 20, new Random());
     player = new Knight(world.spawn, Team.PLAYER, this);
     stage.addActor(player);
