@@ -2,7 +2,6 @@ package com.polarbirds.huldra.model.utility;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.polarbirds.huldra.model.world.physics.Vector2;
-import com.polarbirds.huldra.screen.game.GameScreen;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -16,15 +15,10 @@ import java.util.Map;
  */
 public class SpriteLoader extends ALoader {
 
+  public boolean isDone = false;
   private double progress = 0;
   private Collection<String> paths = new ArrayList<>();
   private Map<String, Sprite> loadedSprites;
-  private GameScreen gameScreen;
-  public boolean isDone = false;
-
-  public SpriteLoader(GameScreen gameScreen) {
-    this.gameScreen = gameScreen;
-  }
 
   @Override
   public void run() {
@@ -52,7 +46,9 @@ public class SpriteLoader extends ALoader {
   @Override
   public double getProgress() {
     double progress = loadedSprites.size() / paths.size();
-    System.out.println("Texture-loading progress: " + loadedSprites.size() + "/" + paths.size() + ", " + progress*100 + "%");
+    System.out.println(
+        "Texture-loading progress: " + loadedSprites.size() + "/" + paths.size() + ", "
+        + progress * 100 + "%");
     return progress;
   }
 
