@@ -1,6 +1,6 @@
 package com.polarbirds.huldra.model.entity.animation;
 
-import com.polarbirds.huldra.model.utilities.Sprite;
+import com.polarbirds.huldra.model.utility.Sprite;
 
 /**
  * A class for animations with only one sprite Created by Harald Wilhelmsen on 16/6/2015.

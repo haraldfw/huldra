@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.model.utilities;
+package com.polarbirds.huldra.model.utility;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

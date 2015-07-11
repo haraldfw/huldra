@@ -1,7 +1,7 @@
 package com.polarbirds.huldra.model.entity.animation;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.polarbirds.huldra.model.utilities.Sprite;
+import com.polarbirds.huldra.model.utility.Sprite;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 
 /**
