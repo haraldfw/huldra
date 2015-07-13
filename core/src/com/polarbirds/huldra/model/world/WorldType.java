@@ -7,10 +7,10 @@ public enum WorldType {
   // Order: float rsHor, float rsVer, float rsSpread, float rsSize, String[] texturePaths
   FOREST(1, 0.1f, Float.MAX_VALUE, 1, new String[0]),
   CAVES(1, 1, 1, 1, new String[]{
-      "tiles/caves_stone.png",
-      "tiles/caves_stone_top.png",
-      "tiles/caves_stone_corner_left.png",
-      "tiles/caves_stone_corner_right.png",
+      "graphics/world/tiles/stone.png",
+      "graphics/world/tiles/stone_top.png",
+      "graphics/world/tiles/stone_corner_left.png",
+      "graphics/world/tiles/stone_corner_right.png",
   }),
   TEST_STAGE(1, 1, 1, 1, new String[0]);
   /**
