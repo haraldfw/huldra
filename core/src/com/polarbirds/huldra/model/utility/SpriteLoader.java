@@ -30,18 +30,7 @@ public class SpriteLoader extends ALoader {
     double progressIncrement = 1.0 / paths.size();
     for (String path : paths) {
       if (path.contains(".anim")) {
-        Texture texture = new Texture(path.substring(0, path.length() - 5) + ".png");
-        int i = 0;
-        while (true) {
-          File file = new File(
-              path.substring(path.lastIndexOf("\\"), path.length() - 5) + String.valueOf(i));
-          if (file.isFile() && file.canWrite() && file.length() > 0) {
-            // File exists
-
-          } else {
-            break;
-          }
-        }
+        loadAnimation(path);
       } else {
         loadSprite(path);
       }
@@ -57,6 +46,63 @@ public class SpriteLoader extends ALoader {
     }
   }
 
+  private void loadAnimation(String path) {
+    Texture texture = new Texture(path.substring(0, path.length() - 5) + ".png");
+    int i = 0;
+    while (true) {
+      File file = new File(
+          path.substring(path.lastIndexOf("\\"), path.length() - 5) + i);
+      if (file.isFile() && file.canWrite() && file.length() > 0) {
+        // File exists
+        try {
+          BufferedReader reader = new BufferedReader(new FileReader(file));
+          ArrayList<Sprite> sprites = new ArrayList<>();
+
+          int width = Integer.parseInt(reader.readLine());
+          int height = Integer.parseInt(reader.readLine());
+
+          ArrayList<Vector2> shifts = parseShifts(texture.getWidth()/width*(texture.getHeight()/height), reader);
+
+          if (texture.getWidth() == width && texture.getHeight() == height) {
+            parseStaticAnimation(texture, shifts);
+          } else if (reader.readLine() == null) {
+            parseManualAnimation(width, height, texture, shifts);
+          } else {
+            float frameTime = Float.parseFloat(reader.readLine());
+            if(Integer.parseInt(reader.readLine()) == 0) {
+
+            }
+          }
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      } else {
+        break;
+      }
+    }
+  }
+
+  private ArrayList<Vector2> parseShifts(int frames, BufferedReader reader) {
+    ArrayList<Vector2> shifts = new ArrayList<>();
+
+    return shifts;
+  }
+
+  private void parseStaticAnimation(Texture texture, ArrayList<Vector2> shifts) {
+
+  }
+
+  private void parseManualAnimation(int width, int height, Texture texture, ArrayList<Vector2> shifts) {
+
+  }
+
+  private void parseSimpleAnimation(int width, int height, Texture texture, ArrayList<Vector2> shifts) {
+
+  }
+
+  private void parseAdvancedAnimation(int width, int height, Texture texture, BufferedReader reader) {
+
+  }
 
   public void queueAsset(String toAdd) {
     paths.add(toAdd);
