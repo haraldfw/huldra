@@ -43,8 +43,10 @@ public class GameScreen implements Screen {
 
     stage.setViewport(new ScreenViewport(game.camera));
 
-    WorldType.CAVES.loadTextures(spriteLoader);
-    world = WorldType.CAVES.getNew(1, 20, new Random());
+    WorldType type = WorldType.CAVES;
+
+    spriteLoader.queueAssets(type.texturePaths);
+    world = new HuldraWorld(20, type, new Random());
     player = new Knight(world.spawn, Team.PLAYER, this);
     stage.addActor(player);
   }
