@@ -18,11 +18,11 @@ public enum WorldType {
    */
   public final float rsHor;
   /**
-   * Chance for rooms to be spread vertically, rather than horizontally. 0 <= x <= 1.
+   * Chance for rooms to be spread vertically, rather than horizontally. 0 <= x <= 1
    */
   public final float rsVer;
   /**
-   * Chance for rooms to occupy spaces further from the initial spawn room. 0 <= x <= 1
+   * Chance for rooms to occupy spaces further from the initial spawn room. 1 <= x <= Float.MAX_VALUE
    */
   public final float rsSpread;
   /**
