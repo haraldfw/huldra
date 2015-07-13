@@ -14,8 +14,8 @@ import com.polarbirds.huldra.screen.game.GameScreen;
  */
 public abstract class PlayerCharacter extends AWalkingCharacter {
 
-  public PlayerCharacter(Vector2 pos, AAnimation animation, Team team, GameScreen game) {
-    super(pos, 0.5f, 0.7f, 0.0167f, animation, team, game);
+  public PlayerCharacter(Vector2 pos, Team team, GameScreen game) {
+    super(pos, 0.5f, 0.7f, 0.0167f, team, game);
     this.input = Controllers.getControllers().size > 0 ?
                  new XboxController(Controllers.getControllers().get(0))
                                                        : new Keyboard(game.game.camera);
