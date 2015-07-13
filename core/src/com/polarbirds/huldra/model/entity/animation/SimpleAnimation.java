@@ -12,6 +12,7 @@ public class SimpleAnimation extends AAnimation {
   private final float timePerFrame;
 
   SimpleAnimation(Sprite[] frames, float timePerFrame) {
+    super();
     this.frames = frames;
     this.timePerFrame = timePerFrame;
   }
@@ -22,7 +23,8 @@ public class SimpleAnimation extends AAnimation {
   }
 
   @Override
-  protected Sprite getCurrentFrame() {
-    return frames[(int) (timePassed / timePerFrame)];
+  protected Sprite getCurrentFrame(Object caller) {
+    return frames[(int) (timePassed.get(this) / timePerFrame)];
   }
+
 }

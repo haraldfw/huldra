@@ -14,7 +14,7 @@ public class StaticAnimation extends AAnimation {
   }
 
   @Override
-  public void update(float delta) {
+  public void update(Object caller, float delta) {
   }
 
   @Override
@@ -23,7 +23,8 @@ public class StaticAnimation extends AAnimation {
   }
 
   @Override
-  protected Sprite getCurrentFrame() {
+  protected Sprite getCurrentFrame(Object caller) {
     return s;
   }
+
 }

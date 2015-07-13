@@ -12,6 +12,7 @@ public class AdvancedAnimation extends AAnimation {
   private final float[] frameTimes;
 
   public AdvancedAnimation(Sprite[] frames, float[] frameTimes) {
+    super();
     this.frames = frames;
     this.frameTimes = frameTimes;
   }
@@ -26,14 +27,15 @@ public class AdvancedAnimation extends AAnimation {
   }
 
   @Override
-  protected Sprite getCurrentFrame() {
+  protected Sprite getCurrentFrame(Object caller) {
     float t = 0;
     for (int i = 0; i < frames.length; i++) {
       t += frameTimes[i];
-      if (t > timePassed) {
+      if (t > timePassed.get(this)) {
         return frames[i];
       }
     }
     return frames[0];
   }
+
 }

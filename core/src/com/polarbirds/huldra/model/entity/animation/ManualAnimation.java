@@ -2,25 +2,27 @@ package com.polarbirds.huldra.model.entity.animation;
 
 import com.polarbirds.huldra.model.utility.Sprite;
 
+import java.util.HashMap;
+
 /**
  * Created by Harald Wilhelmsen on 30/6/2015.
  */
 public class ManualAnimation extends AAnimation {
 
   private Sprite[] frames;
-  private int activeFrame;
+  private HashMap<Object, Integer> activeFrames;
 
   public ManualAnimation(Sprite[] frames) {
     this.frames = frames;
-    activeFrame = 0;
+    activeFrames = new HashMap<>();
   }
 
-  public void setFrame(int frameId) {
-    activeFrame = frameId;
+  public void setFrame(Object caller, int frameId) {
+    activeFrames.put(caller, frameId);
   }
 
   @Override
-  public void update(float delta) {
+  public void update(Object caller, float delta) {
   }
 
   @Override
@@ -29,7 +31,8 @@ public class ManualAnimation extends AAnimation {
   }
 
   @Override
-  protected Sprite getCurrentFrame() {
-    return frames[activeFrame];
+  protected Sprite getCurrentFrame(Object caller) {
+    return frames[activeFrames.get(caller)];
   }
+
 }
