@@ -1,5 +1,6 @@
 package com.polarbirds.huldra.model.entity.character.player;
 
+import com.polarbirds.huldra.model.entity.animation.AAnimation;
 import com.polarbirds.huldra.model.entity.character.Team;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.polarbirds.huldra.screen.game.GameScreen;
@@ -14,5 +15,10 @@ public class Knight extends PlayerCharacter {
 
   public Knight(Vector2 pos, Team team, GameScreen game) {
     super(pos, team, game);
+  }
+
+  @Override
+  protected AAnimation getCurrentAnimation() {
+    return null;
   }
 }
