@@ -10,10 +10,12 @@ import com.polarbirds.huldra.screen.game.GameScreen;
 /**
  * Created by Harald on 29.6.15.
  */
-public class AProjectile extends ADynamicCharacter {
+public abstract class AProjectile extends ADynamicCharacter {
 
-  public AProjectile(DynamicBody body, Vector2 vel, AAnimation animation, Team team, GameScreen game) {
-    super(body, animation, team, game);
+  public AProjectile(DynamicBody body, Vector2 vel, Team team, GameScreen game) {
+    super(body, team, game);
     body.vel.set(vel);
   }
+
+
 }
