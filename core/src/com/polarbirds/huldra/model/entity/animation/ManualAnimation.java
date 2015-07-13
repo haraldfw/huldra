@@ -1,6 +1,6 @@
 package com.polarbirds.huldra.model.entity.animation;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.polarbirds.huldra.model.utility.Sprite;
 
 /**
  * Created by Harald Wilhelmsen on 30/6/2015.

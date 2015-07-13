@@ -25,8 +25,6 @@ public abstract class AAnimation {
 
   public final void draw(Batch sb, Vector2 pos) {
     Sprite s = getCurrentFrame();
-    s.setPosition(s.getX() + pos.x, s.getY() + pos.y);
-    s.draw(sb);
-    s.setPosition(s.getX() - pos.x, s.getY() - pos.x);
+    s.draw(sb, pos);
   }
 }
