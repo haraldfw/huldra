@@ -35,8 +35,14 @@ public class SpriteLoader extends ALoader {
     isDone = true;
   }
 
-  public void queueAsset(String path) {
-    paths.add(path);
+  public void queueAsset(String toAdd) {
+    paths.add(toAdd);
+  }
+
+  public void queueAssets(String[] toAdd) {
+    for(String path : paths) {
+      paths.add(path);
+    }
   }
 
   public Sprite getSprite(String path) {
