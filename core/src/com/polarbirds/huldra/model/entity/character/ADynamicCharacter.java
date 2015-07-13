@@ -23,12 +23,12 @@ public abstract class ADynamicCharacter extends Image {
 
   @Override
   public void act(float delta) {
-    getCurrentAnimation().update(delta);
+    getCurrentAnimation().update(this, delta);
   }
 
   @Override
   public void draw(Batch batch, float parentAlpha) {
-    getCurrentAnimation().draw(batch, body.pos);
+    getCurrentAnimation().draw(this, batch, body.pos);
   }
 
   protected abstract AAnimation getCurrentAnimation();
