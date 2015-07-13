@@ -3,7 +3,7 @@ package com.polarbirds.huldra.model.entity.animation;
 import com.polarbirds.huldra.model.utility.Sprite;
 
 /**
- * A class for animations with equal framtimes for each frame. Created by Harald Wilhelmsen on
+ * A class for animations with equal frametimes for each frame. Created by Harald Wilhelmsen on
  * 16/6/2015.
  */
 public class SimpleAnimation extends AAnimation {
