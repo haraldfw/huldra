@@ -28,8 +28,8 @@ public final class HuldraWorld {
   private List<DynamicBody> dynamicBodies;
   private List<StaticBody> staticBodies;
 
-  HuldraWorld(WorldType worldType, Random random, Iterable<Bounds> boundsList) {
-    convertWorld(boundsList, random);
+  public HuldraWorld(int sectionCount, WorldType worldType, Random random) {
+    convertWorld(new BoundGenerator(worldType, random).generateBoundsList(sectionCount), random);
     dynamicBodies = new ArrayList<>();
     staticBodies = new ArrayList<>();
   }

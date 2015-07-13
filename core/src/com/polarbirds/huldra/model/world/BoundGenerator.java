@@ -14,27 +14,17 @@ import java.util.Random;
  */
 final class BoundGenerator {
 
-  private float csHor;
-  private float csVer;
-  private float csSpread;
-  private double csSize;
+  private WorldType type;
   private Random random;
 
-  BoundGenerator(float csHor, float csVer, float csSpread, double csSize,
-                 Random random) {
-    this.csHor = csHor;
-    this.csVer = csVer;
-    this.csSize = csSize;
+  public BoundGenerator(WorldType type, Random random) {
+    this.type = type;
     this.random = random;
-
-    this.csHor = cap(csHor, 0, 1);
-    this.csVer = cap(csVer, 0, 1);
-    this.csSpread = cap(csSpread, 1f, Float.MAX_VALUE);
   }
 
   private IntVector2 getSize() {
-    int width = 1 + (int) Math.abs(random.nextGaussian() * csSize);
-    int height = 1 + (int) Math.abs(random.nextGaussian() * csSize);
+    int width = 1 + (int) Math.abs(random.nextGaussian() *type.rsSize);
+    int height = 1 + (int) Math.abs(random.nextGaussian() * type.rsSize);
 
     if (width > Section.BOUNDS_MAX_WIDTH) {
       width = Section.BOUNDS_MAX_WIDTH;
@@ -103,7 +93,7 @@ final class BoundGenerator {
   }
 
   private int getNewSelection(int size) {
-    return (int) cap((float) (Math.abs(random.nextGaussian()) * csSpread), 0, size - 1);
+    return (int) cap((float) (Math.abs(random.nextGaussian()) * type.rsSpread), 0, size - 1);
   }
 
   private float cap(float value, float min, float max) {
@@ -131,7 +121,7 @@ final class BoundGenerator {
           "Finding combined location for dimensions: " + dimensions.y + ", " + dimensions.y);
       for (int iterations2 = 0; iterations2 < 10000; iterations2++) {
         // Sort boundsList by their distance from spawn
-        boundsList.sort(new SpreadComparator(csHor, csVer));
+        boundsList.sort(new SpreadComparator(type.rsHor, type.rsVer));
 
         // choose a random section to try to expand from
         Bounds bounds = boundsList.get(getNewSelection(boundsList.size()));
