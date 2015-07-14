@@ -11,7 +11,7 @@ public class SimpleAnimation extends AAnimation {
   private final ASprite[] frames;
   private final float timePerFrame;
 
-  SimpleAnimation(ASprite[] frames, float timePerFrame) {
+  public SimpleAnimation(ASprite[] frames, float timePerFrame) {
     this.frames = frames;
     this.timePerFrame = timePerFrame;
   }
