@@ -1,15 +1,16 @@
 package com.polarbirds.huldra.model.entity.animation;
 
-import com.polarbirds.huldra.model.utility.Sprite;
+
+import com.polarbirds.huldra.model.utility.ASprite;
 
 /**
  * A class for animations with only one sprite Created by Harald Wilhelmsen on 16/6/2015.
  */
 public class StaticAnimation extends AAnimation {
 
-  private final Sprite s;
+  private final ASprite s;
 
-  public StaticAnimation(Sprite s) {
+  public StaticAnimation(ASprite s) {
     this.s = s;
   }
 
@@ -23,7 +24,7 @@ public class StaticAnimation extends AAnimation {
   }
 
   @Override
-  protected Sprite getCurrentFrame(Object caller) {
+  protected ASprite getCurrentFrame(Object caller) {
     return s;
   }
 

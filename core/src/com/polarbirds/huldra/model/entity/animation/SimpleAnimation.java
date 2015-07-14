@@ -1,6 +1,6 @@
 package com.polarbirds.huldra.model.entity.animation;
 
-import com.polarbirds.huldra.model.utility.Sprite;
+import com.polarbirds.huldra.model.utility.ASprite;
 
 /**
  * A class for animations with equal frametimes for each frame. Created by Harald Wilhelmsen on
@@ -8,11 +8,10 @@ import com.polarbirds.huldra.model.utility.Sprite;
  */
 public class SimpleAnimation extends AAnimation {
 
-  private final Sprite[] frames;
+  private final ASprite[] frames;
   private final float timePerFrame;
 
-  SimpleAnimation(Sprite[] frames, float timePerFrame) {
-    super();
+  SimpleAnimation(ASprite[] frames, float timePerFrame) {
     this.frames = frames;
     this.timePerFrame = timePerFrame;
   }
@@ -23,7 +22,7 @@ public class SimpleAnimation extends AAnimation {
   }
 
   @Override
-  protected Sprite getCurrentFrame(Object caller) {
+  protected ASprite getCurrentFrame(Object caller) {
     return frames[(int) (timePassed.get(this) / timePerFrame)];
   }
 

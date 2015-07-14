@@ -1,6 +1,6 @@
 package com.polarbirds.huldra.model.entity.animation;
 
-import com.polarbirds.huldra.model.utility.Sprite;
+import com.polarbirds.huldra.model.utility.ASprite;
 
 import java.util.HashMap;
 
@@ -9,10 +9,10 @@ import java.util.HashMap;
  */
 public class ManualAnimation extends AAnimation {
 
-  private Sprite[] frames;
+  private ASprite[] frames;
   private HashMap<Object, Integer> activeFrames;
 
-  public ManualAnimation(Sprite[] frames) {
+  public ManualAnimation(ASprite[] frames) {
     this.frames = frames;
     activeFrames = new HashMap<>();
   }
@@ -31,7 +31,7 @@ public class ManualAnimation extends AAnimation {
   }
 
   @Override
-  protected Sprite getCurrentFrame(Object caller) {
+  protected ASprite getCurrentFrame(Object caller) {
     return frames[activeFrames.get(caller)];
   }
 

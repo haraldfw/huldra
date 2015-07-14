@@ -1,7 +1,7 @@
 package com.polarbirds.huldra.model.entity.animation;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.polarbirds.huldra.model.utility.Sprite;
+import com.polarbirds.huldra.model.utility.ASprite;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 
 import java.util.HashMap;
@@ -38,7 +38,7 @@ public abstract class AAnimation {
 
   protected abstract float getTotalTime();
 
-  protected abstract Sprite getCurrentFrame(Object caller);
+  protected abstract ASprite getCurrentFrame(Object caller);
 
   public final void draw(Object caller, Batch sb, Vector2 pos) {
     getCurrentFrame(caller).draw(sb, pos);
