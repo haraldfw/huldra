@@ -1,15 +1,23 @@
 package com.polarbirds.huldra.model.utility;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.polarbirds.huldra.HuldraGame;
 import com.polarbirds.huldra.model.entity.animation.AAnimation;
+import com.polarbirds.huldra.model.entity.animation.AdvancedAnimation;
+import com.polarbirds.huldra.model.entity.animation.ManualAnimation;
+import com.polarbirds.huldra.model.entity.animation.SimpleAnimation;
+import com.polarbirds.huldra.model.entity.animation.StaticAnimation;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,7 +28,7 @@ public class SpriteLoader extends ALoader {
   public boolean isDone = false;
   private double progress = 0;
   private Collection<String> paths = new ArrayList<>();
-  private Map<String, Sprite> loadedSprites;
+  private Map<String, ASprite> loadedSprites;
   private Map<String, AAnimation> loadedAnimations;
 
   @Override
@@ -56,21 +64,26 @@ public class SpriteLoader extends ALoader {
         // File exists
         try {
           BufferedReader reader = new BufferedReader(new FileReader(file));
-          ArrayList<Sprite> sprites = new ArrayList<>();
 
           int width = Integer.parseInt(reader.readLine());
           int height = Integer.parseInt(reader.readLine());
 
-          ArrayList<Vector2> shifts = parseShifts(texture.getWidth()/width*(texture.getHeight()/height), reader);
+          ArrayList<Vector2> shifts =
+              parseShifts(texture.getWidth() / width * (texture.getHeight() / height), reader);
 
           if (texture.getWidth() == width && texture.getHeight() == height) {
-            parseStaticAnimation(texture, shifts);
+            parseStaticAnimation(path, texture, shifts);
           } else if (reader.readLine() == null) {
-            parseManualAnimation(width, height, texture, shifts);
+            parseManualAnimation(path, width, height, texture, shifts);
           } else {
             float frameTime = Float.parseFloat(reader.readLine());
-            if(Integer.parseInt(reader.readLine()) == 0) {
-
+            int frameTimeSpecialCases = Integer.parseInt(reader.readLine());
+            if (frameTimeSpecialCases == 0) {
+              parseSimpleAnimation(path, Float.parseFloat(reader.readLine()), width, height,
+                                   texture, shifts);
+            } else {
+              parseAdvancedAnimation(
+                  path, width, height, texture, shifts, frameTimeSpecialCases, reader);
             }
           }
         } catch (Exception e) {
@@ -84,24 +97,70 @@ public class SpriteLoader extends ALoader {
 
   private ArrayList<Vector2> parseShifts(int frames, BufferedReader reader) {
     ArrayList<Vector2> shifts = new ArrayList<>();
-
+    try {
+      for (int i = 0; i < frames; i++) {
+        shifts.add(new Vector2(Float.parseFloat(reader.readLine()) / HuldraGame.PIXELS_PER_TILESIDE,
+                               Float.parseFloat(reader.readLine()) / HuldraGame.PIXELS_PER_TILESIDE
+        ));
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     return shifts;
   }
 
-  private void parseStaticAnimation(Texture texture, ArrayList<Vector2> shifts) {
-
+  private void parseStaticAnimation(String path, Texture texture, List<Vector2> shifts) {
+    putAnimation(path, new StaticAnimation(new Sprite(texture, shifts.get(0))));
   }
 
-  private void parseManualAnimation(int width, int height, Texture texture, ArrayList<Vector2> shifts) {
-
+  private void parseManualAnimation(String path, int width, int height, Texture texture,
+                                    List<Vector2> shifts) {
+    putAnimation(path, new ManualAnimation(splitTexture(width, height, texture, shifts)));
   }
 
-  private void parseSimpleAnimation(int width, int height, Texture texture, ArrayList<Vector2> shifts) {
-
+  private void parseSimpleAnimation(String path, float frameTime, int width, int height,
+                                    Texture texture, List<Vector2> shifts) {
+    putAnimation(
+        path, new SimpleAnimation(splitTexture(width, height, texture, shifts), frameTime));
   }
 
-  private void parseAdvancedAnimation(int width, int height, Texture texture, BufferedReader reader) {
+  private void parseAdvancedAnimation(String path, int width, int height, Texture texture,
+                                      List<Vector2> shifts, int specialCases,
+                                      BufferedReader reader) {
+    float[] frameTimes = new float[shifts.size()];
+    try {
+      int frameInQuestion = Integer.parseInt(reader.readLine());
+      for (int i = 0; i < shifts.size(); i++) {
+        if(i == frameInQuestion) {
+          frameTimes[i] = Float.parseFloat(reader.readLine());
+          i = Integer.parseInt(reader.readLine());
+        }
+      }
 
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    putAnimation(path, new AdvancedAnimation(splitTexture(width, height, texture, shifts), frameTimes));
+  }
+
+  private ASprite[] splitTexture(int width, int height, Texture texture, List<Vector2> shifts) {
+    ArrayList<ASprite> sprites = new ArrayList<>();
+
+    for (int i = 0; i < shifts.size(); i++) {
+      sprites.add(
+          new RegionSprite(
+              new TextureRegion(texture, 0, height * i, width, height),
+              shifts.get(i)
+          ));
+    }
+
+    return sprites.toArray(new ASprite[sprites.size()]);
+  }
+
+  private void putAnimation(String path, AAnimation animation) {
+    if (!loadedAnimations.containsKey(path)) {
+      loadedAnimations.put(path, animation);
+    }
   }
 
   public void queueAsset(String toAdd) {
@@ -114,7 +173,7 @@ public class SpriteLoader extends ALoader {
     }
   }
 
-  public Sprite getSprite(String path) {
+  public ASprite getSprite(String path) {
     return loadedSprites.get(path);
   }
 
