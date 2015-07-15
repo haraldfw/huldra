@@ -131,7 +131,7 @@ public class SpriteLoader extends ALoader {
     try {
       int frameInQuestion = Integer.parseInt(reader.readLine());
       for (int i = 0; i < shifts.size(); i++) {
-        if(i == frameInQuestion) {
+        if (i == frameInQuestion) {
           frameTimes[i] = Float.parseFloat(reader.readLine());
           i = Integer.parseInt(reader.readLine());
         }
@@ -140,7 +140,8 @@ public class SpriteLoader extends ALoader {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    putAnimation(path, new AdvancedAnimation(splitTexture(width, height, texture, shifts), frameTimes));
+    putAnimation(path,
+                 new AdvancedAnimation(splitTexture(width, height, texture, shifts), frameTimes));
   }
 
   private ASprite[] splitTexture(int width, int height, Texture texture, List<Vector2> shifts) {

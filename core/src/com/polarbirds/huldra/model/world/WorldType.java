@@ -22,7 +22,8 @@ public enum WorldType {
    */
   public final float rsVer;
   /**
-   * Chance for rooms to occupy spaces further from the initial spawn room. 1 <= x <= Float.MAX_VALUE
+   * Chance for rooms to occupy spaces further from the initial spawn room. 1 <= x <=
+   * Float.MAX_VALUE
    */
   public final float rsSpread;
   /**

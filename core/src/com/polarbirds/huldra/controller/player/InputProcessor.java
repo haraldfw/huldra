@@ -115,8 +115,11 @@ public abstract class InputProcessor implements IMotiveProcessor {
   }
 
   public abstract boolean getQuickSelect1();
+
   public abstract boolean getQuickSelect2();
+
   public abstract boolean getQuickSelect3();
+
   public abstract boolean getQuickSelect4();
 
   protected abstract boolean getIsDown(int key);

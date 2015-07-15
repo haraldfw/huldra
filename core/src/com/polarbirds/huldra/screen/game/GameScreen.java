@@ -24,10 +24,8 @@ public class GameScreen implements Screen {
   public final HuldraGame game;
   public Stage stage; // stage containing game actors
   public HuldraWorld world;
-  private PlayerCharacter player;
-
   public SpriteLoader spriteLoader;
-
+  private PlayerCharacter player;
   private ShapeRenderer sr;
 
   public GameScreen(HuldraGame game) {

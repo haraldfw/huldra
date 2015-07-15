@@ -23,7 +23,7 @@ final class BoundGenerator {
   }
 
   private IntVector2 getSize() {
-    int width = 1 + (int) Math.abs(random.nextGaussian() *type.rsSize);
+    int width = 1 + (int) Math.abs(random.nextGaussian() * type.rsSize);
     int height = 1 + (int) Math.abs(random.nextGaussian() * type.rsSize);
 
     if (width > Section.BOUNDS_MAX_WIDTH) {

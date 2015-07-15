@@ -16,7 +16,7 @@ public class Skills {
     this.world = world;
   }
 
-  public void slash(Vector2 loc, Vector2 vel, float inverseMass, float radius){
+  public void slash(Vector2 loc, Vector2 vel, float inverseMass, float radius) {
     world.addDynamicBody(new DynamicBody(loc, new CircleShape(radius), inverseMass));
   }
 }

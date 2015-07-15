@@ -46,17 +46,6 @@ public final class Keyboard extends InputProcessor {
     return Gdx.input.isKeyPressed(key);
   }
 
-  private static HashMap<String, Integer> getKeys() {
-    HashMap<String, Integer> keys = new HashMap<>();
-    keys.put("attack1", Input.Keys.J);
-    keys.put("attack2", Input.Keys.K);
-    keys.put("jump", Input.Keys.SPACE);
-    keys.put("interact", Input.Keys.E);
-    keys.put("menu", Input.Keys.TAB);
-    keys.put("pause", Input.Keys.ESCAPE);
-    return keys;
-  }
-
   @Override
   public boolean getQuickSelect1() {
     return Gdx.input.isKeyPressed(Input.Keys.NUM_1);
@@ -75,5 +64,16 @@ public final class Keyboard extends InputProcessor {
   @Override
   public boolean getQuickSelect4() {
     return Gdx.input.isKeyPressed(Input.Keys.NUM_4);
+  }
+
+  private static HashMap<String, Integer> getKeys() {
+    HashMap<String, Integer> keys = new HashMap<>();
+    keys.put("attack1", Input.Keys.J);
+    keys.put("attack2", Input.Keys.K);
+    keys.put("jump", Input.Keys.SPACE);
+    keys.put("interact", Input.Keys.E);
+    keys.put("menu", Input.Keys.TAB);
+    keys.put("pause", Input.Keys.ESCAPE);
+    return keys;
   }
 }
