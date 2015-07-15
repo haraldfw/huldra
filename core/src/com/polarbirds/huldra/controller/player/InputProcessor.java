@@ -24,6 +24,10 @@ public abstract class InputProcessor implements IMotiveProcessor {
     String interact = "interact";
     String menu = "menu";
     String pause = "pause";
+    String quick1 = "quick1";
+    String quick2 = "quick2";
+    String quick3 = "quick3";
+    String quick4 = "quick14";
 
     shouldToggle = new HashMap<>();
     shouldToggle.put(attack1, true);
@@ -32,6 +36,10 @@ public abstract class InputProcessor implements IMotiveProcessor {
     shouldToggle.put(interact, true);
     shouldToggle.put(menu, true);
     shouldToggle.put(pause, true);
+    shouldToggle.put(quick1, true);
+    shouldToggle.put(quick2, true);
+    shouldToggle.put(quick3, true);
+    shouldToggle.put(quick4, true);
 
     isPressed = new HashMap<>();
     isPressed.put(attack1, false);
@@ -40,6 +48,10 @@ public abstract class InputProcessor implements IMotiveProcessor {
     isPressed.put(interact, false);
     isPressed.put(menu, false);
     isPressed.put(pause, false);
+    isPressed.put(quick1, false);
+    isPressed.put(quick2, false);
+    isPressed.put(quick3, false);
+    isPressed.put(quick4, false);
 
     wasPressed = new HashMap<>();
     wasPressed.put(attack1, false);
@@ -52,32 +64,32 @@ public abstract class InputProcessor implements IMotiveProcessor {
 
   @Override
   public final boolean attack1() {
-    return getToggledButton("attack1");
+    return getButton("attack1");
   }
 
   @Override
   public final boolean attack2() {
-    return getToggledButton("attack2");
+    return getButton("attack2");
   }
 
   @Override
   public final boolean jump() {
-    return getToggledButton("jump");
+    return getButton("jump");
   }
 
   @Override
   public final boolean interact() {
-    return getToggledButton("interact");
+    return getButton("interact");
   }
 
   @Override
   public final boolean toggleMenu() {
-    return getToggledButton("menu");
+    return getButton("menu");
   }
 
   @Override
   public final boolean pause() {
-    return getToggledButton("pause");
+    return getButton("pause");
   }
 
   @Override
@@ -91,7 +103,7 @@ public abstract class InputProcessor implements IMotiveProcessor {
     }
   }
 
-  private boolean getToggledButton(String key) {
+  private boolean getButton(String key) {
     if (!shouldToggle.get(key)) {
       return getIsDown(keys.get(key));
     }
@@ -101,6 +113,11 @@ public abstract class InputProcessor implements IMotiveProcessor {
     }
     return false;
   }
+
+  public abstract boolean getQuickSelect1();
+  public abstract boolean getQuickSelect2();
+  public abstract boolean getQuickSelect3();
+  public abstract boolean getQuickSelect4();
 
   protected abstract boolean getIsDown(int key);
 }

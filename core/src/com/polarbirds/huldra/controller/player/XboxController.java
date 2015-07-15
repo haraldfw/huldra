@@ -1,6 +1,7 @@
 package com.polarbirds.huldra.controller.player;
 
 import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.PovDirection;
 import com.polarbirds.huldra.model.entity.character.AWalkingCharacter;
 
 import java.util.HashMap;
@@ -60,5 +61,25 @@ public final class XboxController extends InputProcessor {
     keys.put("menu", 6);
     keys.put("pause", 7);
     return keys;
+  }
+
+  @Override
+  public boolean getQuickSelect1() {
+    return controller.getPov(0) == PovDirection.north;
+  }
+
+  @Override
+  public boolean getQuickSelect2() {
+    return controller.getPov(0) == PovDirection.east;
+  }
+
+  @Override
+  public boolean getQuickSelect3() {
+    return controller.getPov(0) == PovDirection.south;
+  }
+
+  @Override
+  public boolean getQuickSelect4() {
+    return controller.getPov(0) == PovDirection.west;
   }
 }

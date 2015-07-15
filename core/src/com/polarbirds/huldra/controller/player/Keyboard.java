@@ -56,4 +56,24 @@ public final class Keyboard extends InputProcessor {
     keys.put("pause", Input.Keys.ESCAPE);
     return keys;
   }
+
+  @Override
+  public boolean getQuickSelect1() {
+    return Gdx.input.isKeyPressed(Input.Keys.NUM_1);
+  }
+
+  @Override
+  public boolean getQuickSelect2() {
+    return Gdx.input.isKeyPressed(Input.Keys.NUM_2);
+  }
+
+  @Override
+  public boolean getQuickSelect3() {
+    return Gdx.input.isKeyPressed(Input.Keys.NUM_3);
+  }
+
+  @Override
+  public boolean getQuickSelect4() {
+    return Gdx.input.isKeyPressed(Input.Keys.NUM_4);
+  }
 }
