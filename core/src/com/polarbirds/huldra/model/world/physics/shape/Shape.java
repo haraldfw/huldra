@@ -8,5 +8,5 @@ import com.polarbirds.huldra.model.world.physics.Vector2;
  */
 public abstract class Shape {
 
-  public abstract void debugDraw(Vector2 pos, ShapeRenderer sr);
+    public abstract void debugDraw(Vector2 pos, ShapeRenderer sr);
 }

@@ -21,76 +21,76 @@ import java.util.Random;
  */
 public class GameScreen implements Screen {
 
-  public final HuldraGame game;
-  public Stage stage; // stage containing game actors
-  public HuldraWorld world;
-  public SpriteLoader spriteLoader;
-  private PlayerCharacter player;
-  private ShapeRenderer sr;
+    public final HuldraGame game;
+    public Stage stage; // stage containing game actors
+    public HuldraWorld world;
+    public SpriteLoader spriteLoader;
+    private PlayerCharacter player;
+    private ShapeRenderer sr;
 
-  public GameScreen(HuldraGame game) {
-    spriteLoader = new SpriteLoader();
-    this.game = game;
-    init();
-    sr = new ShapeRenderer();
-    sr.setProjectionMatrix(game.camera.combined);
-  }
-
-  private void init() {
-    stage = new Stage(); // create the game stage
-
-    stage.setViewport(new ScreenViewport(game.camera));
-
-    WorldType type = WorldType.CAVES;
-
-    spriteLoader.queueAssets(type.texturePaths);
-    world = new HuldraWorld(20, type, new Random());
-    player = new Knight(world.spawn, Team.PLAYER, this);
-    stage.addActor(player);
-  }
-
-  @Override
-  public void render(float delta) {
-    stage.act(delta);
-    game.camera.position.set(player.body.pos, 0);
-    world.integrate(delta);
-    stage.draw();
-    sr.setAutoShapeType(true);
-    sr.begin();
-    world.debugDraw(sr);
-    sr.end();
-    if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
-      init();
+    public GameScreen(HuldraGame game) {
+        spriteLoader = new SpriteLoader();
+        this.game = game;
+        init();
+        sr = new ShapeRenderer();
+        sr.setProjectionMatrix(game.camera.combined);
     }
-  }
 
-  @Override
-  public void show() {
+    private void init() {
+        stage = new Stage(); // create the game stage
 
-  }
+        stage.setViewport(new ScreenViewport(game.camera));
 
-  @Override
-  public void resize(int width, int height) {
+        WorldType type = WorldType.CAVES;
 
-  }
+        spriteLoader.queueAssets(type.texturePaths);
+        world = new HuldraWorld(20, type, new Random());
+        player = new Knight(world.spawn, Team.PLAYER, this);
+        stage.addActor(player);
+    }
 
-  @Override
-  public void pause() {
+    @Override
+    public void render(float delta) {
+        stage.act(delta);
+        game.camera.position.set(player.body.pos, 0);
+        world.integrate(delta);
+        stage.draw();
+        sr.setAutoShapeType(true);
+        sr.begin();
+        world.debugDraw(sr);
+        sr.end();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+            init();
+        }
+    }
 
-  }
+    @Override
+    public void show() {
 
-  @Override
-  public void resume() {
+    }
 
-  }
+    @Override
+    public void resize(int width, int height) {
 
-  @Override
-  public void hide() {
+    }
 
-  }
+    @Override
+    public void pause() {
 
-  @Override
-  public void dispose() {
+    }
 
-  }
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void dispose() {
+
+    }
 }

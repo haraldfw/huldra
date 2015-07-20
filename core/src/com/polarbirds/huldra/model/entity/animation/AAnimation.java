@@ -12,35 +12,35 @@ import java.util.Map;
  */
 public abstract class AAnimation {
 
-  protected Map<Object, Float> timePassed;
+    protected Map<Object, Float> timePassed;
 
-  public AAnimation() {
-    timePassed = new HashMap<>();
-  }
-
-  public final void subscribe(Object newSubscriber) {
-    timePassed.put(newSubscriber, 0f);
-  }
-
-  public final void unsubscribe(Object subscriber) {
-    timePassed.remove(subscriber);
-  }
-
-  public void update(Object caller, float delta) {
-    float time = timePassed.get(caller) + delta;
-    float totalTime = getTotalTime();
-    if (time > totalTime) {
-      timePassed.put(caller, time - totalTime);
-    } else {
-      timePassed.put(caller, time);
+    public AAnimation() {
+        timePassed = new HashMap<>();
     }
-  }
 
-  protected abstract float getTotalTime();
+    public final void subscribe(Object newSubscriber) {
+        timePassed.put(newSubscriber, 0f);
+    }
 
-  protected abstract ASprite getCurrentFrame(Object caller);
+    public final void unsubscribe(Object subscriber) {
+        timePassed.remove(subscriber);
+    }
 
-  public final void draw(Object caller, Batch sb, Vector2 pos) {
-    getCurrentFrame(caller).draw(sb, pos);
-  }
+    public void update(Object caller, float delta) {
+        float time = timePassed.get(caller) + delta;
+        float totalTime = getTotalTime();
+        if (time > totalTime) {
+            timePassed.put(caller, time - totalTime);
+        } else {
+            timePassed.put(caller, time);
+        }
+    }
+
+    protected abstract float getTotalTime();
+
+    protected abstract ASprite getCurrentFrame(Object caller);
+
+    public final void draw(Object caller, Batch sb, Vector2 pos) {
+        getCurrentFrame(caller).draw(sb, pos);
+    }
 }

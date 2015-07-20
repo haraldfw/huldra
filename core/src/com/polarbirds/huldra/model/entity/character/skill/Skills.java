@@ -10,13 +10,13 @@ import com.polarbirds.huldra.model.world.physics.shape.CircleShape;
  */
 public class Skills {
 
-  HuldraWorld world;
+    HuldraWorld world;
 
-  public Skills(HuldraWorld world) {
-    this.world = world;
-  }
+    public Skills(HuldraWorld world) {
+        this.world = world;
+    }
 
-  public void slash(Vector2 loc, Vector2 vel, float inverseMass, float radius) {
-    world.addDynamicBody(new DynamicBody(loc, new CircleShape(radius), inverseMass));
-  }
+    public void slash(Vector2 loc, Vector2 vel, float inverseMass, float radius) {
+        world.addDynamicBody(new DynamicBody(loc, new CircleShape(radius), inverseMass));
+    }
 }

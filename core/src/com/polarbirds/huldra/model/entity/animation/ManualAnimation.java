@@ -9,30 +9,30 @@ import java.util.HashMap;
  */
 public class ManualAnimation extends AAnimation {
 
-  private ASprite[] frames;
-  private HashMap<Object, Integer> activeFrames;
+    private ASprite[] frames;
+    private HashMap<Object, Integer> activeFrames;
 
-  public ManualAnimation(ASprite[] frames) {
-    this.frames = frames;
-    activeFrames = new HashMap<>();
-  }
+    public ManualAnimation(ASprite[] frames) {
+        this.frames = frames;
+        activeFrames = new HashMap<>();
+    }
 
-  public void setFrame(Object caller, int frameId) {
-    activeFrames.put(caller, frameId);
-  }
+    public void setFrame(Object caller, int frameId) {
+        activeFrames.put(caller, frameId);
+    }
 
-  @Override
-  public void update(Object caller, float delta) {
-  }
+    @Override
+    public void update(Object caller, float delta) {
+    }
 
-  @Override
-  protected float getTotalTime() {
-    return 0;
-  }
+    @Override
+    protected float getTotalTime() {
+        return 0;
+    }
 
-  @Override
-  protected ASprite getCurrentFrame(Object caller) {
-    return frames[activeFrames.get(caller)];
-  }
+    @Override
+    protected ASprite getCurrentFrame(Object caller) {
+        return frames[activeFrames.get(caller)];
+    }
 
 }

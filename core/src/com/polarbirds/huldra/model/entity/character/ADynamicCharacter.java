@@ -11,23 +11,23 @@ import com.polarbirds.huldra.screen.game.GameScreen;
  */
 public abstract class ADynamicCharacter extends Image {
 
-  public DynamicBody body;
-  public Team team;
+    public DynamicBody body;
+    public Team team;
 
-  public ADynamicCharacter(DynamicBody body, Team team, GameScreen game) {
-    this.body = body;
-    this.team = team;
-  }
+    public ADynamicCharacter(DynamicBody body, Team team, GameScreen game) {
+        this.body = body;
+        this.team = team;
+    }
 
-  @Override
-  public void act(float delta) {
-    getCurrentAnimation().update(this, delta);
-  }
+    @Override
+    public void act(float delta) {
+        getCurrentAnimation().update(this, delta);
+    }
 
-  @Override
-  public void draw(Batch batch, float parentAlpha) {
-    getCurrentAnimation().draw(this, batch, body.pos);
-  }
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        getCurrentAnimation().draw(this, batch, body.pos);
+    }
 
-  protected abstract AAnimation getCurrentAnimation();
+    protected abstract AAnimation getCurrentAnimation();
 }

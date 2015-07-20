@@ -9,16 +9,16 @@ import com.polarbirds.huldra.model.world.physics.Vector2;
  */
 public class Sprite extends ASprite {
 
-  public final Texture texture;
+    public final Texture texture;
 
-  public Sprite(Texture texture, Vector2 shift) {
-    super(shift);
-    this.texture = texture;
-    this.shift = shift;
-  }
+    public Sprite(Texture texture, Vector2 shift) {
+        super(shift);
+        this.texture = texture;
+        this.shift = shift;
+    }
 
-  @Override
-  public void draw(Batch sb, Vector2 pos) {
-    sb.draw(texture, pos.x + shift.x, pos.y + shift.y);
-  }
+    @Override
+    public void draw(Batch sb, Vector2 pos) {
+        sb.draw(texture, pos.x + shift.x, pos.y + shift.y);
+    }
 }

@@ -8,24 +8,24 @@ import com.polarbirds.huldra.model.utility.ASprite;
  */
 public class StaticAnimation extends AAnimation {
 
-  private final ASprite s;
+    private final ASprite s;
 
-  public StaticAnimation(ASprite s) {
-    this.s = s;
-  }
+    public StaticAnimation(ASprite s) {
+        this.s = s;
+    }
 
-  @Override
-  public void update(Object caller, float delta) {
-  }
+    @Override
+    public void update(Object caller, float delta) {
+    }
 
-  @Override
-  protected float getTotalTime() {
-    return 0;
-  }
+    @Override
+    protected float getTotalTime() {
+        return 0;
+    }
 
-  @Override
-  protected ASprite getCurrentFrame(Object caller) {
-    return s;
-  }
+    @Override
+    protected ASprite getCurrentFrame(Object caller) {
+        return s;
+    }
 
 }

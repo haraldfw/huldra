@@ -11,35 +11,35 @@ import com.polarbirds.huldra.screen.game.GameScreen;
  */
 public abstract class AWalkingCharacter extends ADynamicCharacter {
 
-  public IMotiveProcessor input;
+    public IMotiveProcessor input;
 
-  private boolean onGround = false;
+    private boolean onGround = false;
 
-  public AWalkingCharacter(Vector2 pos, float width, float height, float inverseMass,
-                           Team team, GameScreen game) {
-    super(new DynamicBody(pos, new RectShape(width, height), inverseMass), team, game);
-  }
-
-  @Override
-  public void act(float delta) {
-    super.act(delta);
-    input.update();
-    if (onGround && input.jump()) {
-      body.applyImpulse(0, getJumpStrength());
-      setOnGround(false);
+    public AWalkingCharacter(Vector2 pos, float width, float height, float inverseMass,
+                             Team team, GameScreen game) {
+        super(new DynamicBody(pos, new RectShape(width, height), inverseMass), team, game);
     }
-    body.applyForce(input.moveX() * getMoveStrength(), 0);
-  }
 
-  public boolean isOnGround() {
-    return onGround;
-  }
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        input.update();
+        if (onGround && input.jump()) {
+            body.applyImpulse(0, getJumpStrength());
+            setOnGround(false);
+        }
+        body.applyForce(input.moveX() * getMoveStrength(), 0);
+    }
 
-  public void setOnGround(boolean onGround) {
-    this.onGround = onGround;
-  }
+    public boolean isOnGround() {
+        return onGround;
+    }
 
-  protected abstract float getMoveStrength();
+    public void setOnGround(boolean onGround) {
+        this.onGround = onGround;
+    }
 
-  protected abstract float getJumpStrength();
+    protected abstract float getMoveStrength();
+
+    protected abstract float getJumpStrength();
 }

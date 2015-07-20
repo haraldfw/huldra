@@ -9,15 +9,15 @@ import com.polarbirds.huldra.model.world.physics.Vector2;
  */
 public class RegionSprite extends ASprite {
 
-  private final TextureRegion textureRegion;
+    private final TextureRegion textureRegion;
 
-  public RegionSprite(TextureRegion textureRegion, Vector2 shift) {
-    super(shift);
-    this.textureRegion = textureRegion;
-  }
+    public RegionSprite(TextureRegion textureRegion, Vector2 shift) {
+        super(shift);
+        this.textureRegion = textureRegion;
+    }
 
-  @Override
-  public void draw(Batch sb, Vector2 pos) {
-    sb.draw(textureRegion, pos.x + shift.x, pos.y + shift.y);
-  }
+    @Override
+    public void draw(Batch sb, Vector2 pos) {
+        sb.draw(textureRegion, pos.x + shift.x, pos.y + shift.y);
+    }
 }

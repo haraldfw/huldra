@@ -8,14 +8,14 @@ import com.polarbirds.huldra.model.world.physics.Vector2;
  */
 public class CircleShape extends Shape {
 
-  public final float radius;
+    public final float radius;
 
-  public CircleShape(float radius) {
-    this.radius = radius;
-  }
+    public CircleShape(float radius) {
+        this.radius = radius;
+    }
 
-  @Override
-  public void debugDraw(Vector2 pos, ShapeRenderer sr) {
-    sr.circle(pos.x, pos.y, radius);
-  }
+    @Override
+    public void debugDraw(Vector2 pos, ShapeRenderer sr) {
+        sr.circle(pos.x, pos.y, radius);
+    }
 }

@@ -5,10 +5,10 @@ package com.polarbirds.huldra.model.utility;
  */
 public abstract class ALoader implements Runnable {
 
-  public void startLoading() {
-    Thread t = new Thread(this);
-    t.start();
-  }
+    public void startLoading() {
+        Thread t = new Thread(this);
+        t.start();
+    }
 
-  public abstract double getProgress();
+    public abstract double getProgress();
 }

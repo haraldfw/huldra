@@ -12,26 +12,26 @@ import java.util.ArrayList;
  */
 public class Knight extends PlayerCharacter {
 
-  private static final float sMove = 25f;
-  private static final float sDmg = 1f;
+    private static final float sMove = 25f;
+    private static final float sDmg = 1f;
 
-  private AAnimation[] animations;
+    private AAnimation[] animations;
 
-  private int activeAnimation;
+    private int activeAnimation;
 
-  public Knight(Vector2 pos, Team team, GameScreen game) {
-    super(pos, team, game);
-    ArrayList<AAnimation> animations = new ArrayList<>();
+    public Knight(Vector2 pos, Team team, GameScreen game) {
+        super(pos, team, game);
+        ArrayList<AAnimation> animations = new ArrayList<>();
 
-    animations.add(game.spriteLoader.getAnimation("graphics/player/knight/walk.anim"));
+        animations.add(game.spriteLoader.getAnimation("graphics/player/knight/walk.anim"));
 
-    this.animations = animations.toArray(new AAnimation[animations.size()]);
+        this.animations = animations.toArray(new AAnimation[animations.size()]);
 
-  }
+    }
 
-  @Override
-  protected AAnimation getCurrentAnimation() {
-    return animations[activeAnimation];
-  }
+    @Override
+    protected AAnimation getCurrentAnimation() {
+        return animations[activeAnimation];
+    }
 
 }

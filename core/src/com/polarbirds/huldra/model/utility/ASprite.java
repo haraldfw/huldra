@@ -8,11 +8,11 @@ import com.polarbirds.huldra.model.world.physics.Vector2;
  */
 public abstract class ASprite {
 
-  protected Vector2 shift;
+    protected Vector2 shift;
 
-  public ASprite(Vector2 shift) {
-    this.shift = shift;
-  }
+    public ASprite(Vector2 shift) {
+        this.shift = shift;
+    }
 
-  public abstract void draw(Batch sb, Vector2 pos);
+    public abstract void draw(Batch sb, Vector2 pos);
 }

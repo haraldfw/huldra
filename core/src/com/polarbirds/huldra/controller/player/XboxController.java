@@ -11,75 +11,75 @@ import java.util.HashMap;
  */
 public final class XboxController extends InputProcessor {
 
-  Controller controller;
-  AWalkingCharacter character;
+    Controller controller;
+    AWalkingCharacter character;
 
-  public XboxController(Controller controller) {
-    super(getKeys());
-    this.controller = controller;
-  }
-
-  @Override
-  protected boolean getIsDown(int key) {
-    return controller.getButton(key);
-  }
-
-  @Override
-  public float moveX() {
-    if (!(character == null) && !character.isOnGround()) {
-      return 0;
+    public XboxController(Controller controller) {
+        super(getKeys());
+        this.controller = controller;
     }
-    float move = controller.getAxis(1);
-    return Math.abs(move) > 0.2f ? move : 0;
-  }
 
-  @Override
-  public float moveY() {
-    return controller.getAxis(0);
-  }
+    private static HashMap<String, Integer> getKeys() {
+        HashMap<String, Integer> keys = new HashMap<>();
+        keys.put("attack1", 4);
+        keys.put("attack2", 5);
+        keys.put("jump", 0);
+        keys.put("interact", 2);
+        keys.put("menu", 6);
+        keys.put("pause", 7);
+        return keys;
+    }
 
-  @Override
-  public float lookX() {
-    return controller.getAxis(3);
-  }
+    @Override
+    protected boolean getIsDown(int key) {
+        return controller.getButton(key);
+    }
 
-  @Override
-  public float lookY() {
-    return controller.getAxis(2);
-  }
+    @Override
+    public float moveX() {
+        if (!(character == null) && !character.isOnGround()) {
+            return 0;
+        }
+        float move = controller.getAxis(1);
+        return Math.abs(move) > 0.2f ? move : 0;
+    }
 
-  public void setCharacter(AWalkingCharacter character) {
-    this.character = character;
-  }
+    @Override
+    public float moveY() {
+        return controller.getAxis(0);
+    }
 
-  @Override
-  public boolean getQuickSelect1() {
-    return controller.getPov(0) == PovDirection.north;
-  }
+    @Override
+    public float lookX() {
+        return controller.getAxis(3);
+    }
 
-  @Override
-  public boolean getQuickSelect2() {
-    return controller.getPov(0) == PovDirection.east;
-  }
+    @Override
+    public float lookY() {
+        return controller.getAxis(2);
+    }
 
-  @Override
-  public boolean getQuickSelect3() {
-    return controller.getPov(0) == PovDirection.south;
-  }
+    public void setCharacter(AWalkingCharacter character) {
+        this.character = character;
+    }
 
-  @Override
-  public boolean getQuickSelect4() {
-    return controller.getPov(0) == PovDirection.west;
-  }
+    @Override
+    public boolean getQuickSelect1() {
+        return controller.getPov(0) == PovDirection.north;
+    }
 
-  private static HashMap<String, Integer> getKeys() {
-    HashMap<String, Integer> keys = new HashMap<>();
-    keys.put("attack1", 4);
-    keys.put("attack2", 5);
-    keys.put("jump", 0);
-    keys.put("interact", 2);
-    keys.put("menu", 6);
-    keys.put("pause", 7);
-    return keys;
-  }
+    @Override
+    public boolean getQuickSelect2() {
+        return controller.getPov(0) == PovDirection.east;
+    }
+
+    @Override
+    public boolean getQuickSelect3() {
+        return controller.getPov(0) == PovDirection.south;
+    }
+
+    @Override
+    public boolean getQuickSelect4() {
+        return controller.getPov(0) == PovDirection.west;
+    }
 }

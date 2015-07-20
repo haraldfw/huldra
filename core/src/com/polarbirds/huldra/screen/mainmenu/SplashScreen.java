@@ -14,58 +14,58 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
  */
 public class SplashScreen implements Screen {
 
-  private Texture texture = new Texture("splashimg.png");
-  private Image image = new Image(texture);
-  private Stage stage = new Stage();
+    private Texture texture = new Texture("splashimg.png");
+    private Image image = new Image(texture);
+    private Stage stage = new Stage();
 
-  @Override
-  public void show() {
-    image.setX(stage.getWidth() / 2f - image.getWidth() / 2f);
-    image.setY(stage.getHeight() / 2f - image.getHeight() / 2f);
+    @Override
+    public void show() {
+        image.setX(stage.getWidth() / 2f - image.getWidth() / 2f);
+        image.setY(stage.getHeight() / 2f - image.getHeight() / 2f);
 
-    stage.addActor(image);
+        stage.addActor(image);
 
-    image.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0.5f),
-                                     Actions.delay(2), Actions.run(
-            new Runnable() {
-              @Override
-              public void run() {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
-              }
-            })));
-  }
+        image.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0.5f),
+                Actions.delay(2), Actions.run(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+                            }
+                        })));
+    }
 
-  @Override
-  public void render(float delta) {
-    Gdx.gl.glClearColor(0, 0, 0, 1);
-    Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-    stage.act();
-    stage.draw();
-  }
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
+        stage.act();
+        stage.draw();
+    }
 
-  @Override
-  public void hide() {
-    dispose();
-  }
+    @Override
+    public void hide() {
+        dispose();
+    }
 
-  @Override
-  public void dispose() {
-    texture.dispose();
-    stage.dispose();
-  }
+    @Override
+    public void dispose() {
+        texture.dispose();
+        stage.dispose();
+    }
 
-  @Override
-  public void resize(int width, int height) {
+    @Override
+    public void resize(int width, int height) {
 
-  }
+    }
 
-  @Override
-  public void pause() {
+    @Override
+    public void pause() {
 
-  }
+    }
 
-  @Override
-  public void resume() {
+    @Override
+    public void resume() {
 
-  }
+    }
 }
