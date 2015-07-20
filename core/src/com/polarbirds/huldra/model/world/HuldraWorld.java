@@ -128,18 +128,16 @@ public final class HuldraWorld {
             }
         }
 
-        {
-            Section spawnSection = null;
-            for (Section s : sections) {
-                if (intSpawn.isLike(-s.bounds.x, -s.bounds.y)) {
-                    spawnSection = s;
-                }
+        Section spawnSection = null;
+        for (Section s : sections) {
+            if (intSpawn.isLike(-s.bounds.x, -s.bounds.y)) {
+                spawnSection = s;
             }
-            List<IntVector2> spawns = spawnSection.tilesWithOpenings.locs.get("SPAWN");
-            IntVector2 gottenSpawn = spawns.get(spawns.size() - 1);
-            spawn = new Vector2(spawnSection.bounds.x * Section.TILES_PER_SIDE + gottenSpawn.x + 1,
-                    spawnSection.bounds.y * Section.TILES_PER_SIDE + gottenSpawn.y + 1);
         }
+        List<IntVector2> spawns = spawnSection.tilesWithOpenings.locs.get("SPAWN");
+        IntVector2 gottenSpawn = spawns.get(spawns.size() - 1);
+        spawn = new Vector2(spawnSection.bounds.x * Section.TILES_PER_SIDE + gottenSpawn.x + 1,
+                spawnSection.bounds.y * Section.TILES_PER_SIDE + gottenSpawn.y + 1);
     }
 
     /**
