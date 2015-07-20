@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -84,7 +85,7 @@ public class SpriteLoader extends ALoader {
                                     texture, shifts);
                         } else {
                             parseAdvancedAnimation(
-                                    path, width, height, texture, shifts, frameTimeSpecialCases, reader);
+                                    path, width, height, texture, shifts, frameTimeSpecialCases, frameTime, reader);
                         }
                     }
                 } catch (Exception e) {
@@ -126,18 +127,14 @@ public class SpriteLoader extends ALoader {
     }
 
     private void parseAdvancedAnimation(String path, int width, int height, Texture texture,
-                                        List<Vector2> shifts, int specialCases,
+                                        List<Vector2> shifts, int specialCases, float standardFrameTime,
                                         BufferedReader reader) {
         float[] frameTimes = new float[shifts.size()];
+        Arrays.fill(frameTimes, standardFrameTime);
         try {
-            int frameInQuestion = Integer.parseInt(reader.readLine());
-            for (int i = 0; i < shifts.size(); i++) {
-                if (i == frameInQuestion) {
-                    frameTimes[i] = Float.parseFloat(reader.readLine());
-                    i = Integer.parseInt(reader.readLine());
-                }
+            for (int i = 0; i < specialCases; i++) {
+                frameTimes[Integer.parseInt(reader.readLine())] = Float.parseFloat(reader.readLine());
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
