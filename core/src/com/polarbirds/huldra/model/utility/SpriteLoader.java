@@ -16,10 +16,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by Harald on 10.7.15.
@@ -28,7 +29,7 @@ public class SpriteLoader extends ALoader {
 
     public boolean isDone = false;
     private double progress = 0;
-    private Collection<String> paths = new ArrayList<>();
+    private Set<String> paths = new TreeSet<>();
     private Map<String, ASprite> loadedSprites;
     private Map<String, AAnimation> loadedAnimations;
 
@@ -43,6 +44,7 @@ public class SpriteLoader extends ALoader {
             } else {
                 loadSprite(path);
             }
+            progress += progressIncrement;
         }
 
         paths.clear();
