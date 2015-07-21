@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.polarbirds.huldra.model.world.physics.DynamicBody;
 import com.polarbirds.huldra.model.world.physics.StaticBody;
 import com.polarbirds.huldra.model.world.physics.Vector2;
+import com.polarbirds.huldra.screen.game.Level;
 import com.smokebox.lib.utils.IntVector2;
 import com.smokebox.lib.utils.geom.Bounds;
 import com.smokebox.lib.utils.geom.Line;
@@ -21,12 +22,11 @@ import java.util.Random;
  */
 public final class HuldraWorld {
 
-    public Vector2 spawn;
-    private Parallax parallax;
-
     private TileType[][] tiles;
     private List<DynamicBody> dynamicBodies;
     private List<StaticBody> staticBodies;
+
+    public Level level;
 
     public HuldraWorld(int sectionCount, WorldType worldType, Random random) {
         convertWorld(new BoundGenerator(worldType, random).generateBoundsList(sectionCount), random);

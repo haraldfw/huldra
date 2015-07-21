@@ -3,7 +3,9 @@ package com.polarbirds.huldra.screen.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.polarbirds.huldra.HuldraGame;
@@ -13,7 +15,9 @@ import com.polarbirds.huldra.model.entity.character.player.PlayerCharacter;
 import com.polarbirds.huldra.model.utility.SpriteLoader;
 import com.polarbirds.huldra.model.world.HuldraWorld;
 import com.polarbirds.huldra.model.world.WorldType;
+import com.polarbirds.huldra.model.world.physics.Vector2;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -21,14 +25,26 @@ import java.util.Random;
  */
 public class GameScreen implements Screen {
 
+    private State state;
+    private Stage gameStage;       // stage containing game actors
+    private Stage hudStage;        // stage containing hud-elements
+    private Stage pauseStage;      // stage containing pause-menu
+    private Stage playerMenuStage; // stage containing menu for player-speccing
+
+    private PauseOverlay pauseMenu;           // Menu to display when the game is paused
+    private PlayerSpecOverlay playerSpecMenu; // Menu to display when a player
+
     public final HuldraGame game;
-    public Stage stage; // stage containing game actors
+
     public HuldraWorld world;
     public SpriteLoader spriteLoader;
     private PlayerCharacter player;
     private ShapeRenderer sr;
 
     public GameScreen(HuldraGame game) {
+
+        pauseMenu = new PauseOverlay(this);
+
         spriteLoader = new SpriteLoader();
         this.game = game;
         init();
@@ -37,24 +53,35 @@ public class GameScreen implements Screen {
     }
 
     private void init() {
-        stage = new Stage(); // create the game stage
+        state = State.RUNNING;
+        gameStage = new Stage(); // create the game stage
 
-        stage.setViewport(new ScreenViewport(game.camera));
+        gameStage.setViewport(new ScreenViewport(game.camera));
 
         WorldType type = WorldType.CAVES;
 
         spriteLoader.queueAssets(type.texturePaths);
         world = new HuldraWorld(20, type, new Random());
         player = new Knight(world.spawn, Team.PLAYER, this);
-        stage.addActor(player);
+        gameStage.addActor(player);
     }
 
     @Override
     public void render(float delta) {
-        stage.act(delta);
+        gameStage.act(delta);
         game.camera.position.set(player.body.pos, 0);
-        world.integrate(delta);
-        stage.draw();
+        if(state == State.RUNNING) {
+            world.integrate(delta);
+            gameStage.draw();
+        } else {
+            gameStage.draw();
+            switch (state) {
+                case PLAYERSPEC:
+                    break;
+                case PAUSED:
+                    break;
+            }
+        }
         sr.setAutoShapeType(true);
         sr.begin();
         world.debugDraw(sr);
@@ -76,12 +103,12 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
-
+        state = State.PAUSED;
     }
 
     @Override
     public void resume() {
-
+        state = State.RUNNING;
     }
 
     @Override
@@ -92,5 +119,35 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    private Vector3 updateCamera(OrthographicCamera camera) {
+        ArrayList<PlayerCharacter> players = world.level.players;
+        if (players.size() == 1) {
+            Vector2 pos = players.get(0).body.pos;
+            camera.position.set(pos.x, pos.y, 0);
+            camera.zoom = 1;
+            camera.update();
+        }
+
+        Vector3 vector = new Vector3();
+        for (PlayerCharacter player : players) {
+            Vector2 pos = player.body.pos;
+            vector.add(pos.x, pos.y, 0);
+        }
+        vector.scl(1f / players.size());
+
+
+        return vector;
+    }
+
+    public void openPlayerSpec() {
+        state = State.PLAYERSPEC;
+    }
+
+    private enum State {
+        RUNNING,
+        PLAYERSPEC,
+        PAUSED
     }
 }
