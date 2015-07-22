@@ -122,6 +122,7 @@ public class GameScreen implements Screen {
     }
 
     private Vector3 updateCamera(OrthographicCamera camera) {
+        // tan( 1/2 * field_of_view ) * ( 1/2 * distance_between_objects)
         ArrayList<PlayerCharacter> players = world.level.players;
         if (players.size() == 1) {
             Vector2 pos = players.get(0).body.pos;
