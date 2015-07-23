@@ -1,6 +1,6 @@
 package com.polarbirds.huldra.screen.game;
 
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.graphics.g2d.Batch;
 
 /**
  * Created by Harald on 21.07.2015.
@@ -14,7 +14,12 @@ public class PauseOverlay implements IOverlay {
     }
 
     @Override
-    public void init(Stage stage) {
+    public void render(Batch batch) {
+
+    }
+
+    @Override
+    public void init() {
 
     }
 
