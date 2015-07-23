@@ -20,7 +20,7 @@ public class LoadingScreen implements Screen {
     @Override
     public void render(float delta) {
         System.out.println(game.spriteLoader.getProgress());
-        if(game.spriteLoader.isDone) {
+        if (game.spriteLoader.isDone) {
             screen.nextScreen();
         }
     }
