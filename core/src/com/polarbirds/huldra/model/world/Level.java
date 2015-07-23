@@ -36,7 +36,11 @@ public class Level {
     }
 
     public void draw(Batch batch) {
-
+        for (int x = 0; x < tiles.length; x++) {
+            for (int y = 0; y < tiles[0].length; y++) {
+                batch.draw(tileTextures.get(tiles[x][y]), x, y);
+            }
+        }
     }
 
     private void parseLevel(int level, Random random) {
@@ -57,7 +61,7 @@ public class Level {
             }
             int sectionAmount = Integer.parseInt(reader.readLine());
             TileArrayWithSpawn tileArrayWithSpawn =
-                    new BoundGenerator(type, random).asTiles(sectionAmount, random);
+                    new WorldGenerator(type, random).asTiles(sectionAmount, random);
             tiles = tileArrayWithSpawn.tiles;
             spawn = tileArrayWithSpawn.spawn;
         } catch (IOException e) {
