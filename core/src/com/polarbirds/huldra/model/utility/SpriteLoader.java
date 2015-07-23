@@ -2,6 +2,7 @@ package com.polarbirds.huldra.model.utility;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Disposable;
 import com.polarbirds.huldra.HuldraGame;
 import com.polarbirds.huldra.model.entity.animation.AAnimation;
 import com.polarbirds.huldra.model.entity.animation.AdvancedAnimation;
@@ -25,7 +26,7 @@ import java.util.TreeSet;
 /**
  * Created by Harald on 10.7.15.
  */
-public class SpriteLoader extends ALoader {
+public class SpriteLoader extends ALoader implements Disposable {
 
     public boolean isDone = false;
     private double progress = 0;
@@ -35,6 +36,8 @@ public class SpriteLoader extends ALoader {
 
     @Override
     public void run() {
+        startThread();
+
         loadedSprites = new HashMap<>();
 
         double progressIncrement = 1.0 / paths.size();
@@ -207,8 +210,16 @@ public class SpriteLoader extends ALoader {
         return new Vector2();
     }
 
+    @Override
+    public void dispose() {
+        for (Map.Entry s : loadedSprites.entrySet()) {
+            ((ASprite) s).dispose();
+        }
+    }
+
     private enum loadEnum {
-        KNIGHT(new String[]{"graphics/player/knight/walk.anim",
+        KNIGHT(new String[]{
+                "graphics/player/knight/walk.anim",
                 "graphics/player/knight/idle.anim",
                 "graphics/player/knight/slash.anim",
                 "graphics/player/knight/dance.anim",
@@ -221,5 +232,4 @@ public class SpriteLoader extends ALoader {
             this.loadString = loadString;
         }
     }
-
 }

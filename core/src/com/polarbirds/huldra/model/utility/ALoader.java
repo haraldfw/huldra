@@ -5,7 +5,7 @@ package com.polarbirds.huldra.model.utility;
  */
 public abstract class ALoader implements Runnable {
 
-    public void startLoading() {
+    public void startThread() {
         Thread t = new Thread(this);
         t.start();
     }

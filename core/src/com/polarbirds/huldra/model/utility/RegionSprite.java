@@ -20,4 +20,9 @@ public class RegionSprite extends ASprite {
     public void draw(Batch sb, Vector2 pos) {
         sb.draw(textureRegion, pos.x + shift.x, pos.y + shift.y);
     }
+
+    @Override
+    public void dispose() {
+        textureRegion.getTexture().dispose();
+    }
 }

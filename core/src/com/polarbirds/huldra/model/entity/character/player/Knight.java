@@ -19,11 +19,11 @@ public class Knight extends PlayerCharacter {
 
     private int activeAnimation;
 
-    public Knight(Vector2 pos, Team team, GameScreen game) {
-        super(pos, team, game);
+    public Knight(Vector2 pos, Team team, GameScreen gameScreen) {
+        super(pos, team, gameScreen);
         ArrayList<AAnimation> animations = new ArrayList<>();
 
-        animations.add(game.spriteLoader.getAnimation("graphics/player/knight/walk.anim"));
+        animations.add(gameScreen.game.spriteLoader.getAnimation("graphics/player/knight/walk.anim"));
 
         this.animations = animations.toArray(new AAnimation[animations.size()]);
 

@@ -7,7 +7,8 @@ import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.polarbirds.huldra.screen.game.GameScreen;
+import com.polarbirds.huldra.model.utility.SpriteLoader;
+import com.polarbirds.huldra.screen.game.CharacterSelectionScreen;
 
 public class HuldraGame extends Game {
 
@@ -17,19 +18,23 @@ public class HuldraGame extends Game {
     public static final int X_PIXELS = X_TILES * 50;
     public static final int Y_PIXELS = Y_TILES * 50;
 
-    public Batch spriteBatch;
+    public Batch batch;
     public OrthographicCamera staticViewCamera;
     public float timeStep;
 
+    public SpriteLoader spriteLoader;
+
     @Override
     public void create() {
-        spriteBatch = new SpriteBatch();
+        spriteLoader = new SpriteLoader();
+
+        batch = new SpriteBatch();
         staticViewCamera = new OrthographicCamera();
         staticViewCamera.setToOrtho(false, X_TILES, Y_TILES);
-        staticViewCamera.position.set(0, 0, 0);
+        staticViewCamera.position.set(X_TILES / 2, Y_TILES / 2, 0);
 
         timeStep = 0.01666666666666666666666666666667f; // 1/60, 60fps
-        setScreen(new GameScreen(this));
+        setScreen(new CharacterSelectionScreen(this));
     }
 
     @Override
@@ -59,5 +64,11 @@ public class HuldraGame extends Game {
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             staticViewCamera.position.add(0, -1, 0);
         }
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        spriteLoader.dispose();
     }
 }

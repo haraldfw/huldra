@@ -21,4 +21,9 @@ public class Sprite extends ASprite {
     public void draw(Batch sb, Vector2 pos) {
         sb.draw(texture, pos.x + shift.x, pos.y + shift.y);
     }
+
+    @Override
+    public void dispose() {
+        texture.dispose();
+    }
 }
