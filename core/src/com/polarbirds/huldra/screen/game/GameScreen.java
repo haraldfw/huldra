@@ -17,7 +17,6 @@ import com.polarbirds.huldra.model.world.HuldraWorld;
 import com.polarbirds.huldra.model.world.WorldType;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -25,38 +24,34 @@ import java.util.Random;
  */
 public class GameScreen implements Screen {
 
+    public final HuldraGame game;
+    private final OrthographicCamera gameCamera;
+    public HuldraWorld world;
+    public SpriteLoader spriteLoader;
     private State state;
     private Stage gameStage;       // stage containing game actors
     private Stage hudStage;        // stage containing hud-elements
     private Stage pauseStage;      // stage containing pause-menu
     private Stage playerMenuStage; // stage containing menu for player-speccing
-
     private PauseOverlay pauseMenu;           // Menu to display when the game is paused
     private PlayerSpecOverlay playerSpecMenu; // Menu to display when a player
-
-    public final HuldraGame game;
-
-    public HuldraWorld world;
-    public SpriteLoader spriteLoader;
     private PlayerCharacter player;
     private ShapeRenderer sr;
 
     public GameScreen(HuldraGame game) {
-
+        gameCamera = new OrthographicCamera()
         pauseMenu = new PauseOverlay(this);
 
         spriteLoader = new SpriteLoader();
         this.game = game;
         init();
         sr = new ShapeRenderer();
-        sr.setProjectionMatrix(game.camera.combined);
+        sr.setProjectionMatrix(game.staticViewCamera.combined);
     }
 
     private void init() {
         state = State.RUNNING;
-        gameStage = new Stage(); // create the game stage
-
-        gameStage.setViewport(new ScreenViewport(game.camera));
+        gameStage = new Stage(new ScreenViewport(gameCamera), gameCamera); // create the game stage
 
         WorldType type = WorldType.CAVES;
 
@@ -69,8 +64,8 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         gameStage.act(delta);
-        game.camera.position.set(player.body.pos, 0);
-        if(state == State.RUNNING) {
+        updateCamera(gameCamera);
+        if (state == State.RUNNING) {
             world.integrate(delta);
             gameStage.draw();
         } else {
@@ -121,14 +116,15 @@ public class GameScreen implements Screen {
 
     }
 
-    private Vector3 updateCamera(OrthographicCamera camera) {
+    private void updateCamera(OrthographicCamera camera) {
         // tan( 1/2 * field_of_view ) * ( 1/2 * distance_between_objects)
-        ArrayList<PlayerCharacter> players = world.level.players;
-        if (players.size() == 1) {
-            Vector2 pos = players.get(0).body.pos;
+        PlayerCharacter[] players = world.level.players;
+        if (players.length == 1) {
+            Vector2 pos = players[0].body.pos;
             camera.position.set(pos.x, pos.y, 0);
             camera.zoom = 1;
             camera.update();
+            return;
         }
 
         Vector3 vector = new Vector3();
@@ -136,10 +132,7 @@ public class GameScreen implements Screen {
             Vector2 pos = player.body.pos;
             vector.add(pos.x, pos.y, 0);
         }
-        vector.scl(1f / players.size());
-
-
-        return vector;
+        vector.scl(1f / players.length);
     }
 
     public void openPlayerSpec() {

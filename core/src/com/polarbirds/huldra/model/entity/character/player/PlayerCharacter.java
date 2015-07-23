@@ -17,7 +17,7 @@ public abstract class PlayerCharacter extends AWalkingCharacter {
         super(pos, 0.5f, 0.7f, 0.0167f, team, gameScreen);
         this.input = Controllers.getControllers().size > 0 ?
                 new XboxController(Controllers.getControllers().get(0))
-                : new Keyboard(gameScreen.game.camera);
+                : new Keyboard(gameScreen.game.staticViewCamera);
 
     }
 

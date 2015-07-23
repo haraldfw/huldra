@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.polarbirds.huldra.screen.game.GameScreen;
 
 public class HuldraGame extends Game {
@@ -14,14 +16,17 @@ public class HuldraGame extends Game {
     public static final int PIXELS_PER_TILESIDE = 16;
     public static final int X_PIXELS = X_TILES * 50;
     public static final int Y_PIXELS = Y_TILES * 50;
-    public OrthographicCamera camera;
+
+    public Batch spriteBatch;
+    public OrthographicCamera staticViewCamera;
     public float timeStep;
 
     @Override
     public void create() {
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, X_TILES, Y_TILES);
-        camera.position.set(0, 0, 0);
+        spriteBatch = new SpriteBatch();
+        staticViewCamera = new OrthographicCamera();
+        staticViewCamera.setToOrtho(false, X_TILES, Y_TILES);
+        staticViewCamera.position.set(0, 0, 0);
 
         timeStep = 0.01666666666666666666666666666667f; // 1/60, 60fps
         setScreen(new GameScreen(this));
@@ -37,22 +42,22 @@ public class HuldraGame extends Game {
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.Z)) {
-            camera.zoom++;
+            staticViewCamera.zoom++;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.X)) {
-            camera.zoom--;
+            staticViewCamera.zoom--;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            camera.position.add(-1, 0, 0);
+            staticViewCamera.position.add(-1, 0, 0);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            camera.position.add(1, 0, 0);
+            staticViewCamera.position.add(1, 0, 0);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            camera.position.add(0, 1, 0);
+            staticViewCamera.position.add(0, 1, 0);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            camera.position.add(0, -1, 0);
+            staticViewCamera.position.add(0, -1, 0);
         }
     }
 }
