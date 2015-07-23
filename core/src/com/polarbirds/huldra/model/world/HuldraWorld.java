@@ -1,6 +1,7 @@
 package com.polarbirds.huldra.model.world;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.polarbirds.huldra.model.entity.character.player.PlayerCharacter;
 import com.polarbirds.huldra.model.world.physics.DynamicBody;
@@ -23,7 +24,7 @@ public final class HuldraWorld {
     private List<StaticBody> staticBodies;
 
 
-    public HuldraWorld(int sectionCount, WorldType worldType, Random random) {
+    public HuldraWorld() {
         dynamicBodies = new ArrayList<>();
         staticBodies = new ArrayList<>();
     }
@@ -43,6 +44,10 @@ public final class HuldraWorld {
                 break;
         }
         return parallax;
+    }
+
+    public void draw(Batch batch) {
+        level.draw(batch);
     }
 
     public void firstLevel(PlayerCharacter[] players, Random random) {

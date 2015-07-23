@@ -1,7 +1,5 @@
 package com.polarbirds.huldra.screen.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -9,10 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.polarbirds.huldra.HuldraGame;
-import com.polarbirds.huldra.model.entity.character.Team;
-import com.polarbirds.huldra.model.entity.character.player.Knight;
 import com.polarbirds.huldra.model.entity.character.player.PlayerCharacter;
-import com.polarbirds.huldra.model.utility.SpriteLoader;
 import com.polarbirds.huldra.model.world.HuldraWorld;
 import com.polarbirds.huldra.model.world.WorldType;
 import com.polarbirds.huldra.model.world.physics.Vector2;
@@ -27,44 +22,45 @@ public class GameScreen implements Screen {
     public final HuldraGame game;
     private final OrthographicCamera gameCamera;
     public HuldraWorld world;
-    public SpriteLoader spriteLoader;
     private State state;
-    private Stage gameStage;       // stage containing game actors
-    private Stage hudStage;        // stage containing hud-elements
-    private Stage pauseStage;      // stage containing pause-menu
-    private Stage playerMenuStage; // stage containing menu for player-speccing
-    private PauseOverlay pauseMenu;           // Menu to display when the game is paused
-    private PlayerSpecOverlay playerSpecMenu; // Menu to display when a player
-    private PlayerCharacter player;
+
+    private Stage gameStage;         // stage containing game actors
+    private IOverlay hudOverlay;     // Overlay to display player stats
+    private IOverlay playerSpecOverlay; // Menu to display when a player
+    private IOverlay pauseOverlay;      // Menu to display when the game is paused
+
     private ShapeRenderer sr;
 
-    public GameScreen(HuldraGame game) {
-        gameCamera = new OrthographicCamera()
-        pauseMenu = new PauseOverlay(this);
-
-        spriteLoader = new SpriteLoader();
+    public GameScreen(HuldraGame game, PlayerCharacter[] players) {
+        gameCamera = new OrthographicCamera();
         this.game = game;
-        init();
+
+        hudOverlay = new HudOverlay(players);
+        playerSpecOverlay = new PlayerSpecOverlay(this);
+        pauseOverlay = new PauseOverlay(this);
+
         sr = new ShapeRenderer();
         sr.setProjectionMatrix(game.staticViewCamera.combined);
-    }
 
-    private void init() {
         state = State.RUNNING;
-        gameStage = new Stage(new ScreenViewport(gameCamera), game.spriteBatch); // create the game stage
+        // create the game stage
+        gameStage = new Stage(new ScreenViewport(gameCamera), game.batch);
 
         WorldType type = WorldType.CAVES;
 
-        spriteLoader.queueAssets(type.texturePaths);
-        world = new HuldraWorld(20, type, new Random());
-        player = new Knight(world.spawn, Team.PLAYER, this);
-        gameStage.addActor(player);
+        game.spriteLoader.queueAssets(type.texturePaths);
+        world = new HuldraWorld();
+        world.firstLevel(players, new Random(System.currentTimeMillis()));
     }
 
     @Override
     public void render(float delta) {
         gameStage.act(delta);
         updateCamera(gameCamera);
+
+        world.draw(game.batch);
+
+        game.batch.begin();
         if (state == State.RUNNING) {
             world.integrate(delta);
             gameStage.draw();
@@ -72,18 +68,19 @@ public class GameScreen implements Screen {
             gameStage.draw();
             switch (state) {
                 case PLAYERSPEC:
+                    playerSpecOverlay.render(game.batch);
                     break;
                 case PAUSED:
+                    pauseOverlay.render(game.batch);
                     break;
             }
         }
+        game.batch.end();
+
         sr.setAutoShapeType(true);
         sr.begin();
         world.debugDraw(sr);
         sr.end();
-        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
-            init();
-        }
     }
 
     @Override
