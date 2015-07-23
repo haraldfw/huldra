@@ -51,7 +51,7 @@ public class GameScreen implements Screen {
 
     private void init() {
         state = State.RUNNING;
-        gameStage = new Stage(new ScreenViewport(gameCamera), gameCamera); // create the game stage
+        gameStage = new Stage(new ScreenViewport(gameCamera), game.spriteBatch); // create the game stage
 
         WorldType type = WorldType.CAVES;
 
