@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.screen.game;
+package com.polarbirds.huldra.screen.loading;
 
 import com.badlogic.gdx.Screen;
 import com.polarbirds.huldra.HuldraGame;

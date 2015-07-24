@@ -11,6 +11,10 @@ import com.polarbirds.huldra.model.entity.character.player.PlayerCharacter;
 import com.polarbirds.huldra.model.world.HuldraWorld;
 import com.polarbirds.huldra.model.world.WorldType;
 import com.polarbirds.huldra.model.world.physics.Vector2;
+import com.polarbirds.huldra.screen.game.overlay.HudOverlay;
+import com.polarbirds.huldra.screen.game.overlay.IOverlay;
+import com.polarbirds.huldra.screen.game.overlay.PauseOverlay;
+import com.polarbirds.huldra.screen.game.overlay.PlayerSpecOverlay;
 
 import java.util.Random;
 
@@ -58,12 +62,12 @@ public class GameScreen implements Screen {
         gameStage.act(delta);
         updateCamera(gameCamera);
 
-        world.draw(game.batch);
-
         game.batch.begin();
+        world.draw(game.batch);
         if (state == State.RUNNING) {
             world.integrate(delta);
             gameStage.draw();
+            hudOverlay.render(game.batch);
         } else {
             gameStage.draw();
             switch (state) {

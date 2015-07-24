@@ -54,7 +54,12 @@ public final class HuldraWorld {
                 }
             }
         }
+
         for (DynamicBody body : dynamicBodies) {
+            body.debugDraw(sr);
+        }
+
+        for(StaticBody body : staticBodies) {
             body.debugDraw(sr);
         }
     }

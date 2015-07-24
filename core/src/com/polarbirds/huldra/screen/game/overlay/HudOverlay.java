@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.screen.game;
+package com.polarbirds.huldra.screen.game.overlay;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.polarbirds.huldra.model.entity.character.player.PlayerCharacter;
