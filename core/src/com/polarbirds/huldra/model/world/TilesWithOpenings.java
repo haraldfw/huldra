@@ -36,6 +36,138 @@ final class TilesWithOpenings {
         height = tiles[0].length / Section.TILES_PER_SIDE;
     }
 
+    boolean matches(Bounds bs, boolean[][] openings) {
+        return bs.width == width && bs.height == height &&
+               overlaps(getVerLine(bs.x * Section.TILES_PER_SIDE,
+                                   bs.y * Section.TILES_PER_SIDE,
+                                   Section.TILES_PER_SIDE * bs.height, openings),
+                        reachableOpenings.get(Side.LEFT)) &&
+               overlaps(getVerLine((bs.x + bs.width) * Section.TILES_PER_SIDE - 1,
+                                   bs.y * Section.TILES_PER_SIDE,
+                                   Section.TILES_PER_SIDE * bs.height, openings),
+                        reachableOpenings.get(Side.RIGHT)) &&
+               overlaps(getHorLine(bs.x * Section.TILES_PER_SIDE,
+                                   bs.y * Section.TILES_PER_SIDE,
+                                   Section.TILES_PER_SIDE * bs.width, openings),
+                        reachableOpenings.get(Side.BOTTOM)) &&
+               overlaps(getHorLine(bs.x * Section.TILES_PER_SIDE,
+                                   (bs.y + bs.height) * Section.TILES_PER_SIDE - 1,
+                                   Section.TILES_PER_SIDE * bs.width, openings),
+                        reachableOpenings.get(Side.TOP));
+    }
+
+    TilesWithOpenings getFlipped() {
+        TileType[][] flippedTiles = new TileType[tiles.length][tiles[0].length];
+
+        for (int x = 0; x < tiles.length; x++) {
+            for (int y = 0; y < tiles[0].length; y++) {
+                flippedTiles[x][y] = tiles[tiles.length - 1 - x][y];
+            }
+        }
+
+        Map<Side, boolean[]> flippedSides = new HashMap<>();
+
+        flippedSides.put(Side.RIGHT, reachableOpenings.get(Side.LEFT));
+        flippedSides.put(Side.LEFT, reachableOpenings.get(Side.RIGHT));
+
+        boolean[] toFlipTop = reachableOpenings.get(Side.TOP);
+        boolean[] flippedTop = new boolean[toFlipTop.length];
+        boolean[] toFlipBottom = reachableOpenings.get(Side.BOTTOM);
+        boolean[] flippedBottom = new boolean[toFlipBottom.length];
+
+        for (int i = 0; i < toFlipTop.length; i++) {
+            flippedTop[i] = toFlipTop[toFlipTop.length - 1 - i];
+            flippedBottom[i] = toFlipBottom[toFlipBottom.length - 1 - i];
+        }
+
+        flippedSides.put(Side.TOP, flippedTop);
+        flippedSides.put(Side.BOTTOM, flippedBottom);
+
+        Map<String, List<IntVector2>> flippedLocations = new HashMap<>();
+        for (Map.Entry<String, List<IntVector2>> entry : this.locs.entrySet()) {
+            List<IntVector2> flipped = new ArrayList<>();
+            for (IntVector2 vector : entry.getValue()) {
+                IntVector2 fv =
+                    new IntVector2(width * Section.TILES_PER_SIDE - vector.x, vector.y);
+                flipped.add(fv);
+            }
+            flippedLocations.put(entry.getKey(), flipped);
+        }
+
+        return new TilesWithOpenings(flippedTiles, flippedSides, flippedLocations);
+    }
+
+    private boolean overlaps(boolean[] required, boolean[] booleans) {
+        System.out.print("req: ");
+        for (boolean b : required) {
+            System.out.print("[" + (b ? " " : "X") + "]");
+        }
+        System.out.print("\nbol: ");
+        for (boolean b : booleans) {
+            System.out.print("[" + (b ? " " : "X") + "]");
+        }
+        List<List<Integer>> groups = getGroups(required);
+        boolean allCovered = true;
+        System.out.println(groups.size());
+        for (List<Integer> group : groups) {
+            boolean covered = false;
+            for (Integer i : group) {
+                System.out.print("{" + i + "}");
+                if (booleans[i]) {
+                    covered = true;
+                    break;
+                }
+            }
+            if (!covered) {
+                allCovered = false;
+            }
+        }
+        if (allCovered) {
+            System.out.println("\nMATCHES");
+            return true;
+        } else {
+            System.out.println("\nNO MATCH");
+            return false;
+        }
+    }
+
+    private List<List<Integer>> getGroups(boolean[] booleans) {
+        System.out.print("\nGetting group for: ");
+        for (boolean b : booleans) {
+            System.out.print("[" + (b ? "t" : "f") + "]");
+        }
+        List<List<Integer>> groups = new ArrayList<>();
+        List<Integer> group = new ArrayList<>();
+        for (int i = 0; i < booleans.length; i++) {
+            if (booleans[i]) {
+                group.add(i);
+            } else if (!group.isEmpty()) {
+                groups.add(group);
+                group = new ArrayList<>();
+            }
+        }
+        if (!group.isEmpty()) {
+            groups.add(group);
+        }
+        return groups;
+    }
+
+    private boolean[] getHorLine(int sx, int sy, int length, boolean[][] openings) {
+        boolean[] booleans = new boolean[length];
+        for (int x = 0; x < booleans.length; x++) {
+            booleans[x] = openings[sx + x][sy];
+        }
+        return booleans;
+    }
+
+    private boolean[] getVerLine(int sx, int sy, int length, boolean[][] openings) {
+        boolean[] booleans = new boolean[length];
+        for (int y = 0; y < booleans.length; y++) {
+            booleans[y] = openings[sx][sy + y];
+        }
+        return booleans;
+    }
+
     static List<TilesWithOpenings> loadAndGetList() {
         List<TilesWithOpenings> sections = new ArrayList<>();
         FileHandle dir = Gdx.files.internal("sections");
@@ -152,137 +284,5 @@ final class TilesWithOpenings {
             }
         }
         return tiles;
-    }
-
-    boolean matches(Bounds bs, boolean[][] openings) {
-        return bs.width == width && bs.height == height &&
-                overlaps(getVerLine(bs.x * Section.TILES_PER_SIDE,
-                                bs.y * Section.TILES_PER_SIDE,
-                                Section.TILES_PER_SIDE * bs.height, openings),
-                        reachableOpenings.get(Side.LEFT)) &&
-                overlaps(getVerLine((bs.x + bs.width) * Section.TILES_PER_SIDE - 1,
-                                bs.y * Section.TILES_PER_SIDE,
-                                Section.TILES_PER_SIDE * bs.height, openings),
-                        reachableOpenings.get(Side.RIGHT)) &&
-                overlaps(getHorLine(bs.x * Section.TILES_PER_SIDE,
-                                bs.y * Section.TILES_PER_SIDE,
-                                Section.TILES_PER_SIDE * bs.width, openings),
-                        reachableOpenings.get(Side.BOTTOM)) &&
-                overlaps(getHorLine(bs.x * Section.TILES_PER_SIDE,
-                                (bs.y + bs.height) * Section.TILES_PER_SIDE - 1,
-                                Section.TILES_PER_SIDE * bs.width, openings),
-                        reachableOpenings.get(Side.TOP));
-    }
-
-    TilesWithOpenings getFlipped() {
-        TileType[][] flippedTiles = new TileType[tiles.length][tiles[0].length];
-
-        for (int x = 0; x < tiles.length; x++) {
-            for (int y = 0; y < tiles[0].length; y++) {
-                flippedTiles[x][y] = tiles[tiles.length - 1 - x][y];
-            }
-        }
-
-        Map<Side, boolean[]> flippedSides = new HashMap<>();
-
-        flippedSides.put(Side.RIGHT, reachableOpenings.get(Side.LEFT));
-        flippedSides.put(Side.LEFT, reachableOpenings.get(Side.RIGHT));
-
-        boolean[] toFlipTop = reachableOpenings.get(Side.TOP);
-        boolean[] flippedTop = new boolean[toFlipTop.length];
-        boolean[] toFlipBottom = reachableOpenings.get(Side.BOTTOM);
-        boolean[] flippedBottom = new boolean[toFlipBottom.length];
-
-        for (int i = 0; i < toFlipTop.length; i++) {
-            flippedTop[i] = toFlipTop[toFlipTop.length - 1 - i];
-            flippedBottom[i] = toFlipBottom[toFlipBottom.length - 1 - i];
-        }
-
-        flippedSides.put(Side.TOP, flippedTop);
-        flippedSides.put(Side.BOTTOM, flippedBottom);
-
-        Map<String, List<IntVector2>> flippedLocations = new HashMap<>();
-        for (Map.Entry<String, List<IntVector2>> entry : this.locs.entrySet()) {
-            List<IntVector2> flipped = new ArrayList<>();
-            for (IntVector2 vector : entry.getValue()) {
-                IntVector2 fv =
-                        new IntVector2(width * Section.TILES_PER_SIDE - vector.x, vector.y);
-                flipped.add(fv);
-            }
-            flippedLocations.put(entry.getKey(), flipped);
-        }
-
-        return new TilesWithOpenings(flippedTiles, flippedSides, flippedLocations);
-    }
-
-    private boolean overlaps(boolean[] required, boolean[] booleans) {
-        System.out.print("req: ");
-        for (boolean b : required) {
-            System.out.print("[" + (b ? " " : "X") + "]");
-        }
-        System.out.print("\nbol: ");
-        for (boolean b : booleans) {
-            System.out.print("[" + (b ? " " : "X") + "]");
-        }
-        List<List<Integer>> groups = getGroups(required);
-        boolean allCovered = true;
-        System.out.println(groups.size());
-        for (List<Integer> group : groups) {
-            boolean covered = false;
-            for (Integer i : group) {
-                System.out.print("{" + i + "}");
-                if (booleans[i]) {
-                    covered = true;
-                    break;
-                }
-            }
-            if (!covered) {
-                allCovered = false;
-            }
-        }
-        if (allCovered) {
-            System.out.println("\nMATCHES");
-            return true;
-        } else {
-            System.out.println("\nNO MATCH");
-            return false;
-        }
-    }
-
-    private List<List<Integer>> getGroups(boolean[] booleans) {
-        System.out.print("\nGetting group for: ");
-        for (boolean b : booleans) {
-            System.out.print("[" + (b ? "t" : "f") + "]");
-        }
-        List<List<Integer>> groups = new ArrayList<>();
-        List<Integer> group = new ArrayList<>();
-        for (int i = 0; i < booleans.length; i++) {
-            if (booleans[i]) {
-                group.add(i);
-            } else if (!group.isEmpty()) {
-                groups.add(group);
-                group = new ArrayList<>();
-            }
-        }
-        if (!group.isEmpty()) {
-            groups.add(group);
-        }
-        return groups;
-    }
-
-    private boolean[] getHorLine(int sx, int sy, int length, boolean[][] openings) {
-        boolean[] booleans = new boolean[length];
-        for (int x = 0; x < booleans.length; x++) {
-            booleans[x] = openings[sx + x][sy];
-        }
-        return booleans;
-    }
-
-    private boolean[] getVerLine(int sx, int sy, int length, boolean[][] openings) {
-        boolean[] booleans = new boolean[length];
-        for (int y = 0; y < booleans.length; y++) {
-            booleans[y] = openings[sx][sy + y];
-        }
-        return booleans;
     }
 }

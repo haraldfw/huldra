@@ -42,7 +42,9 @@ final class WorldGenerator {
     private IntVector2 getLocation(IntVector2 dimensions, Iterable<Bounds> boundsList,
                                    Bounds bounds) {
         // get this location's open possible surrounding locations
-        List<IntVector2> locations = getLocationsAround(dimensions.x, dimensions.y, boundsList, bounds);
+        List<IntVector2>
+            locations =
+            getLocationsAround(dimensions.x, dimensions.y, boundsList, bounds);
         // if no open locations, return null, This bounds-object is no good
         if (!locations.isEmpty()) {
             return locations.get(random.nextInt(locations.size()));
@@ -71,18 +73,18 @@ final class WorldGenerator {
              x < bounds.x + bounds.width;
              x++) {
             addIfNotCollides(new Bounds(x, bounds.y + bounds.height, width, height),
-                    boundsList, possibleLocations);
+                             boundsList, possibleLocations);
             addIfNotCollides(new Bounds(x, bounds.y - height, width, height),
-                    boundsList, possibleLocations);
+                             boundsList, possibleLocations);
         }
 
         for (int y = bounds.y - newBounds.height + 1;
              y < bounds.y + bounds.height;
              y++) {
             addIfNotCollides(new Bounds(bounds.x + bounds.width, y, width, height),
-                    boundsList, possibleLocations);
+                             boundsList, possibleLocations);
             addIfNotCollides(new Bounds(bounds.x - width, y, width, height),
-                    boundsList, possibleLocations);
+                             boundsList, possibleLocations);
         }
 
         return possibleLocations;
@@ -121,7 +123,7 @@ final class WorldGenerator {
 
             // find a section to expand from, and place a section there
             System.out.println(
-                    "Finding combined location for dimensions: " + dimensions.y + ", " + dimensions.y);
+                "Finding combined location for dimensions: " + dimensions.y + ", " + dimensions.y);
             for (int iterations2 = 0; iterations2 < 10000; iterations2++) {
                 // Sort boundsList by their distance from spawn
                 boundsList.sort(new SpreadComparator(type.rsHor, type.rsVer));
@@ -168,7 +170,7 @@ final class WorldGenerator {
 
         // Array for map-tiles
         TileType[][] tiles = new TileType
-                [maxBounds.x * Section.TILES_PER_SIDE + 2][maxBounds.y * Section.TILES_PER_SIDE + 2];
+            [maxBounds.x * Section.TILES_PER_SIDE + 2][maxBounds.y * Section.TILES_PER_SIDE + 2];
 
         for (TileType[] tileTypes : tiles) {
             Arrays.fill(tileTypes, TileType.SOLID);
@@ -176,7 +178,7 @@ final class WorldGenerator {
 
         // Array of reachable openings
         boolean[][] reachableOpenings =
-                addSectionOpenings(sections, new boolean[tiles.length][tiles[0].length]);
+            addSectionOpenings(sections, new boolean[tiles.length][tiles[0].length]);
 
         // Add the section's tiles to the map
         for (Section section : sections) {
@@ -187,7 +189,7 @@ final class WorldGenerator {
             int baseY = section.bounds.y * Section.TILES_PER_SIDE;
             for (int x = 0; x < sectionTiles.length; x++) {
                 System.arraycopy(sectionTiles[x], 0, tiles[baseX + x + 1], baseY + 1,
-                        sectionTiles[0].length);
+                                 sectionTiles[0].length);
             }
         }
 
@@ -196,7 +198,7 @@ final class WorldGenerator {
             for (int x = 0; x < bounds.width * Section.TILES_PER_SIDE; x++) {
                 for (int y = 0; y < bounds.height * Section.TILES_PER_SIDE; y++) {
                     reachableOpenings[bounds.x * Section.TILES_PER_SIDE + x]
-                            [bounds.y * Section.TILES_PER_SIDE + y] = true;
+                        [bounds.y * Section.TILES_PER_SIDE + y] = true;
                 }
             }
         }
@@ -209,8 +211,10 @@ final class WorldGenerator {
         }
         List<IntVector2> spawns = spawnSection.tilesWithOpenings.locs.get("SPAWN");
         IntVector2 gottenSpawn = spawns.get(spawns.size() - 1);
-        Vector2 spawn = new Vector2(spawnSection.bounds.x * Section.TILES_PER_SIDE + gottenSpawn.x + 1,
-                spawnSection.bounds.y * Section.TILES_PER_SIDE + gottenSpawn.y + 1);
+        Vector2
+            spawn =
+            new Vector2(spawnSection.bounds.x * Section.TILES_PER_SIDE + gottenSpawn.x + 1,
+                        spawnSection.bounds.y * Section.TILES_PER_SIDE + gottenSpawn.y + 1);
         return new TileArrayWithSpawn(tiles, spawn);
     }
 
@@ -244,12 +248,12 @@ final class WorldGenerator {
 
     private TileType[][] placeholderTiles(Section section) {
         TileType[][] tiles =
-                new TileType[section.bounds.width * Section.TILES_PER_SIDE][section.bounds.height
-                        * Section.TILES_PER_SIDE];
+            new TileType[section.bounds.width * Section.TILES_PER_SIDE][section.bounds.height
+                                                                        * Section.TILES_PER_SIDE];
         for (int x = 0; x < tiles.length; x++) {
             for (int y = 0; y < tiles[0].length; y++) {
                 tiles[x][y] = x == 0 || y == 0 || x == tiles.length - 1 || y == tiles[0].length - 1
-                        ? TileType.SOLID : TileType.EMPTY;
+                              ? TileType.SOLID : TileType.EMPTY;
             }
         }
         return tiles;
@@ -262,7 +266,8 @@ final class WorldGenerator {
             Bounds b = section.bounds;
             for (int x = b.x * Section.TILES_PER_SIDE; x < (b.x + b.width) * Section.TILES_PER_SIDE;
                  x++) {
-                for (int y = b.y * Section.TILES_PER_SIDE; y < (b.y + b.height) * Section.TILES_PER_SIDE;
+                for (int y = b.y * Section.TILES_PER_SIDE;
+                     y < (b.y + b.height) * Section.TILES_PER_SIDE;
                      y++) {
                     fills[x][y] = true;
                 }
@@ -272,7 +277,8 @@ final class WorldGenerator {
         // Make sure boundaries of sections are true in reachableOpenings-array
         for (Section section : sections) {
             Bounds b = section.bounds;
-            for (int y = b.y * Section.TILES_PER_SIDE; y < (b.y + b.height) * Section.TILES_PER_SIDE;
+            for (int y = b.y * Section.TILES_PER_SIDE;
+                 y < (b.y + b.height) * Section.TILES_PER_SIDE;
                  y++) {
                 int xCheck = b.x * Section.TILES_PER_SIDE - 1;
                 if (xCheck >= 0 && fills[xCheck][y]) {

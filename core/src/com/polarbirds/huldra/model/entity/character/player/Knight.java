@@ -23,7 +23,8 @@ public class Knight extends PlayerCharacter {
         super(pos, team, gameScreen);
         ArrayList<AAnimation> animations = new ArrayList<>();
 
-        animations.add(gameScreen.game.spriteLoader.getAnimation("graphics/player/knight/walk.anim"));
+        animations
+            .add(gameScreen.game.spriteLoader.getAnimation("graphics/player/knight/walk.anim"));
 
         this.animations = animations.toArray(new AAnimation[animations.size()]);
 

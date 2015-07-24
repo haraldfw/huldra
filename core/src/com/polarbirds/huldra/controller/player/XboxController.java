@@ -19,17 +19,6 @@ public final class XboxController extends InputProcessor {
         this.controller = controller;
     }
 
-    private static HashMap<String, Integer> getKeys() {
-        HashMap<String, Integer> keys = new HashMap<>();
-        keys.put("attack1", 4);
-        keys.put("attack2", 5);
-        keys.put("jump", 0);
-        keys.put("interact", 2);
-        keys.put("menu", 6);
-        keys.put("pause", 7);
-        return keys;
-    }
-
     @Override
     protected boolean getIsDown(int key) {
         return controller.getButton(key);
@@ -81,5 +70,16 @@ public final class XboxController extends InputProcessor {
     @Override
     public boolean getQuickSelect4() {
         return controller.getPov(0) == PovDirection.west;
+    }
+
+    private static HashMap<String, Integer> getKeys() {
+        HashMap<String, Integer> keys = new HashMap<>();
+        keys.put("attack1", 4);
+        keys.put("attack2", 5);
+        keys.put("jump", 0);
+        keys.put("interact", 2);
+        keys.put("menu", 6);
+        keys.put("pause", 7);
+        return keys;
     }
 }

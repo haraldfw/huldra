@@ -19,37 +19,28 @@ public final class Keyboard extends InputProcessor {
         this.camera = camera;
     }
 
-    private static HashMap<String, Integer> getKeys() {
-        HashMap<String, Integer> keys = new HashMap<>();
-        keys.put("attack1", Input.Keys.J);
-        keys.put("attack2", Input.Keys.K);
-        keys.put("jump", Input.Keys.SPACE);
-        keys.put("interact", Input.Keys.E);
-        keys.put("menu", Input.Keys.TAB);
-        keys.put("pause", Input.Keys.ESCAPE);
-        return keys;
-    }
-
     @Override
     public float moveX() {
         return (Gdx.input.isKeyPressed(Input.Keys.A) ? -1 : 0) +
-                (Gdx.input.isKeyPressed(Input.Keys.D) ? 1 : 0);
+               (Gdx.input.isKeyPressed(Input.Keys.D) ? 1 : 0);
     }
 
     @Override
     public float moveY() {
         return (Gdx.input.isKeyPressed(Input.Keys.W) ? 1 : 0) +
-                (Gdx.input.isKeyPressed(Input.Keys.S) ? -1 : 0);
+               (Gdx.input.isKeyPressed(Input.Keys.S) ? -1 : 0);
     }
 
     @Override
     public float lookX() {
-        return 1 - 1 / ((Gdx.input.getX() - HuldraGame.X_PIXELS / 2) / (float) HuldraGame.X_PIXELS + 1);
+        return 1 - 1 / ((Gdx.input.getX() - HuldraGame.X_PIXELS / 2) / (float) HuldraGame.X_PIXELS
+                        + 1);
     }
 
     @Override
     public float lookY() {
-        return 1 - 1 / ((Gdx.input.getY() - HuldraGame.Y_PIXELS / 2) / (float) HuldraGame.Y_PIXELS + 1);
+        return 1 - 1 / ((Gdx.input.getY() - HuldraGame.Y_PIXELS / 2) / (float) HuldraGame.Y_PIXELS
+                        + 1);
     }
 
     @Override
@@ -75,5 +66,16 @@ public final class Keyboard extends InputProcessor {
     @Override
     public boolean getQuickSelect4() {
         return Gdx.input.isKeyPressed(Input.Keys.NUM_4);
+    }
+
+    private static HashMap<String, Integer> getKeys() {
+        HashMap<String, Integer> keys = new HashMap<>();
+        keys.put("attack1", Input.Keys.J);
+        keys.put("attack2", Input.Keys.K);
+        keys.put("jump", Input.Keys.SPACE);
+        keys.put("interact", Input.Keys.E);
+        keys.put("menu", Input.Keys.TAB);
+        keys.put("pause", Input.Keys.ESCAPE);
+        return keys;
     }
 }

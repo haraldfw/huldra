@@ -29,23 +29,6 @@ public final class HuldraWorld {
         staticBodies = new ArrayList<>();
     }
 
-    public static Parallax getParallax(OrthographicCamera camera, WorldType type) {
-        Parallax parallax = null;
-
-        switch (type) {
-            case FOREST:
-                // parallax = new Parallax(..);
-                break;
-            case CAVES:
-                // parallax = new Parallax(..);
-                break;
-            default: // case TEST_STAGE
-                // parallax = new Parallax(..);
-                break;
-        }
-        return parallax;
-    }
-
     public void draw(Batch batch) {
         level.draw(batch);
     }
@@ -84,5 +67,22 @@ public final class HuldraWorld {
         for (DynamicBody body : dynamicBodies) {
             body.integrate(delta);
         }
+    }
+
+    public static Parallax getParallax(OrthographicCamera camera, WorldType type) {
+        Parallax parallax = null;
+
+        switch (type) {
+            case FOREST:
+                // parallax = new Parallax(..);
+                break;
+            case CAVES:
+                // parallax = new Parallax(..);
+                break;
+            default: // case TEST_STAGE
+                // parallax = new Parallax(..);
+                break;
+        }
+        return parallax;
     }
 }

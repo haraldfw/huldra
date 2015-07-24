@@ -20,7 +20,7 @@ public class Parallax extends Actor {
 
         if (images.length != dividers.length * 2) {
             throw new IllegalArgumentException(
-                    "images.length != dividers.length*2");
+                "images.length != dividers.length*2");
         }
 
         this.images = images;

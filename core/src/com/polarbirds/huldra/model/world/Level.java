@@ -61,7 +61,7 @@ public class Level {
             }
             int sectionAmount = Integer.parseInt(reader.readLine());
             TileArrayWithSpawn tileArrayWithSpawn =
-                    new WorldGenerator(type, random).asTiles(sectionAmount, random);
+                new WorldGenerator(type, random).asTiles(sectionAmount, random);
             tiles = tileArrayWithSpawn.tiles;
             spawn = tileArrayWithSpawn.spawn;
         } catch (IOException e) {
