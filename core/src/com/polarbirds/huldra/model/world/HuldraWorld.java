@@ -3,7 +3,7 @@ package com.polarbirds.huldra.model.world;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.polarbirds.huldra.model.entity.character.player.PlayerCharacter;
+import com.polarbirds.huldra.model.character.player.PlayerCharacter;
 import com.polarbirds.huldra.model.world.physics.DynamicBody;
 import com.polarbirds.huldra.model.world.physics.StaticBody;
 

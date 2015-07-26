@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.model.entity.character.skill;
+package com.polarbirds.huldra.model.character.skill;
 
 import com.polarbirds.huldra.model.world.HuldraWorld;
 import com.polarbirds.huldra.model.world.physics.DynamicBody;

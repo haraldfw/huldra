@@ -2,7 +2,7 @@ package com.polarbirds.huldra.controller.player;
 
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.PovDirection;
-import com.polarbirds.huldra.model.entity.character.AWalkingCharacter;
+import com.polarbirds.huldra.model.character.AWalkingCharacter;
 
 import java.util.HashMap;
 

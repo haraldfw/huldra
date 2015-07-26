@@ -2,7 +2,7 @@ package com.polarbirds.huldra.model.world;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.polarbirds.huldra.model.entity.character.player.PlayerCharacter;
+import com.polarbirds.huldra.model.character.player.PlayerCharacter;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 
 import java.io.BufferedReader;

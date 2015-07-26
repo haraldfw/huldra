@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.model.entity.character;
+package com.polarbirds.huldra.model.character;
 
 /**
  * Created by Harald Wilhelmsen on 16/6/2015.

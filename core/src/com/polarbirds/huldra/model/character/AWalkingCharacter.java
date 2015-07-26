@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.model.entity.character;
+package com.polarbirds.huldra.model.character;
 
 import com.polarbirds.huldra.controller.IMotiveProcessor;
 import com.polarbirds.huldra.model.world.physics.DynamicBody;

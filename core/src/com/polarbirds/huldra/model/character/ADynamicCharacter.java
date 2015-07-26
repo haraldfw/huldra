@@ -1,8 +1,8 @@
-package com.polarbirds.huldra.model.entity.character;
+package com.polarbirds.huldra.model.character;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.polarbirds.huldra.model.entity.animation.AAnimation;
+import com.polarbirds.huldra.model.animation.AAnimation;
 import com.polarbirds.huldra.model.world.physics.DynamicBody;
 import com.polarbirds.huldra.screen.game.GameScreen;
 

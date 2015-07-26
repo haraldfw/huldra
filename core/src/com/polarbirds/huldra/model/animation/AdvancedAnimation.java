@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.model.entity.animation;
+package com.polarbirds.huldra.model.animation;
 
 import com.polarbirds.huldra.model.utility.ASprite;
 

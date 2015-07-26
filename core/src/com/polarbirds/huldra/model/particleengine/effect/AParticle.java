@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.model.entity.particleengine.effect;
+package com.polarbirds.huldra.model.particleengine.effect;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.polarbirds.huldra.model.world.physics.Vector2;

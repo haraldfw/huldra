@@ -1,7 +1,7 @@
-package com.polarbirds.huldra.model.entity.particleengine;
+package com.polarbirds.huldra.model.particleengine;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.polarbirds.huldra.model.entity.particleengine.effect.AParticle;
+import com.polarbirds.huldra.model.particleengine.effect.AParticle;
 import com.polarbirds.huldra.model.utility.SpriteLoader;
 
 import java.util.ArrayList;

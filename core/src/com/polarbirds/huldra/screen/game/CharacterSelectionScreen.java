@@ -2,7 +2,7 @@ package com.polarbirds.huldra.screen.game;
 
 import com.badlogic.gdx.Screen;
 import com.polarbirds.huldra.HuldraGame;
-import com.polarbirds.huldra.model.entity.character.player.PlayerCharacter;
+import com.polarbirds.huldra.model.character.player.PlayerCharacter;
 import com.polarbirds.huldra.screen.loading.INeedsLoading;
 
 /**

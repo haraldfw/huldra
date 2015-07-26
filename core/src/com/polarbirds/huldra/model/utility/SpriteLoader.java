@@ -4,11 +4,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Disposable;
 import com.polarbirds.huldra.HuldraGame;
-import com.polarbirds.huldra.model.entity.animation.AAnimation;
-import com.polarbirds.huldra.model.entity.animation.AdvancedAnimation;
-import com.polarbirds.huldra.model.entity.animation.ManualAnimation;
-import com.polarbirds.huldra.model.entity.animation.SimpleAnimation;
-import com.polarbirds.huldra.model.entity.animation.StaticAnimation;
+import com.polarbirds.huldra.model.animation.AAnimation;
+import com.polarbirds.huldra.model.animation.AdvancedAnimation;
+import com.polarbirds.huldra.model.animation.ManualAnimation;
+import com.polarbirds.huldra.model.animation.SimpleAnimation;
+import com.polarbirds.huldra.model.animation.StaticAnimation;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 
 import java.io.BufferedReader;

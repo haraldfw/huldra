@@ -1,8 +1,8 @@
-package com.polarbirds.huldra.model.entity.particleengine.effect.fire;
+package com.polarbirds.huldra.model.particleengine.effect.fire;
 
-import com.polarbirds.huldra.model.entity.particleengine.ParticleEngine;
-import com.polarbirds.huldra.model.entity.particleengine.effect.AParticle;
-import com.polarbirds.huldra.model.entity.particleengine.effect.IEffect;
+import com.polarbirds.huldra.model.particleengine.ParticleEngine;
+import com.polarbirds.huldra.model.particleengine.effect.AParticle;
+import com.polarbirds.huldra.model.particleengine.effect.IEffect;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 
 /**

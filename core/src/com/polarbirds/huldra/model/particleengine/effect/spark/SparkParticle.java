@@ -1,7 +1,7 @@
-package com.polarbirds.huldra.model.entity.particleengine.effect.spark;
+package com.polarbirds.huldra.model.particleengine.effect.spark;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.polarbirds.huldra.model.entity.particleengine.effect.AParticle;
+import com.polarbirds.huldra.model.particleengine.effect.AParticle;
 import com.polarbirds.huldra.model.utility.RegionSprite;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 

@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.polarbirds.huldra.HuldraGame;
-import com.polarbirds.huldra.model.entity.character.player.PlayerCharacter;
+import com.polarbirds.huldra.model.character.player.PlayerCharacter;
 import com.polarbirds.huldra.model.world.HuldraWorld;
 import com.polarbirds.huldra.model.world.WorldType;
 import com.polarbirds.huldra.model.world.physics.Vector2;

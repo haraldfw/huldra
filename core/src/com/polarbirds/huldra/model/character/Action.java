@@ -1,6 +1,6 @@
-package com.polarbirds.huldra.model.entity.character;
+package com.polarbirds.huldra.model.character;
 
-import com.polarbirds.huldra.model.entity.character.player.PlayerCharacter;
+import com.polarbirds.huldra.model.character.player.PlayerCharacter;
 
 /**
  * Created by Harald Wilhelmsen on 10/6/2015.
