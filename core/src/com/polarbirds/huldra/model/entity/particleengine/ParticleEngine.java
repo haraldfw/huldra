@@ -1,7 +1,7 @@
 package com.polarbirds.huldra.model.entity.particleengine;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.polarbirds.huldra.model.entity.particleengine.particle.AParticle;
+import com.polarbirds.huldra.model.entity.particleengine.effect.AParticle;
 import com.polarbirds.huldra.model.utility.SpriteLoader;
 
 import java.util.ArrayList;
@@ -36,7 +36,13 @@ public class ParticleEngine {
     }
 
     public void draw(Batch batch) {
+        for(AParticle particle : particles) {
+            particle.draw(batch);
+        }
+    }
 
+    public void addParticle(AParticle particle) {
+        particles.add(particle);
     }
 
     public static void queueAssets(SpriteLoader loader) { // queue the particles' sprites
