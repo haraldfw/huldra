@@ -30,6 +30,21 @@ public class Vector2 extends com.badlogic.gdx.math.Vector2 {
         return this;
     }
 
+    public Vector2 sub(float x, float y) {
+        super.sub(x, y);
+        return this;
+    }
+
+    public Vector2 add(Vector2 v) {
+        super.add(v);
+        return this;
+    }
+
+    public Vector2 sub(Vector2 v) {
+        super.sub(v);
+        return this;
+    }
+
     public Vector2 scl(float scalar) {
         super.scl(scalar);
         return this;
