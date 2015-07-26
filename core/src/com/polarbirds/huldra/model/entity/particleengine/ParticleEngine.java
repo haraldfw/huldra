@@ -36,7 +36,7 @@ public class ParticleEngine {
     }
 
     public void draw(Batch batch) {
-        for(AParticle particle : particles) {
+        for (AParticle particle : particles) {
             particle.draw(batch);
         }
     }
