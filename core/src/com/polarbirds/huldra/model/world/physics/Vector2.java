@@ -25,6 +25,12 @@ public class Vector2 extends com.badlogic.gdx.math.Vector2 {
         return this;
     }
 
+    public Vector2 mulAdd(Vector2 v, float scale) {
+        this.x += v.x * scale;
+        this.y += v.y * scale;
+        return this;
+    }
+
     public Vector2 add(float x, float y) {
         super.add(x, y);
         return this;
