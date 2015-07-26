@@ -32,10 +32,10 @@ public class SparkParticle extends AParticle {
     @Override
     public void update(float delta) {
         super.update(delta);
-        for (int i = pos.length - 1; i >= 1; i--) {
+        /*for (int i = pos.length - 1; i >= 1; i--) {
             pos[i] = pos[i - 1];
-        }
-
+        }*/
+        System.arraycopy(pos, 0, pos, 1, pos.length - 1);
         vel.add(0, -0.1f * delta);
         pos[0] = new Vector2(pos[1]).mulAdd(vel.x, vel.y, delta);
     }

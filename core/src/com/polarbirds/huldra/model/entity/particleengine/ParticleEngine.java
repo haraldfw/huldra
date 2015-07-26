@@ -17,9 +17,7 @@ public class ParticleEngine {
     public ParticleEngine() {
         particles = new ArrayList<>();
         toRemove = new ArrayList<>();
-        // handle sprites
     }
-
 
     public void update(float delta) {
         for (int i = 0; i < particles.size(); i++) {
