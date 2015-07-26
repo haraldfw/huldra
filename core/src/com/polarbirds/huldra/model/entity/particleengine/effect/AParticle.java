@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.model.entity.particleengine.particle;
+package com.polarbirds.huldra.model.entity.particleengine.effect;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.polarbirds.huldra.model.world.physics.Vector2;
@@ -26,7 +26,7 @@ public abstract class AParticle {
         return time < maxLife;
     }
 
-    protected static Vector2 getRandomNormalized() {
+    public static Vector2 getRandomNormalized() {
         return new Vector2((float) Math.random() - 0.5f, (float) Math.random() - 0.5f).nor();
     }
 }
