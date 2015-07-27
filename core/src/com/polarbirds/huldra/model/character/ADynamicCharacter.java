@@ -15,7 +15,7 @@ public abstract class ADynamicCharacter extends Image implements GearWearer {
     public DynamicBody body;
     public Team team;
 
-    public ADynamicCharacter(DynamicBody body, Team team, GameScreen game) {
+    public ADynamicCharacter(DynamicBody body, Team team) {
         this.body = body;
         this.team = team;
     }
