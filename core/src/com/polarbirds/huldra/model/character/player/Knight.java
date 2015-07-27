@@ -20,7 +20,7 @@ public class Knight extends PlayerCharacter {
     private StatModifier[] baseStats = new StatModifier[]{
         new StatModifier(StatType.JUMP_STRENGTH, StatClass.BASE, 1),
         new StatModifier(StatType.MOVE_STRENGTH, StatClass.BASE, 25f),
-        new StatModifier(StatType.DAMAGE, StatClass.BASE, 1)
+        new StatModifier(StatType.DMG_PHYSICAL, StatClass.BASE, 1)
     };
     private AAnimation[] animations;
 

@@ -10,51 +10,96 @@ import java.util.Map;
  * Created by Harald Wilhelmsen on 26/7/2015.
  */
 public enum StatType {
-    DAMAGE,
+    DMG_OVERALL,
+    DMG_PHYSICAL {
+        @Override
+        public float calculate(ADynamicCharacter character) {
+            Vector3 stats = getTotal(character, this);
+            merge(stats, getTotal(character, DMG_OVERALL));
+            return get(stats);
+        }
+    },
+    DMG_MAGICAL {
+        @Override
+        public float calculate(ADynamicCharacter character) {
+            Vector3 stats = getTotal(character, this);
+            merge(stats, getTotal(character, DMG_OVERALL));
+            return get(stats);
+        }
+    },
+    DMG_LIGHTNING {
+        @Override
+        public float calculate(ADynamicCharacter character) {
+            Vector3 stats = getTotal(character, this);
+            merge(stats, getTotal(character, DMG_OVERALL));
+            return get(stats);
+        }
+    },
+    DMG_FIRE {
+        @Override
+        public float calculate(ADynamicCharacter character) {
+            Vector3 stats = getTotal(character, this);
+            merge(stats, getTotal(character, DMG_OVERALL));
+            return get(stats);
+        }
+    },
+    DMG_ICE {
+        @Override
+        public float calculate(ADynamicCharacter character) {
+            Vector3 stats = getTotal(character, this);
+            merge(stats, getTotal(character, DMG_OVERALL));
+            return get(stats);
+        }
+    },
+    KNOCKBACK,
     JUMP_STRENGTH,
     MOVE_STRENGTH,
     MAX_HEALTH;
 
-    public float calculate(ADynamicCharacter character) {
-        Vector3 stats = new Vector3();
-        stats.add(calcAr(character.getBaseStats()));
-        stats.add(calcMap(character.getGear()));
-        return stats.x * stats.y + stats.z;
+    protected final float get(Vector3 v) {
+        return v.x * v.y + v.z;
     }
 
-    private Vector3 calcMap(Map<String, AGear> map) {
-        Vector3 toReturn = new Vector3(0, 1, 0);
-        for (Map.Entry<String, AGear> entry : map.entrySet()) {
-            Vector3 gotten = calcAr(entry.getValue().getMods());
-            merge(toReturn, gotten);
-        }
-        return toReturn;
-    }
-
-    private void merge(Vector3 v1, Vector3 v2) {
+    protected final void merge(Vector3 v1, Vector3 v2) {
         v1.x += v2.x;
         v1.y *= v2.y;
         v1.z += v2.z;
     }
 
-    private Vector3 calcAr(StatModifier[] mods) {
-        Vector3 toReturn = new Vector3(0, 1, 0);
+    public float calculate(ADynamicCharacter character) {
+        Vector3 stats = getTotal(character, this);
+        return get(stats);
+    }
+
+    protected final Vector3 getTotal(ADynamicCharacter character, StatType type) {
+        Vector3 stats = new Vector3(0, 1, 0);
+        mergeArray(stats, character.getBaseStats(), type);
+        mergeMap(stats, character.getGear(), type);
+        return stats;
+    }
+
+    private void mergeMap(Vector3 mergeInto, Map<String, AGear> map, StatType type) {
+        for (Map.Entry<String, AGear> entry : map.entrySet()) {
+            mergeArray(mergeInto, entry.getValue().getMods(), type);
+        }
+    }
+
+    private void mergeArray(Vector3 mergeInto, StatModifier[] mods, StatType type) {
         for (StatModifier stat : mods) {
-            if (stat.statType == this) {
+            if (stat.statType == type) {
                 switch (stat.statClass) {
                     case BASE:
-                        toReturn.x += stat.value;
+                        mergeInto.x += stat.value;
                         break;
                     case SCALE:
-                        toReturn.y *= stat.value;
+                        mergeInto.y *= stat.value;
                         break;
                     case ADD:
-                        toReturn.z += stat.value;
+                        mergeInto.z += stat.value;
                         break;
                 }
             }
         }
-        return toReturn;
     }
 }
 
