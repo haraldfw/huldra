@@ -111,22 +111,18 @@ public class Level {
                                Tile[][] tiles, int x, int y) {
         // get free sides in a boolean array
         boolean[] freeSides = new boolean[]{
-            get(tiles, x - 1, y + 1),
             get(tiles, x, y + 1),
-            get(tiles, x + 1, y + 1),
             get(tiles, x + 1, y),
-            get(tiles, x + 1, y - 1),
             get(tiles, x, y - 1),
-            get(tiles, x - 1, y - 1),
             get(tiles, x - 1, y),
         };
-        //convert free sides into a "ttftfttf"-format
-        StringBuilder buffer = new StringBuilder();
-        buffer.append("solid_");
+        //convert free sides into a "tftf"-format
+        StringBuilder builder = new StringBuilder();
+        builder.append("solid_");
         for (boolean b : freeSides) {
-            buffer.append(b ? "t" : "f");
+            builder.append(b ? "t" : "f");
         }
-        ArrayList<Texture> textureList = textureMap.get(buffer.toString());
+        ArrayList<Texture> textureList = textureMap.get(builder.toString());
         if(textureList == null) {
             return textureMap.get("solid").get(0);
         }
