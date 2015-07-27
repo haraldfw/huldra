@@ -8,9 +8,9 @@ public enum WorldType {
     FOREST(1, 0.1f, Float.MAX_VALUE, 1, new String[0]),
     CAVES(1, 1, 1, 1, new String[]{
         "graphics/world/tiles/caves/solid.png",
-        "graphics/world/tiles/caves/solid_top.png",
-        "graphics/world/tiles/caves/solid_corner_top_left.png",
-        "graphics/world/tiles/caves/solid_corner_top_right.png",
+        "graphics/world/tiles/caves/solid_ftffffff.png",
+        "graphics/world/tiles/caves/solid_ttffffft.png",
+        "graphics/world/tiles/caves/solid_ftttffff.png",
     }),
     TEST_STAGE(1, 1, 1, 1, new String[0]);
     /**

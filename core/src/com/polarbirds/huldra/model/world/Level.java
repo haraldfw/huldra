@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -18,10 +19,9 @@ import java.util.Random;
 public class Level {
 
     public final int difficulty;
-    public TileType[][] tiles;
+    public Tile[][] tiles;
     public Vector2 spawn;
     public PlayerCharacter[] players;
-    private HashMap<TileType, Texture> tileTextures;
 
     public Level(PlayerCharacter[] players, Random random) {
         this.players = players;
@@ -38,18 +38,19 @@ public class Level {
     public void draw(Batch batch) {
         for (int x = 0; x < tiles.length; x++) {
             for (int y = 0; y < tiles[0].length; y++) {
-                batch.draw(tileTextures.get(tiles[x][y]), x, y);
+                batch.draw(tiles[x][y].texture, x, y);
             }
         }
     }
 
     private void parseLevel(int level, Random random) {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(new File("level/" + level)));
+            BufferedReader reader = new BufferedReader(
+                new FileReader(new File("levels/" + level + ".lvl")));
 
             WorldType type;
-            String readLine = reader.readLine();
-            switch (readLine) {
+            String typeString = reader.readLine();
+            switch (typeString) {
                 case "caves":
                     type = WorldType.CAVES;
                     break;
@@ -59,13 +60,81 @@ public class Level {
                 default:
                     type = WorldType.TEST_STAGE;
             }
-            int sectionAmount = Integer.parseInt(reader.readLine());
             TileArrayWithSpawn tileArrayWithSpawn =
-                new WorldGenerator(type, random).asTiles(sectionAmount, random);
-            tiles = tileArrayWithSpawn.tiles;
+                new WorldGenerator(type, random)
+                    .asTiles(Integer.parseInt(reader.readLine()), random);
+            tiles = convertTiles(tileArrayWithSpawn.tiles);
             spawn = tileArrayWithSpawn.spawn;
+
+            placeTextures(tiles, parseTextures(typeString));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private Tile[][] convertTiles(TileType[][] tileTypes) {
+        Tile[][] tiles = new Tile[tileTypes.length][tileTypes[0].length];
+        for (int x = 0; x < tileTypes.length; x++) {
+            for (int y = 0; y < tileTypes[0].length; y++) {
+                tiles[x][y] = new Tile(tileTypes[x][y]);
+            }
+        }
+        return tiles;
+    }
+
+    private HashMap<String, ArrayList<Texture>> parseTextures(String typeString) {
+        HashMap<String, ArrayList<Texture>> textureLists = new HashMap<>();
+        File dir = new File("graphics/world/tiles/" + typeString);
+        for (String path : dir.list()) {
+            if (path.contains(".png")) {
+                String key = path.substring(path.lastIndexOf("/"), path.lastIndexOf("."));
+                Texture t = new Texture(path);
+                if (!textureLists.containsKey(key)) {
+                    textureLists.put(key, new ArrayList<>());
+                }
+                textureLists.get(key).add(t);
+            }
+        }
+        return textureLists;
+    }
+
+    private void placeTextures(Tile[][] tiles,
+                               HashMap<String, ArrayList<Texture>> textureLists) {
+        for (int x = 0; x < tiles.length; x++) {
+            for (int y = 0; y < tiles[0].length; y++) {
+                tiles[x][y].setTexture(getTexture(textureLists, tiles, x, y));
+            }
+        }
+    }
+
+    private Texture getTexture(HashMap<String, ArrayList<Texture>> textureMap,
+                               Tile[][] tiles, int x, int y) {
+        // get free sides in a boolean array
+        boolean[] freeSides = new boolean[]{
+            get(tiles, x - 1, y + 1),
+            get(tiles, x, y + 1),
+            get(tiles, x + 1, y + 1),
+            get(tiles, x + 1, y),
+            get(tiles, x + 1, y - 1),
+            get(tiles, x, y - 1),
+            get(tiles, x - 1, y - 1),
+            get(tiles, x - 1, y),
+        };
+        //convert free sides into a "ttftfttf"-format
+        StringBuilder buffer = new StringBuilder();
+        buffer.append("solid_");
+        for (boolean b : freeSides) {
+            buffer.append(b ? "t" : "f");
+        }
+        ArrayList<Texture> textureList = textureMap.get(buffer.toString());
+        if(textureList == null) {
+            return textureMap.get("solid").get(0);
+        }
+        return textureList.get((int) (Math.random() * textureList.size()));
+    }
+
+    private boolean get(Tile[][] tiles, int x, int y) {
+        return x >= 0 && y >= 0 && x < tiles.length && y < tiles[0].length
+               && tiles[x][y].tileType != TileType.SOLID;
     }
 }
