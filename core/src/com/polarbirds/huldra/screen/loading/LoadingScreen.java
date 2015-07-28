@@ -1,28 +1,44 @@
 package com.polarbirds.huldra.screen.loading;
 
 import com.badlogic.gdx.Screen;
-import com.polarbirds.huldra.HuldraGame;
+import com.polarbirds.huldra.model.utility.ALoader;
 
 /**
  * Created by Harald on 23.07.2015.
  */
 public class LoadingScreen implements Screen {
 
-    private HuldraGame game;
     private INeedsLoading screen;
+    private ALoader[] loaders;
 
-    public LoadingScreen(HuldraGame game, INeedsLoading screen) {
-        this.game = game;
+    public LoadingScreen(INeedsLoading screen, ALoader[] loaders) {
         this.screen = screen;
-        game.spriteLoader.run();
+        this.loaders = loaders;
+
+        for (ALoader loader : loaders) {
+            loader.startThread();
+        }
     }
 
     @Override
     public void render(float delta) {
-        System.out.println(game.spriteLoader.getProgress());
-        if (game.spriteLoader.isDone) {
-            screen.nextScreen();
+        int loaded = 0;
+        int max = 0;
+
+        for (ALoader loader : loaders) {
+            loaded += loader.getLoaded();
+            max += loader.getMax();
         }
+
+        System.out.println("Loaded: " + loaded + "/" + max);
+
+        for (ALoader loader : loaders) {
+            if (!loader.isDone()) {
+                return;
+            }
+        }
+
+        screen.nextScreen();
     }
 
     @Override

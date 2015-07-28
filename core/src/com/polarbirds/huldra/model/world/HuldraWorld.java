@@ -44,7 +44,7 @@ public final class HuldraWorld {
     public void debugDraw(ShapeRenderer sr) {
         for (int x = 0; x < level.tiles.length; x++) {
             for (int y = 0; y < level.tiles[0].length; y++) {
-                switch (level.tiles[x][y]) {
+                switch (level.tiles[x][y].tileType) {
                     case PLATFORM:
                         sr.line(x, y + 1, x + 1, y + 1);
                         break;

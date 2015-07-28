@@ -28,31 +28,26 @@ import java.util.TreeSet;
  */
 public class SpriteLoader extends ALoader implements Disposable {
 
-    public boolean isDone = false;
-    private double progress = 0;
+    private boolean done = false;
     private Set<String> paths = new TreeSet<>();
-    private Map<String, ASprite> loadedSprites;
-    private Map<String, AAnimation> loadedAnimations;
+    private Map<String, ASprite> loadedSprites = new HashMap<>();;
+    private Map<String, AAnimation> loadedAnimations = new HashMap<>();;
 
     @Override
     public void run() {
-        startThread();
+        loadedSprites.clear();
+        loadedAnimations.clear();
 
-        loadedSprites = new HashMap<>();
-        loadedAnimations = new HashMap<>();
-
-        double progressIncrement = 1.0 / paths.size();
         for (String path : paths) {
             if (path.contains(".anim")) {
                 loadAnimation(path);
             } else {
                 loadSprite(path);
             }
-            progress += progressIncrement;
         }
 
         paths.clear();
-        isDone = true;
+        done = true;
     }
 
     private void loadSprite(String path) {
@@ -179,6 +174,7 @@ public class SpriteLoader extends ALoader implements Disposable {
     }
 
     public void queueAssets(String[] toAdd) {
+
         for (String path : paths) {
             paths.add(path);
         }
@@ -198,12 +194,13 @@ public class SpriteLoader extends ALoader implements Disposable {
      * @return Progress as a double
      */
     @Override
-    public double getProgress() {
-        double progress = (double) loadedSprites.size() / paths.size();
-        System.out.println(
-            "Texture-loading progress: " + loadedSprites.size() + "/" + paths.size() + ", "
-            + progress * 100 + "%");
-        return progress;
+    public int getLoaded() {
+        return loadedSprites.size() + loadedAnimations.size();
+    }
+
+    @Override
+    public int getMax() {
+        return paths.size();
     }
 
     private Vector2 parseGraphicsDescriptor(String path) {
@@ -213,7 +210,7 @@ public class SpriteLoader extends ALoader implements Disposable {
             return new Vector2(Float.parseFloat(reader.readLine()),
                                Float.parseFloat(reader.readLine()));
         } catch (Exception e) {
-            System.out.println("No descriptor for png '" + path + "' found. Using shift [0, 0]");
+            System.err.println("No descriptor for png '" + path + "' found. Using shift [0, 0]");
         }
         return new Vector2();
     }
@@ -221,23 +218,14 @@ public class SpriteLoader extends ALoader implements Disposable {
     @Override
     public void dispose() {
         for (Map.Entry s : loadedSprites.entrySet()) {
-            ((Disposable) s).dispose();
+            if (s != null) {
+                ((Disposable) s).dispose();
+            }
         }
     }
 
-    private enum loadEnum {
-        KNIGHT(new String[]{
-            "graphics/player/knight/walk.anim",
-            "graphics/player/knight/idle.anim",
-            "graphics/player/knight/slash.anim",
-            "graphics/player/knight/dance.anim",
-            "graphics/player/knight/jump.anim"}
-        ),;
-
-        public final String[] loadString;
-
-        loadEnum(String[] loadString) {
-            this.loadString = loadString;
-        }
+    @Override
+    public boolean isDone() {
+        return done;
     }
 }

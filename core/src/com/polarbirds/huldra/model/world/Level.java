@@ -1,7 +1,9 @@
 package com.polarbirds.huldra.model.world;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.polarbirds.huldra.HuldraGame;
 import com.polarbirds.huldra.model.character.player.PlayerCharacter;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 
@@ -36,11 +38,18 @@ public class Level {
     }
 
     public void draw(Batch batch) {
+        batch.begin();
         for (int x = 0; x < tiles.length; x++) {
             for (int y = 0; y < tiles[0].length; y++) {
-                batch.draw(tiles[x][y].texture, x, y);
+                batch.draw(tiles[x][y].texture,
+                           x * HuldraGame.PIXELS_PER_TILESIDE,
+                           y * HuldraGame.PIXELS_PER_TILESIDE,
+                           HuldraGame.PIXELS_PER_TILESIDE,
+                           HuldraGame.PIXELS_PER_TILESIDE
+                );
             }
         }
+        batch.end();
     }
 
     private void parseLevel(int level, Random random) {
@@ -84,11 +93,12 @@ public class Level {
 
     private HashMap<String, ArrayList<Texture>> parseTextures(String typeString) {
         HashMap<String, ArrayList<Texture>> textureLists = new HashMap<>();
-        File dir = new File("graphics/world/tiles/" + typeString);
-        for (String path : dir.list()) {
+        String dirString = "graphics/world/tiles/" + typeString + "/";
+        for (String path : new File(dirString).list()) {
             if (path.contains(".png")) {
-                String key = path.substring(path.lastIndexOf("/"), path.lastIndexOf("."));
-                Texture t = new Texture(path);
+                System.out.println(path);
+                String key = path.substring(0, path.lastIndexOf("_"));
+                Texture t = new Texture(Gdx.files.internal(dirString + path));
                 if (!textureLists.containsKey(key)) {
                     textureLists.put(key, new ArrayList<>());
                 }
@@ -123,7 +133,7 @@ public class Level {
             builder.append(b ? "t" : "f");
         }
         ArrayList<Texture> textureList = textureMap.get(builder.toString());
-        if(textureList == null) {
+        if (textureList == null) {
             return textureMap.get("solid").get(0);
         }
         return textureList.get((int) (Math.random() * textureList.size()));

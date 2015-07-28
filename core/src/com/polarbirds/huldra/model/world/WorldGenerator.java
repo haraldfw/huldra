@@ -42,10 +42,10 @@ final class WorldGenerator {
     private IntVector2 getLocation(IntVector2 dimensions, Iterable<Bounds> boundsList,
                                    Bounds bounds) {
         // get this location's open possible surrounding locations
-        List<IntVector2>
-            locations =
+        List<IntVector2> locations =
             getLocationsAround(dimensions.x, dimensions.y, boundsList, bounds);
         // if no open locations, return null, This bounds-object is no good
+        System.out.print("[s:" + locations.size() + "]");
         if (!locations.isEmpty()) {
             return locations.get(random.nextInt(locations.size()));
         }
@@ -67,9 +67,8 @@ final class WorldGenerator {
                                                 Iterable<Bounds> boundsList,
                                                 Bounds bounds) {
         List<IntVector2> possibleLocations = new ArrayList<>();
-        Bounds newBounds = new Bounds(0, 0, width, height);
 
-        for (int x = bounds.x - newBounds.width + 1;
+        for (int x = bounds.x - width + 1;
              x < bounds.x + bounds.width;
              x++) {
             addIfNotCollides(new Bounds(x, bounds.y + bounds.height, width, height),
@@ -78,7 +77,7 @@ final class WorldGenerator {
                              boundsList, possibleLocations);
         }
 
-        for (int y = bounds.y - newBounds.height + 1;
+        for (int y = bounds.y - height + 1;
              y < bounds.y + bounds.height;
              y++) {
             addIfNotCollides(new Bounds(bounds.x + bounds.width, y, width, height),
@@ -123,20 +122,22 @@ final class WorldGenerator {
 
             // find a section to expand from, and place a section there
             System.out.println(
-                "Finding combined location for dimensions: " + dimensions.y + ", " + dimensions.y);
+                "Finding combined location for dimensions: " + dimensions.x + ", " + dimensions.y);
             for (int iterations2 = 0; iterations2 < 10000; iterations2++) {
                 // Sort boundsList by their distance from spawn
                 boundsList.sort(new SpreadComparator(type.rsHor, type.rsVer));
 
                 // choose a random section to try to expand from
                 Bounds bounds = boundsList.get(getNewSelection(boundsList.size()));
-                System.out.print("SB:(" + bounds.width + "," + bounds.height + ")#");
+                System.out.print("Dim:[" + bounds.width + "," + bounds.height + "]");
 
                 // Find location for new bounds
                 IntVector2 location = getLocation(dimensions, boundsList, bounds);
                 if (location == null) {
+                    System.out.print("{f}");
                     continue;
                 }
+                System.out.print("{s}");
 
                 Bounds toAdd = new Bounds(location.x, location.y, dimensions.x, dimensions.y);
                 boundsList.add(toAdd);

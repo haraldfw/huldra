@@ -36,7 +36,7 @@ public class GameScreen implements Screen {
     private ShapeRenderer sr;
 
     public GameScreen(HuldraGame game, PlayerCharacter[] players) {
-        gameCamera = new OrthographicCamera();
+        gameCamera = new OrthographicCamera(HuldraGame.X_TILES, HuldraGame.Y_TILES);
         this.game = game;
 
         hudOverlay = new HudOverlay(players);
@@ -44,7 +44,9 @@ public class GameScreen implements Screen {
         pauseOverlay = new PauseOverlay(this);
 
         sr = new ShapeRenderer();
-        sr.setProjectionMatrix(game.staticViewCamera.combined);
+
+        sr.setProjectionMatrix(gameCamera.combined);
+        game.batch.setProjectionMatrix(gameCamera.combined);
 
         state = State.RUNNING;
         // create the game stage
@@ -52,18 +54,18 @@ public class GameScreen implements Screen {
 
         WorldType type = WorldType.CAVES;
 
-        game.spriteLoader.queueAssets(type.texturePaths);
         world = new HuldraWorld();
-        world.firstLevel(players, new Random(System.currentTimeMillis()));
+        world.firstLevel(players, new Random(6));
     }
 
     @Override
     public void render(float delta) {
         gameStage.act(delta);
+
         updateCamera(gameCamera);
 
-        game.batch.begin();
         world.draw(game.batch);
+
         if (state == State.RUNNING) {
             world.integrate(delta);
             gameStage.draw();
@@ -79,7 +81,6 @@ public class GameScreen implements Screen {
                     break;
             }
         }
-        game.batch.end();
 
         sr.setAutoShapeType(true);
         sr.begin();

@@ -5,14 +5,17 @@ package com.polarbirds.huldra.model.world;
  */
 public enum WorldType {
     // Order: float rsHor, float rsVer, float rsSpread, float rsSize, String[] texturePaths
-    FOREST(1, 0.1f, Float.MAX_VALUE, 1, new String[0]),
-    CAVES(1, 1, 1, 1, new String[]{
-        "graphics/world/tiles/caves/solid.png",
-        "graphics/world/tiles/caves/solid_tfff.png",
-        "graphics/world/tiles/caves/solid_tfft.png",
-        "graphics/world/tiles/caves/solid_ttff.png",
-    }),
-    TEST_STAGE(1, 1, 1, 1, new String[0]);
+    FOREST(1, 0.1f, Float.MAX_VALUE, 1),
+    CAVES(1, 1, 1, 1),
+    TEST_STAGE(1, 1, 1, 1);
+
+    WorldType(float rsHor, float rsVer, float rsSpread, float rsSize) {
+        this.rsHor = rsHor;
+        this.rsVer = rsVer;
+        this.rsSpread = rsSpread;
+        this.rsSize = rsSize;
+    }
+
     /**
      * Chance for rooms to be spread horizontally, rather than vertically. 0 <= x <= 1
      */
@@ -32,14 +35,4 @@ public enum WorldType {
      * all rooms will be max size.
      */
     public final float rsSize;
-
-    public final String[] texturePaths;
-
-    WorldType(float rsHor, float rsVer, float rsSpread, float rsSize, String[] texturePaths) {
-        this.rsHor = rsHor;
-        this.rsVer = rsVer;
-        this.rsSpread = rsSpread;
-        this.rsSize = rsSize;
-        this.texturePaths = texturePaths;
-    }
 }

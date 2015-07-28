@@ -10,5 +10,9 @@ public abstract class ALoader implements Runnable {
         t.start();
     }
 
-    public abstract double getProgress();
+    public abstract int getLoaded();
+
+    public abstract int getMax();
+
+    public abstract boolean isDone();
 }

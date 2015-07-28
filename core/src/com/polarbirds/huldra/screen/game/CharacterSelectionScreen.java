@@ -5,7 +5,9 @@ import com.polarbirds.huldra.HuldraGame;
 import com.polarbirds.huldra.model.character.Team;
 import com.polarbirds.huldra.model.character.player.Knight;
 import com.polarbirds.huldra.model.character.player.PlayerCharacter;
+import com.polarbirds.huldra.model.utility.ALoader;
 import com.polarbirds.huldra.screen.loading.INeedsLoading;
+import com.polarbirds.huldra.screen.loading.LoadingScreen;
 
 import java.util.ArrayList;
 
@@ -18,6 +20,8 @@ public class CharacterSelectionScreen implements Screen, INeedsLoading {
 
     private ArrayList<PlayerCharacter> playerList;
 
+
+
     public CharacterSelectionScreen(HuldraGame game) {
         this.game = game;
         playerList = new ArrayList<>();
@@ -26,7 +30,9 @@ public class CharacterSelectionScreen implements Screen, INeedsLoading {
 
     @Override
     public void render(float delta) {
-        nextScreen();
+        game.setScreen(new LoadingScreen(this, new ALoader[]{
+            game.spriteLoader
+        }));
     }
 
     @Override
