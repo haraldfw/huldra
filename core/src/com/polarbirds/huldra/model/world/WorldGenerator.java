@@ -1,13 +1,18 @@
 package com.polarbirds.huldra.model.world;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.polarbirds.huldra.model.utility.ALoader;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.smokebox.lib.utils.IntVector2;
 import com.smokebox.lib.utils.geom.Bounds;
 import com.smokebox.lib.utils.geom.Line;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -15,19 +20,28 @@ import java.util.Random;
  * A class to generate the boundslist used in the WorldTypes. Created by Harald Wilhelmsen on
  * 7/6/2015.
  */
-final class WorldGenerator {
+public final class WorldGenerator extends ALoader {
 
-    private WorldType type;
+    public Tile[][] tiles;
+    public Vector2 spawn;
+
+    private LevelFile levelFile;
     private Random random;
 
-    public WorldGenerator(WorldType type, Random random) {
-        this.type = type;
+    public WorldGenerator(LevelFile levelFile, Random random) {
+        this.levelFile = levelFile;
         this.random = random;
     }
 
+    @Override
+    public void run() {
+        max = 5;
+        generate();
+    }
+
     private IntVector2 getSize() {
-        int width = 1 + (int) Math.abs(random.nextGaussian() * type.rsSize);
-        int height = 1 + (int) Math.abs(random.nextGaussian() * type.rsSize);
+        int width = 1 + (int) Math.abs(random.nextGaussian() * levelFile.type.rsSize);
+        int height = 1 + (int) Math.abs(random.nextGaussian() * levelFile.type.rsSize);
 
         if (width > Section.BOUNDS_MAX_WIDTH) {
             width = Section.BOUNDS_MAX_WIDTH;
@@ -97,25 +111,25 @@ final class WorldGenerator {
     }
 
     private int getNewSelection(int size) {
-        return (int) cap((float) (Math.abs(random.nextGaussian()) * type.rsSpread), 0, size - 1);
+        return (int) cap((float) (Math.abs(random.nextGaussian()) * levelFile.type.rsSpread), 0, size - 1);
     }
 
     private float cap(float value, float min, float max) {
         return value < min ? min : value > max ? max : value;
     }
 
-    private List<Bounds> generateBoundsList(int amountOfSections) {
+    private List<Bounds> generateBoundsList() {
         ArrayList<Bounds> boundsList = new ArrayList<>();
 
         boundsList.add(new Bounds(0, 0, 1, 1));
-        System.out.println("Placed spawn");
 
         // place down section until required amountOfSections is met
         int sectionsPlaced = 1;
 
         // loop until all sectionBoundsList are placed or the loop uses too many iterations
-        for (int iterations = 0; iterations < 10000; iterations++) {
-            System.out.println("Sections placed: " + sectionsPlaced + "/" + amountOfSections);
+        for (int iterations = 0; iterations < 10000 && sectionsPlaced < levelFile.amountOfSections;
+             iterations++) {
+            System.out.println("Sections placed: " + sectionsPlaced + "/" + levelFile.amountOfSections);
 
             // find dimensions for a new sectionBounds
             IntVector2 dimensions = getSize();
@@ -125,7 +139,7 @@ final class WorldGenerator {
                 "Finding combined location for dimensions: " + dimensions.x + ", " + dimensions.y);
             for (int iterations2 = 0; iterations2 < 10000; iterations2++) {
                 // Sort boundsList by their distance from spawn
-                boundsList.sort(new SpreadComparator(type.rsHor, type.rsVer));
+                boundsList.sort(new SpreadComparator(levelFile.type.rsHor, levelFile.type.rsVer));
 
                 // choose a random section to try to expand from
                 Bounds bounds = boundsList.get(getNewSelection(boundsList.size()));
@@ -145,23 +159,19 @@ final class WorldGenerator {
                 break;
             }
             System.out.println();
-
-            if (sectionsPlaced >= amountOfSections) {
-                System.out.println("Placed all sections");
-                break;
-            }
         }
         return boundsList;
     }
 
-    public TileArrayWithSpawn asTiles(int sectionAmount, Random random) {
-        Iterable<Bounds> boundsList = generateBoundsList(sectionAmount);
+    private void generate() {
+        Iterable<Bounds> boundsList = generateBoundsList();
+        loaded++;
         List<TilesWithOpenings> twos = TilesWithOpenings.loadAndGetList();
-
+        loaded++;
         // normalize bounds. Since the spawn was previously on 0,0 it is now located on the shift
         // that was applied
         IntVector2 intSpawn = normalizeBoundsList(boundsList);
-
+        loaded++;
         Collection<Section> sections = new ArrayList<>();
         for (Bounds bounds : boundsList) {
             sections.add(new Section(bounds));
@@ -170,16 +180,16 @@ final class WorldGenerator {
         IntVector2 maxBounds = getMaxBounds(boundsList);
 
         // Array for map-tiles
-        TileType[][] tiles = new TileType
+        TileType[][] tileTypes = new TileType
             [maxBounds.x * Section.TILES_PER_SIDE + 2][maxBounds.y * Section.TILES_PER_SIDE + 2];
 
-        for (TileType[] tileTypes : tiles) {
-            Arrays.fill(tileTypes, TileType.SOLID);
+        for (TileType[] tt : tileTypes) {
+            Arrays.fill(tt, TileType.SOLID);
         }
 
         // Array of reachable openings
         boolean[][] reachableOpenings =
-            addSectionOpenings(sections, new boolean[tiles.length][tiles[0].length]);
+            addSectionOpenings(sections, new boolean[tileTypes.length][tileTypes[0].length]);
 
         // Add the section's tiles to the map
         for (Section section : sections) {
@@ -189,7 +199,7 @@ final class WorldGenerator {
             int baseX = section.bounds.x * Section.TILES_PER_SIDE;
             int baseY = section.bounds.y * Section.TILES_PER_SIDE;
             for (int x = 0; x < sectionTiles.length; x++) {
-                System.arraycopy(sectionTiles[x], 0, tiles[baseX + x + 1], baseY + 1,
+                System.arraycopy(sectionTiles[x], 0, tileTypes[baseX + x + 1], baseY + 1,
                                  sectionTiles[0].length);
             }
         }
@@ -212,13 +222,81 @@ final class WorldGenerator {
         }
         List<IntVector2> spawns = spawnSection.tilesWithOpenings.locs.get("SPAWN");
         IntVector2 gottenSpawn = spawns.get(spawns.size() - 1);
-        Vector2
-            spawn =
+        Vector2 spawn =
             new Vector2(spawnSection.bounds.x * Section.TILES_PER_SIDE + gottenSpawn.x + 1,
                         spawnSection.bounds.y * Section.TILES_PER_SIDE + gottenSpawn.y + 1);
-        return new TileArrayWithSpawn(tiles, spawn);
+        loaded++;
+        this.tiles = convertTiles(tileTypes);
+        this.spawn = spawn;
+
+        done = true;
     }
 
+    private Tile[][] convertTiles(TileType[][] tileTypes) {
+        Tile[][] tiles = new Tile[tileTypes.length][tileTypes[0].length];
+        for (int x = 0; x < tileTypes.length; x++) {
+            for (int y = 0; y < tileTypes[0].length; y++) {
+                tiles[x][y] = new Tile(tileTypes[x][y]);
+            }
+        }
+        return tiles;
+    }
+
+    private HashMap<String, ArrayList<Texture>> parseTextures(String typeString) {
+        HashMap<String, ArrayList<Texture>> textureLists = new HashMap<>();
+        String dirString = "graphics/world/tiles/" + typeString + "/";
+        for (String path : new File(dirString).list()) {
+            if (path.contains(".png")) {
+                System.out.println(path);
+                String key = path.substring(0, path.lastIndexOf("_"));
+                Texture t = new Texture(Gdx.files.internal(dirString + path));
+                if (!textureLists.containsKey(key)) {
+                    textureLists.put(key, new ArrayList<>());
+                }
+                textureLists.get(key).add(t);
+            }
+        }
+        return textureLists;
+    }
+
+    private void placeTextures(Tile[][] tiles,
+                               HashMap<String, ArrayList<Texture>> textureLists)
+    {
+        for (int x = 0; x < tiles.length; x++) {
+            for (int y = 0; y < tiles[0].length; y++) {
+                tiles[x][y].setTexture(getTexture(textureLists, tiles, x, y));
+            }
+        }
+    }
+
+
+
+    private Texture getTexture(HashMap<String, ArrayList<Texture>> textureMap,
+                               Tile[][] tiles, int x, int y) {
+        // get free sides in a boolean array
+        boolean[] freeSides = new boolean[]{
+            isTileOpen(tiles, x, y + 1),
+            isTileOpen(tiles, x + 1, y),
+            isTileOpen(tiles, x, y - 1),
+            isTileOpen(tiles, x - 1, y),
+        };
+        //convert free sides into a "tftf"-format
+        StringBuilder builder = new StringBuilder();
+        builder.append("solid_");
+        for (boolean b : freeSides) {
+            builder.append(b ? "t" : "f");
+        }
+        ArrayList<Texture> textureList = textureMap.get(builder.toString());
+        if (textureList == null) {
+            return textureMap.get("solid").get(0);
+        }
+        return textureList.get((int) (Math.random() * textureList.size()));
+    }
+
+    private boolean isTileOpen(Tile[][] tiles, int x, int y) {
+        return x >= 0 && y >= 0 && x < tiles.length && y < tiles[0].length
+               && tiles[x][y].tileType != TileType.SOLID;
+    }
 
     /**
      * Returns tiles for the given sectionBounds, taking into account the sectionBounds' openings

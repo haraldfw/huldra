@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.screen.game;
+package com.polarbirds.huldra.screen.mainmenu;
 
 import com.badlogic.gdx.Screen;
 import com.polarbirds.huldra.HuldraGame;
@@ -6,8 +6,9 @@ import com.polarbirds.huldra.model.character.Team;
 import com.polarbirds.huldra.model.character.player.Knight;
 import com.polarbirds.huldra.model.character.player.PlayerCharacter;
 import com.polarbirds.huldra.model.utility.ALoader;
+import com.polarbirds.huldra.screen.game.GameLoadingScreen;
+import com.polarbirds.huldra.screen.game.GameScreen;
 import com.polarbirds.huldra.screen.loading.INeedsLoading;
-import com.polarbirds.huldra.screen.loading.LoadingScreen;
 
 import java.util.ArrayList;
 
@@ -29,13 +30,13 @@ public class CharacterSelectionScreen implements Screen, INeedsLoading {
 
     @Override
     public void render(float delta) {
-        game.setScreen(new LoadingScreen(this, new ALoader[]{
+        game.setScreen(new GameLoadingScreen(this, new ALoader[]{
             game.spriteLoader
         }));
     }
 
     @Override
-    public void nextScreen() {
+    public void loadingFinished() {
         game.setScreen(new GameScreen(
             game, playerList.toArray(new PlayerCharacter[playerList.size()])));
     }

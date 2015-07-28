@@ -5,16 +5,14 @@ package com.polarbirds.huldra.model.utility;
  */
 public abstract class ALoader implements Runnable {
 
+    public int loaded = 0;
+    public int max = 0;
+    public boolean done = false;
+
     public void startThread() {
         Thread t = new Thread(this);
         t.start();
     }
-
-    public abstract int getLoaded();
-
-    public abstract int getMax();
-
-    public abstract boolean isDone();
 
     @Override
     public abstract void run();

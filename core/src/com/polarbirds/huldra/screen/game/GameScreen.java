@@ -7,15 +7,21 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.polarbirds.huldra.HuldraGame;
+import com.polarbirds.huldra.model.animation.AAnimation;
 import com.polarbirds.huldra.model.character.player.PlayerCharacter;
-import com.polarbirds.huldra.model.world.HuldraWorld;
-import com.polarbirds.huldra.model.world.WorldType;
+import com.polarbirds.huldra.model.utility.Sprite;
+import com.polarbirds.huldra.model.utility.SpriteLoader;
+import com.polarbirds.huldra.model.world.Level;
+import com.polarbirds.huldra.model.world.LevelFile;
+import com.polarbirds.huldra.model.world.Tile;
+import com.polarbirds.huldra.model.world.WorldGenerator;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.polarbirds.huldra.screen.game.overlay.HudOverlay;
 import com.polarbirds.huldra.screen.game.overlay.IOverlay;
 import com.polarbirds.huldra.screen.game.overlay.PauseOverlay;
 import com.polarbirds.huldra.screen.game.overlay.PlayerSpecOverlay;
 
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -25,37 +31,50 @@ public class GameScreen implements Screen {
 
     public final HuldraGame game;
     private final OrthographicCamera gameCamera;
-    public HuldraWorld world;
+    public Level level;
+    public HashMap<String, Sprite> sprites;
+    public HashMap<String, AAnimation> animations;
     private State state;
-
     private Stage gameStage;         // stage containing game actors
-    private IOverlay hudOverlay;     // Overlay to display player stats
+
+    private IOverlay hudOverlay;        // Overlay to display player stats
     private IOverlay playerSpecOverlay; // Menu to display when a player
     private IOverlay pauseOverlay;      // Menu to display when the game is paused
 
     private ShapeRenderer sr;
 
     public GameScreen(HuldraGame game, PlayerCharacter[] players) {
-        gameCamera = new OrthographicCamera(HuldraGame.X_TILES, HuldraGame.Y_TILES);
         this.game = game;
+
+        gameCamera = new OrthographicCamera(HuldraGame.X_TILES, HuldraGame.Y_TILES);
 
         hudOverlay = new HudOverlay(players);
         playerSpecOverlay = new PlayerSpecOverlay(this);
         pauseOverlay = new PauseOverlay(this);
 
-        sr = new ShapeRenderer();
-
-        sr.setProjectionMatrix(gameCamera.combined);
-        game.batch.setProjectionMatrix(gameCamera.combined);
-
-        state = State.RUNNING;
-        // create the game stage
         gameStage = new Stage(new ScreenViewport(gameCamera), game.batch);
 
-        WorldType type = WorldType.CAVES;
+        game.batch.setProjectionMatrix(gameCamera.combined);
 
-        world = new HuldraWorld();
-        world.firstLevel(players, new Random(6));
+        level = new Level(players);
+
+        state = State.PRESPAWN;
+
+        sr = new ShapeRenderer();
+        sr.setProjectionMatrix(gameCamera.combined);
+    }
+
+    private void startLevelTransition() {
+        game.setScreen(
+            new GameLoadingScreen(
+                game, this,
+                new WorldGenerator(
+                    new LevelFile(level.difficulty + 1),
+                    new Random(6)
+                ),
+                new SpriteLoader()
+            )
+        );
     }
 
     @Override
@@ -64,13 +83,20 @@ public class GameScreen implements Screen {
 
         updateCamera(gameCamera);
 
-        world.draw(game.batch);
+        level.draw(game.batch);
 
-        if (state == State.RUNNING) {
-            world.integrate(delta);
+        if(state == State.PRESPAWN) {
+            for(PlayerCharacter player : level.players) {
+                player.setPosition(level.spawn.x, level.spawn.y);
+            }
+            level.integrate(delta);
             gameStage.draw();
             hudOverlay.render(game.batch);
-        } else {
+        } else if (state == State.RUNNING) {
+            level.integrate(delta);
+            gameStage.draw();
+            hudOverlay.render(game.batch);
+        } else  {
             gameStage.draw();
             switch (state) {
                 case PLAYERSPEC:
@@ -84,7 +110,7 @@ public class GameScreen implements Screen {
 
         sr.setAutoShapeType(true);
         sr.begin();
-        world.debugDraw(sr);
+        level.debugDraw(sr);
         sr.end();
     }
 
@@ -120,7 +146,7 @@ public class GameScreen implements Screen {
 
     private void updateCamera(OrthographicCamera camera) {
         // tan( 1/2 * field_of_view ) * ( 1/2 * distance_between_objects)
-        PlayerCharacter[] players = world.level.players;
+        PlayerCharacter[] players = level.players;
         if (players.length == 1) {
             Vector2 pos = players[0].body.pos;
             camera.position.set(pos.x, pos.y, 0);
@@ -142,6 +168,7 @@ public class GameScreen implements Screen {
     }
 
     private enum State {
+        PRESPAWN,
         RUNNING,
         PLAYERSPEC,
         PAUSED

@@ -28,13 +28,14 @@ import java.util.TreeSet;
  */
 public class SpriteLoader extends ALoader implements Disposable {
 
-    private boolean done = false;
     private Set<String> paths = new TreeSet<>();
-    private Map<String, ASprite> loadedSprites = new HashMap<>();
-    private Map<String, AAnimation> loadedAnimations = new HashMap<>();
+    public Map<String, ASprite> loadedSprites = new HashMap<>();
+    public Map<String, AAnimation> loadedAnimations = new HashMap<>();
 
     @Override
     public void run() {
+        max = paths.size();
+
         loadedSprites.clear();
         loadedAnimations.clear();
 
@@ -44,6 +45,7 @@ public class SpriteLoader extends ALoader implements Disposable {
             } else {
                 loadSprite(path);
             }
+            loaded++;
         }
 
         paths.clear();
@@ -188,21 +190,6 @@ public class SpriteLoader extends ALoader implements Disposable {
         return loadedAnimations.get(path);
     }
 
-    /**
-     * Returns progress in parts per one.
-     *
-     * @return Progress as a double
-     */
-    @Override
-    public int getLoaded() {
-        return loadedSprites.size() + loadedAnimations.size();
-    }
-
-    @Override
-    public int getMax() {
-        return paths.size();
-    }
-
     private Vector2 parseGraphicsDescriptor(String path) {
         try {
             String graphicsFile = path.substring(path.length() - 4);
@@ -224,8 +211,4 @@ public class SpriteLoader extends ALoader implements Disposable {
         }
     }
 
-    @Override
-    public boolean isDone() {
-        return done;
-    }
 }

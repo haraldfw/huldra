@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.polarbirds.huldra.model.utility.SpriteLoader;
-import com.polarbirds.huldra.screen.game.CharacterSelectionScreen;
+import com.polarbirds.huldra.screen.mainmenu.CharacterSelectionScreen;
 
 public class HuldraGame extends Game {
 
