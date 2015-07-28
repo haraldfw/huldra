@@ -37,6 +37,9 @@ public final class WorldGenerator extends ALoader {
     public void run() {
         max = 5;
         generate();
+        placeTextures(tiles, parseTextures(levelFile.worldTypeString));
+        loaded++;
+        done = true;
     }
 
     private IntVector2 getSize() {
@@ -230,8 +233,6 @@ public final class WorldGenerator extends ALoader {
         loaded++;
         this.tiles = convertTiles(tileTypes);
         this.spawn = spawn;
-
-        done = true;
     }
 
     private Tile[][] convertTiles(TileType[][] tileTypes) {
