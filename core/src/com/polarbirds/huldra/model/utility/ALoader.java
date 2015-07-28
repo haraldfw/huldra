@@ -15,4 +15,7 @@ public abstract class ALoader implements Runnable {
     public abstract int getMax();
 
     public abstract boolean isDone();
+
+    @Override
+    public abstract void run();
 }
