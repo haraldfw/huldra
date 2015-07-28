@@ -28,6 +28,7 @@ public enum WorldType {
      * all rooms will be max size.
      */
     public final float rsSize;
+
     WorldType(float rsHor, float rsVer, float rsSpread, float rsSize) {
         this.rsHor = rsHor;
         this.rsVer = rsVer;

@@ -28,9 +28,9 @@ import java.util.TreeSet;
  */
 public class SpriteLoader extends ALoader implements Disposable {
 
-    private Set<String> paths = new TreeSet<>();
     public Map<String, ASprite> loadedSprites = new HashMap<>();
     public Map<String, AAnimation> loadedAnimations = new HashMap<>();
+    private Set<String> paths = new TreeSet<>();
 
     @Override
     public void run() {

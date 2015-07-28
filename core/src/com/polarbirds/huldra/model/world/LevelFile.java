@@ -16,12 +16,11 @@ public class LevelFile {
     public WorldType type;
     public int amountOfSections;
 
-    public LevelFile(int level) {
+    public LevelFile(int level, SpriteLoader spriteLoader) {
         try {
             BufferedReader reader = new BufferedReader(
                 new FileReader(new File("levels/" + level + ".lvl")));
 
-            WorldType type;
             String typeString = reader.readLine();
             switch (typeString) {
                 case "caves":
@@ -34,12 +33,9 @@ public class LevelFile {
                     type = WorldType.TEST_STAGE;
             }
             amountOfSections = Integer.parseInt(reader.readLine());
+            // TODO queue assets in spriteLoader
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void queueAssets(SpriteLoader loader) {
-
     }
 }

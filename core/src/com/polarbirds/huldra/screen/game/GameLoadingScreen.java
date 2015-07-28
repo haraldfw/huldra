@@ -4,7 +4,6 @@ import com.badlogic.gdx.Screen;
 import com.polarbirds.huldra.HuldraGame;
 import com.polarbirds.huldra.model.utility.SpriteLoader;
 import com.polarbirds.huldra.model.world.WorldGenerator;
-import com.polarbirds.huldra.screen.game.GameScreen;
 
 /**
  * Created by Harald on 23.07.2015.
@@ -37,6 +36,7 @@ public class GameLoadingScreen implements Screen {
         if (spriteLoader.done && worldGenerator.done) {
             gameScreen.level.setNew(worldGenerator.tiles, worldGenerator.spawn,
                                     gameScreen.level.difficulty + 1);
+            gameScreen.setNew(spriteLoader.loadedSprites, spriteLoader.loadedAnimations);
             game.setScreen(gameScreen);
         }
 

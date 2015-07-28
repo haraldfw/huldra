@@ -111,7 +111,8 @@ public final class WorldGenerator extends ALoader {
     }
 
     private int getNewSelection(int size) {
-        return (int) cap((float) (Math.abs(random.nextGaussian()) * levelFile.type.rsSpread), 0, size - 1);
+        return (int) cap((float) (Math.abs(random.nextGaussian()) * levelFile.type.rsSpread), 0,
+                         size - 1);
     }
 
     private float cap(float value, float min, float max) {
@@ -129,7 +130,8 @@ public final class WorldGenerator extends ALoader {
         // loop until all sectionBoundsList are placed or the loop uses too many iterations
         for (int iterations = 0; iterations < 10000 && sectionsPlaced < levelFile.amountOfSections;
              iterations++) {
-            System.out.println("Sections placed: " + sectionsPlaced + "/" + levelFile.amountOfSections);
+            System.out
+                .println("Sections placed: " + sectionsPlaced + "/" + levelFile.amountOfSections);
 
             // find dimensions for a new sectionBounds
             IntVector2 dimensions = getSize();
@@ -260,15 +262,13 @@ public final class WorldGenerator extends ALoader {
     }
 
     private void placeTextures(Tile[][] tiles,
-                               HashMap<String, ArrayList<Texture>> textureLists)
-    {
+                               HashMap<String, ArrayList<Texture>> textureLists) {
         for (int x = 0; x < tiles.length; x++) {
             for (int y = 0; y < tiles[0].length; y++) {
                 tiles[x][y].setTexture(getTexture(textureLists, tiles, x, y));
             }
         }
     }
-
 
 
     private Texture getTexture(HashMap<String, ArrayList<Texture>> textureMap,

@@ -1,17 +1,14 @@
 package com.polarbirds.huldra.model.world;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.polarbirds.huldra.model.character.player.PlayerCharacter;
 import com.polarbirds.huldra.model.world.physics.DynamicBody;
 import com.polarbirds.huldra.model.world.physics.StaticBody;
 import com.polarbirds.huldra.model.world.physics.Vector2;
-import com.polarbirds.huldra.screen.loading.INeedsLoading;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * A class for this game's World. HuldraWorld contains a 2d array of Tile objects and an ArrayList

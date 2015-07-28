@@ -9,11 +9,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.polarbirds.huldra.HuldraGame;
 import com.polarbirds.huldra.model.animation.AAnimation;
 import com.polarbirds.huldra.model.character.player.PlayerCharacter;
-import com.polarbirds.huldra.model.utility.Sprite;
+import com.polarbirds.huldra.model.utility.ASprite;
 import com.polarbirds.huldra.model.utility.SpriteLoader;
 import com.polarbirds.huldra.model.world.Level;
 import com.polarbirds.huldra.model.world.LevelFile;
-import com.polarbirds.huldra.model.world.Tile;
 import com.polarbirds.huldra.model.world.WorldGenerator;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.polarbirds.huldra.screen.game.overlay.HudOverlay;
@@ -21,7 +20,7 @@ import com.polarbirds.huldra.screen.game.overlay.IOverlay;
 import com.polarbirds.huldra.screen.game.overlay.PauseOverlay;
 import com.polarbirds.huldra.screen.game.overlay.PlayerSpecOverlay;
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -32,8 +31,8 @@ public class GameScreen implements Screen {
     public final HuldraGame game;
     private final OrthographicCamera gameCamera;
     public Level level;
-    public HashMap<String, Sprite> sprites;
-    public HashMap<String, AAnimation> animations;
+    public Map<String, ASprite> sprites;
+    public Map<String, AAnimation> animations;
     private State state;
     private Stage gameStage;         // stage containing game actors
 
@@ -64,15 +63,26 @@ public class GameScreen implements Screen {
         sr.setProjectionMatrix(gameCamera.combined);
     }
 
+    public void setNew(Map<String, ASprite> sprites,
+                       Map<String, AAnimation> animations) {
+        this.sprites = sprites;
+        this.animations = animations;
+    }
+
     private void startLevelTransition() {
+        SpriteLoader spriteLoader = new SpriteLoader();
         game.setScreen(
             new GameLoadingScreen(
-                game, this,
+                game,
+                this,
                 new WorldGenerator(
-                    new LevelFile(level.difficulty + 1),
+                    new LevelFile(
+                        level.difficulty + 1,
+                        spriteLoader
+                    ),
                     new Random(6)
                 ),
-                new SpriteLoader()
+                spriteLoader
             )
         );
     }
@@ -85,8 +95,8 @@ public class GameScreen implements Screen {
 
         level.draw(game.batch);
 
-        if(state == State.PRESPAWN) {
-            for(PlayerCharacter player : level.players) {
+        if (state == State.PRESPAWN) {
+            for (PlayerCharacter player : level.players) {
                 player.setPosition(level.spawn.x, level.spawn.y);
             }
             level.integrate(delta);
@@ -96,7 +106,7 @@ public class GameScreen implements Screen {
             level.integrate(delta);
             gameStage.draw();
             hudOverlay.render(game.batch);
-        } else  {
+        } else {
             gameStage.draw();
             switch (state) {
                 case PLAYERSPEC:

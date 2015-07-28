@@ -5,22 +5,23 @@ import com.polarbirds.huldra.HuldraGame;
 import com.polarbirds.huldra.model.character.Team;
 import com.polarbirds.huldra.model.character.player.Knight;
 import com.polarbirds.huldra.model.character.player.PlayerCharacter;
-import com.polarbirds.huldra.model.utility.ALoader;
+import com.polarbirds.huldra.model.utility.SpriteLoader;
+import com.polarbirds.huldra.model.world.LevelFile;
+import com.polarbirds.huldra.model.world.WorldGenerator;
 import com.polarbirds.huldra.screen.game.GameLoadingScreen;
 import com.polarbirds.huldra.screen.game.GameScreen;
-import com.polarbirds.huldra.screen.loading.INeedsLoading;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by Harald on 23.07.2015.
  */
-public class CharacterSelectionScreen implements Screen, INeedsLoading {
+public class CharacterSelectionScreen implements Screen {
 
     private HuldraGame game;
 
     private ArrayList<PlayerCharacter> playerList;
-
 
     public CharacterSelectionScreen(HuldraGame game) {
         this.game = game;
@@ -30,15 +31,16 @@ public class CharacterSelectionScreen implements Screen, INeedsLoading {
 
     @Override
     public void render(float delta) {
-        game.setScreen(new GameLoadingScreen(this, new ALoader[]{
-            game.spriteLoader
-        }));
+        startGame();
     }
 
-    @Override
-    public void loadingFinished() {
-        game.setScreen(new GameScreen(
-            game, playerList.toArray(new PlayerCharacter[playerList.size()])));
+    public void startGame() {
+        SpriteLoader spriteLoader = new SpriteLoader();
+        game.setScreen(new GameLoadingScreen(
+            game, new GameScreen(game, playerList.toArray(new PlayerCharacter[playerList.size()])),
+            new WorldGenerator(new LevelFile(1, spriteLoader), new Random(6)),
+            spriteLoader
+        ));
     }
 
     @Override
