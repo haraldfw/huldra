@@ -21,7 +21,7 @@ public class PlayerSpecOverlay implements IOverlay {
 
     @Override
     public void init() {
-        
+
     }
 
     @Override

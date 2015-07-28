@@ -9,13 +9,6 @@ public enum WorldType {
     CAVES(1, 1, 1, 1),
     TEST_STAGE(1, 1, 1, 1);
 
-    WorldType(float rsHor, float rsVer, float rsSpread, float rsSize) {
-        this.rsHor = rsHor;
-        this.rsVer = rsVer;
-        this.rsSpread = rsSpread;
-        this.rsSize = rsSize;
-    }
-
     /**
      * Chance for rooms to be spread horizontally, rather than vertically. 0 <= x <= 1
      */
@@ -35,4 +28,10 @@ public enum WorldType {
      * all rooms will be max size.
      */
     public final float rsSize;
+    WorldType(float rsHor, float rsVer, float rsSpread, float rsSize) {
+        this.rsHor = rsHor;
+        this.rsVer = rsVer;
+        this.rsSpread = rsSpread;
+        this.rsSize = rsSize;
+    }
 }

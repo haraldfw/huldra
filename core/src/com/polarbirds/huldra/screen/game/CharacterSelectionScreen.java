@@ -21,7 +21,6 @@ public class CharacterSelectionScreen implements Screen, INeedsLoading {
     private ArrayList<PlayerCharacter> playerList;
 
 
-
     public CharacterSelectionScreen(HuldraGame game) {
         this.game = game;
         playerList = new ArrayList<>();

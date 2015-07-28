@@ -30,8 +30,8 @@ public class SpriteLoader extends ALoader implements Disposable {
 
     private boolean done = false;
     private Set<String> paths = new TreeSet<>();
-    private Map<String, ASprite> loadedSprites = new HashMap<>();;
-    private Map<String, AAnimation> loadedAnimations = new HashMap<>();;
+    private Map<String, ASprite> loadedSprites = new HashMap<>();
+    private Map<String, AAnimation> loadedAnimations = new HashMap<>();
 
     @Override
     public void run() {

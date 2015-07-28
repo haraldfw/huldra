@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.polarbirds.huldra.model.animation.AAnimation;
 import com.polarbirds.huldra.model.character.player.gear.GearWearer;
 import com.polarbirds.huldra.model.world.physics.DynamicBody;
-import com.polarbirds.huldra.screen.game.GameScreen;
 
 /**
  * Created by Harald Wilhelmsen on 16/6/2015.

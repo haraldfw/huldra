@@ -59,7 +59,7 @@ public final class HuldraWorld {
             body.debugDraw(sr);
         }
 
-        for(StaticBody body : staticBodies) {
+        for (StaticBody body : staticBodies) {
             body.debugDraw(sr);
         }
     }
