@@ -3,9 +3,7 @@ package com.polarbirds.huldra.screen.game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.polarbirds.huldra.HuldraGame;
 import com.polarbirds.huldra.model.animation.AAnimation;
 import com.polarbirds.huldra.model.character.player.PlayerCharacter;
@@ -14,7 +12,6 @@ import com.polarbirds.huldra.model.utility.SpriteLoader;
 import com.polarbirds.huldra.model.world.Level;
 import com.polarbirds.huldra.model.world.LevelFile;
 import com.polarbirds.huldra.model.world.WorldGenerator;
-import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.polarbirds.huldra.screen.game.overlay.HudOverlay;
 import com.polarbirds.huldra.screen.game.overlay.IOverlay;
 import com.polarbirds.huldra.screen.game.overlay.PauseOverlay;
@@ -53,9 +50,6 @@ public class GameScreen implements Screen {
         pauseOverlay = new PauseOverlay(this);
 
         sr = new ShapeRenderer();
-        sr.setProjectionMatrix(gameCamera.combined);
-        sr.setTransformMatrix(gameCamera.combined);
-        game.batch.setProjectionMatrix(gameCamera.combined);
 
         level = new Level(players);
 
@@ -89,10 +83,15 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
 //        gameStage.act(delta);
-
         game.batch.setProjectionMatrix(gameCamera.combined);
+        sr.setProjectionMatrix(game.batch.getProjectionMatrix());
         updateCamera(gameCamera);
+
         level.draw(game.batch);
+        sr.setAutoShapeType(true);
+        sr.begin();
+        level.debugDraw(sr);
+        sr.end();
 
         if (state == State.PRESPAWN) {
             for (PlayerCharacter player : level.players) {
@@ -116,11 +115,6 @@ public class GameScreen implements Screen {
                     break;
             }
         }
-
-        sr.setAutoShapeType(true);
-        sr.begin();
-        level.debugDraw(sr);
-        sr.end();
     }
 
     @Override
