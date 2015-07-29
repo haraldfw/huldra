@@ -21,8 +21,8 @@ public class LevelFile {
             BufferedReader reader = new BufferedReader(
                 new FileReader(new File("levels/" + level + ".lvl")));
 
-            String typeString = reader.readLine();
-            switch (typeString) {
+            worldTypeString = reader.readLine();
+            switch (worldTypeString) {
                 case "caves":
                     type = WorldType.CAVES;
                     break;

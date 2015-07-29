@@ -2,6 +2,7 @@ package com.polarbirds.huldra.model.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.TextureData;
 import com.polarbirds.huldra.model.utility.ALoader;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.smokebox.lib.utils.IntVector2;
@@ -14,6 +15,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -28,6 +30,8 @@ public final class WorldGenerator extends ALoader {
     private LevelFile levelFile;
     private Random random;
 
+    private HashMap<String, ArrayList<TextureData>> textureDataMap;
+
     public WorldGenerator(LevelFile levelFile, Random random) {
         this.levelFile = levelFile;
         this.random = random;
@@ -37,8 +41,7 @@ public final class WorldGenerator extends ALoader {
     public void run() {
         max = 5;
         generate();
-        placeTextures(tiles, parseTextures(levelFile.worldTypeString));
-        loaded++;
+        loadTextureData();
         done = true;
     }
 
@@ -245,25 +248,37 @@ public final class WorldGenerator extends ALoader {
         return tiles;
     }
 
-    private HashMap<String, ArrayList<Texture>> parseTextures(String typeString) {
-        HashMap<String, ArrayList<Texture>> textureLists = new HashMap<>();
-        String dirString = "graphics/world/tiles/" + typeString + "/";
+    public void loadTextureData() {
+        textureDataMap = new HashMap<>();
+        String dirString = "graphics/world/tiles/" + levelFile.worldTypeString + "/";
         for (String path : new File(dirString).list()) {
             if (path.contains(".png")) {
-                System.out.println(path);
                 String key = path.substring(0, path.lastIndexOf("_"));
-                Texture t = new Texture(Gdx.files.internal(dirString + path));
-                if (!textureLists.containsKey(key)) {
-                    textureLists.put(key, new ArrayList<>());
+                TextureData textureData = TextureData.Factory
+                    .loadFromFile(Gdx.files.internal(dirString + path), null, false);
+                if (!textureDataMap.containsKey(key)) {
+                    textureDataMap.put(key, new ArrayList<>());
                 }
-                textureLists.get(key).add(t);
+                textureDataMap.get(key).add(textureData);
+            }
+        }
+    }
+
+    private Map<String, ArrayList<Texture>> parseTextures() {
+        Map<String, ArrayList<Texture>> textureLists = new HashMap<>();
+        for (Map.Entry<String, ArrayList<TextureData>> entry : textureDataMap.entrySet()) {
+            ArrayList<Texture> textureList = new ArrayList<>();
+            textureLists.put(entry.getKey(), textureList);
+            for (TextureData data : entry.getValue()) {
+                textureList.add(new Texture(data));
             }
         }
         return textureLists;
     }
 
-    private void placeTextures(Tile[][] tiles,
-                               HashMap<String, ArrayList<Texture>> textureLists) {
+
+    public void placeTextures() {
+        Map<String, ArrayList<Texture>> textureLists = parseTextures();
         for (int x = 0; x < tiles.length; x++) {
             for (int y = 0; y < tiles[0].length; y++) {
                 tiles[x][y].setTexture(getTexture(textureLists, tiles, x, y));
@@ -272,7 +287,7 @@ public final class WorldGenerator extends ALoader {
     }
 
 
-    private Texture getTexture(HashMap<String, ArrayList<Texture>> textureMap,
+    private Texture getTexture(Map<String, ArrayList<Texture>> textureMap,
                                Tile[][] tiles, int x, int y) {
         // get free sides in a boolean array
         boolean[] freeSides = new boolean[]{

@@ -5,6 +5,8 @@ import com.polarbirds.huldra.HuldraGame;
 import com.polarbirds.huldra.model.utility.SpriteLoader;
 import com.polarbirds.huldra.model.world.WorldGenerator;
 
+import java.util.HashMap;
+
 /**
  * Created by Harald on 23.07.2015.
  */
@@ -33,13 +35,15 @@ public class GameLoadingScreen implements Screen {
         int max = spriteLoader.max + worldGenerator.max;
         System.out.println("Loaded: " + loaded + "/" + max);
 
-        if (spriteLoader.done && worldGenerator.done) {
-            gameScreen.level.setNew(worldGenerator.tiles, worldGenerator.spawn,
-                                    gameScreen.level.difficulty + 1);
-            gameScreen.setNew(spriteLoader.loadedSprites, spriteLoader.loadedAnimations);
-            game.setScreen(gameScreen);
+        if(worldGenerator.done) {
+            worldGenerator.placeTextures();
+            if (spriteLoader.done) {
+                gameScreen.level.setNew(worldGenerator.tiles, worldGenerator.spawn,
+                                        gameScreen.level.difficulty + 1);
+                gameScreen.setNew(spriteLoader.loadedSprites, spriteLoader.loadedAnimations);
+                game.setScreen(gameScreen);
+            }
         }
-
     }
 
     @Override
