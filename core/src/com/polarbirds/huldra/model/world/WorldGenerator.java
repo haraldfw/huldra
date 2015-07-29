@@ -291,6 +291,9 @@ public final class WorldGenerator extends ALoader {
     private Texture getTexture(Map<String, ArrayList<Texture>> textureMap,
                                Tile[][] tiles, int x, int y) {
         // get free sides in a boolean array
+        if(tiles[x][y].tileType != TileType.SOLID) {
+            return null;
+        }
         boolean[] freeSides = new boolean[]{
             isTileOpen(tiles, x, y + 1),
             isTileOpen(tiles, x + 1, y),
