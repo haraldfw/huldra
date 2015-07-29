@@ -2,7 +2,6 @@ package com.polarbirds.huldra.controller.player;
 
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.PovDirection;
-import com.polarbirds.huldra.model.character.AWalkingCharacter;
 
 import java.util.HashMap;
 
@@ -12,7 +11,6 @@ import java.util.HashMap;
 public final class XboxController extends InputProcessor {
 
     Controller controller;
-    AWalkingCharacter character;
 
     public XboxController(Controller controller) {
         super(getKeys());
@@ -26,9 +24,6 @@ public final class XboxController extends InputProcessor {
 
     @Override
     public float moveX() {
-        if (!(character == null) && !character.isOnGround()) {
-            return 0;
-        }
         float move = controller.getAxis(1);
         return Math.abs(move) > 0.2f ? move : 0;
     }
@@ -46,10 +41,6 @@ public final class XboxController extends InputProcessor {
     @Override
     public float lookY() {
         return controller.getAxis(2);
-    }
-
-    public void setCharacter(AWalkingCharacter character) {
-        this.character = character;
     }
 
     @Override
