@@ -172,7 +172,6 @@ public final class WorldGenerator extends ALoader {
         // normalize bounds. Since the spawn was previously on 0,0 it is now located on the shift
         // that was applied
         IntVector2 intSpawn = normalizeBoundsList(boundsList);
-        loaded++;
         Collection<Section> sections = new ArrayList<>();
         for (Bounds bounds : boundsList) {
             sections.add(new Section(bounds));
