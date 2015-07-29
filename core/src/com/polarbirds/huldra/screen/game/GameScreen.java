@@ -45,22 +45,21 @@ public class GameScreen implements Screen {
     public GameScreen(HuldraGame game, PlayerCharacter[] players) {
         this.game = game;
 
-        gameCamera = new OrthographicCamera(HuldraGame.X_TILES, HuldraGame.Y_TILES);
+        gameCamera = new OrthographicCamera();
+        gameCamera.setToOrtho(false, HuldraGame.X_TILES, HuldraGame.Y_TILES);
 
         hudOverlay = new HudOverlay(players);
         playerSpecOverlay = new PlayerSpecOverlay(this);
         pauseOverlay = new PauseOverlay(this);
 
-        gameStage = new Stage(new ScreenViewport(gameCamera), game.batch);
-
+        sr = new ShapeRenderer();
+        sr.setProjectionMatrix(gameCamera.combined);
+        sr.setTransformMatrix(gameCamera.combined);
         game.batch.setProjectionMatrix(gameCamera.combined);
 
         level = new Level(players);
 
         state = State.PRESPAWN;
-
-        sr = new ShapeRenderer();
-        sr.setProjectionMatrix(gameCamera.combined);
     }
 
     public void setNew(Map<String, ASprite> sprites,
@@ -89,10 +88,10 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        gameStage.act(delta);
+//        gameStage.act(delta);
 
+        game.batch.setProjectionMatrix(gameCamera.combined);
         updateCamera(gameCamera);
-
         level.draw(game.batch);
 
         if (state == State.PRESPAWN) {
@@ -100,14 +99,14 @@ public class GameScreen implements Screen {
                 player.setPosition(level.spawn.x, level.spawn.y);
             }
             level.integrate(delta);
-            gameStage.draw();
+//            gameStage.draw();
             hudOverlay.render(game.batch);
         } else if (state == State.RUNNING) {
             level.integrate(delta);
-            gameStage.draw();
+//            gameStage.draw();
             hudOverlay.render(game.batch);
         } else {
-            gameStage.draw();
+//            gameStage.draw();
             switch (state) {
                 case PLAYERSPEC:
                     playerSpecOverlay.render(game.batch);
@@ -156,21 +155,23 @@ public class GameScreen implements Screen {
 
     private void updateCamera(OrthographicCamera camera) {
         // tan( 1/2 * field_of_view ) * ( 1/2 * distance_between_objects)
+        /*
         PlayerCharacter[] players = level.players;
         if (players.length == 1) {
             Vector2 pos = players[0].body.pos;
             camera.position.set(pos.x, pos.y, 0);
             camera.zoom = 1;
             camera.update();
-            return;
+        } else {
+            Vector3 vector = new Vector3();
+            for (PlayerCharacter player : players) {
+                Vector2 pos = player.body.pos;
+                vector.add(pos.x, pos.y, 0);
+            }
+            vector.scl(1f / players.length);
+            camera.position.set(vector);
         }
-
-        Vector3 vector = new Vector3();
-        for (PlayerCharacter player : players) {
-            Vector2 pos = player.body.pos;
-            vector.add(pos.x, pos.y, 0);
-        }
-        vector.scl(1f / players.length);
+        camera.update();*/
     }
 
     public void openPlayerSpec() {
