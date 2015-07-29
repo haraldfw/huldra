@@ -1,5 +1,6 @@
 package com.polarbirds.huldra.model.world;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.polarbirds.huldra.model.character.player.PlayerCharacter;
@@ -41,7 +42,10 @@ public final class Level {
         batch.begin();
         for (int x = 0; x < tiles.length; x++) {
             for (int y = 0; y < tiles[0].length; y++) {
-                batch.draw(tiles[x][y].texture, x, y);
+                Texture t = tiles[x][y].texture;
+                if (t != null) {
+                    batch.draw(t, x, y, 1, 1);
+                }
             }
         }
         batch.end();
