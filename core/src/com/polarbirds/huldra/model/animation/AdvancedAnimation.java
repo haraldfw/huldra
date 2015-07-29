@@ -8,12 +8,11 @@ import com.polarbirds.huldra.model.utility.ASprite;
  */
 public class AdvancedAnimation extends AAnimation {
 
-    private final ASprite[] frames;
+    public ASprite[] frames;
     private final float[] frameTimes;
 
-    public AdvancedAnimation(ASprite[] frames, float[] frameTimes) {
+    public AdvancedAnimation(float[] frameTimes) {
         super();
-        this.frames = frames;
         this.frameTimes = frameTimes;
     }
 

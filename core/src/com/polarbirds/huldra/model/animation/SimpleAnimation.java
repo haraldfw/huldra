@@ -8,11 +8,10 @@ import com.polarbirds.huldra.model.utility.ASprite;
  */
 public class SimpleAnimation extends AAnimation {
 
-    private final ASprite[] frames;
+    public ASprite[] frames;
     private final float timePerFrame;
 
-    public SimpleAnimation(ASprite[] frames, float timePerFrame) {
-        this.frames = frames;
+    public SimpleAnimation(float timePerFrame) {
         this.timePerFrame = timePerFrame;
     }
 

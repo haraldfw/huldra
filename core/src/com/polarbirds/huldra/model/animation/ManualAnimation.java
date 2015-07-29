@@ -9,11 +9,10 @@ import java.util.HashMap;
  */
 public class ManualAnimation extends AAnimation {
 
-    private ASprite[] frames;
+    public ASprite[] frames;
     private HashMap<Object, Integer> activeFrames;
 
-    public ManualAnimation(ASprite[] frames) {
-        this.frames = frames;
+    public ManualAnimation() {
         activeFrames = new HashMap<>();
     }
 

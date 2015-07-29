@@ -8,11 +8,7 @@ import com.polarbirds.huldra.model.utility.ASprite;
  */
 public class StaticAnimation extends AAnimation {
 
-    private final ASprite s;
-
-    public StaticAnimation(ASprite s) {
-        this.s = s;
-    }
+    public ASprite s;
 
     @Override
     public void update(Object caller, float delta) {

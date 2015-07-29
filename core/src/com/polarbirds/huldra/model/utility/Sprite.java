@@ -9,11 +9,10 @@ import com.polarbirds.huldra.model.world.physics.Vector2;
  */
 public class Sprite extends ASprite {
 
-    public final Texture texture;
+    public Texture texture;
 
-    public Sprite(Texture texture, Vector2 shift) {
+    public Sprite(Vector2 shift) {
         super(shift);
-        this.texture = texture;
         this.shift = shift;
     }
 
