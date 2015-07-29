@@ -13,7 +13,7 @@ public abstract class AWalkingCharacter extends ADynamicCharacter {
 
     public IMotiveProcessor input;
 
-    private boolean onGround = false;
+    private WalkingState walkingState = WalkingState.FALLING;
 
     public AWalkingCharacter(float width, float height, float inverseMass, Team team) {
         super(new DynamicBody(new Vector2(), new RectShape(width, height), inverseMass), team);
@@ -23,21 +23,36 @@ public abstract class AWalkingCharacter extends ADynamicCharacter {
     public void act(float delta) {
         super.act(delta);
         input.update();
-        if (onGround) {
-            body.applyForce(input.moveX() * StatType.MOVE_STRENGTH.calculate(this), 0);
-            if (input.jump()) {
-                body.applyImpulse(0, StatType.JUMP_STRENGTH.calculate(this));
-            }
-        } else {
-            body.applyForce(input.moveX() * StatType.MOVE_STRENGTH.calculate(this) / 4, 0);
+        switch (walkingState) {
+            case FALLING:
+                body.applyForce(input.moveX() * StatType.MOVE_STRENGTH.calculate(this) / 4, 0);
+                break;
+            case ON_GROUND:
+                body.applyForce(input.moveX() * StatType.MOVE_STRENGTH.calculate(this), 0);
+                if (input.jump()) {
+                    body.applyImpulse(0, StatType.JUMP_STRENGTH.calculate(this));
+                }
+                break;
+            case HANGING:
+                if(input.moveY() < -0.2f) {
+                    setWalkingState(WalkingState.FALLING);
+                }
+                body.applyForce(input.moveX() * StatType.MOVE_STRENGTH.calculate(this), 0);
+                break;
+            case CLIMBING:
+                body.applyForce(0, input.moveY() * StatType.MOVE_STRENGTH.calculate(this));
+                break;
         }
     }
 
-    public boolean isOnGround() {
-        return onGround;
+    public void setWalkingState(WalkingState walkingState) {
+        this.walkingState = walkingState;
     }
 
-    public void setOnGround(boolean onGround) {
-        this.onGround = onGround;
+    public enum WalkingState {
+        FALLING,
+        ON_GROUND,
+        HANGING,
+        CLIMBING;
     }
 }
