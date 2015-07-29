@@ -7,7 +7,6 @@ import com.polarbirds.huldra.model.utility.ALoader;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.smokebox.lib.utils.IntVector2;
 import com.smokebox.lib.utils.geom.Bounds;
-import com.smokebox.lib.utils.geom.Line;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -39,8 +38,9 @@ public final class WorldGenerator extends ALoader {
 
     @Override
     public void run() {
-        max = 5;
+        max = levelFile.amountOfSections * 2 + 2;
         generate();
+        loaded++;
         loadTextureData();
         loaded++;
         done = true;
@@ -66,7 +66,6 @@ public final class WorldGenerator extends ALoader {
         List<IntVector2> locations =
             getLocationsAround(dimensions.x, dimensions.y, boundsList, bounds);
         // if no open locations, return null, This bounds-object is no good
-        System.out.print("[s:" + locations.size() + "]");
         if (!locations.isEmpty()) {
             return locations.get(random.nextInt(locations.size()));
         }
@@ -126,8 +125,8 @@ public final class WorldGenerator extends ALoader {
         return value < min ? min : value > max ? max : value;
     }
 
-    private List<Bounds> generateBoundsList() {
-        ArrayList<Bounds> boundsList = new ArrayList<>();
+    private Iterable<Bounds> generateBoundsList() {
+        List<Bounds> boundsList = new ArrayList<>();
 
         boundsList.add(new Bounds(0, 0, 1, 1));
 
@@ -137,46 +136,39 @@ public final class WorldGenerator extends ALoader {
         // loop until all sectionBoundsList are placed or the loop uses too many iterations
         for (int iterations = 0; iterations < 10000 && sectionsPlaced < levelFile.amountOfSections;
              iterations++) {
-            System.out
-                .println("Sections placed: " + sectionsPlaced + "/" + levelFile.amountOfSections);
-
             // find dimensions for a new sectionBounds
             IntVector2 dimensions = getSize();
 
             // find a section to expand from, and place a section there
-            System.out.println(
-                "Finding combined location for dimensions: " + dimensions.x + ", " + dimensions.y);
+            //System.out.println("Finding combined location for dimensions: " + dimensions.x + ", " + dimensions.y);
             for (int iterations2 = 0; iterations2 < 10000; iterations2++) {
                 // Sort boundsList by their distance from spawn
                 boundsList.sort(new SpreadComparator(levelFile.type.rsHor, levelFile.type.rsVer));
 
                 // choose a random section to try to expand from
                 Bounds bounds = boundsList.get(getNewSelection(boundsList.size()));
-                System.out.print("Dim:[" + bounds.width + "," + bounds.height + "]");
+                //System.out.print("Dim:[" + bounds.width + "," + bounds.height + "]");
 
                 // Find location for new bounds
                 IntVector2 location = getLocation(dimensions, boundsList, bounds);
                 if (location == null) {
-                    System.out.print("{f}");
                     continue;
                 }
-                System.out.print("{s}");
 
                 Bounds toAdd = new Bounds(location.x, location.y, dimensions.x, dimensions.y);
                 boundsList.add(toAdd);
                 sectionsPlaced++;
+                loaded++;
                 break;
             }
-            System.out.println();
+            //System.out.println();
         }
         return boundsList;
     }
 
     private void generate() {
         Iterable<Bounds> boundsList = generateBoundsList();
-        loaded++;
         List<TilesWithOpenings> twos = TilesWithOpenings.loadAndGetList();
-        loaded++;
         // normalize bounds. Since the spawn was previously on 0,0 it is now located on the shift
         // that was applied
         IntVector2 intSpawn = normalizeBoundsList(boundsList);
@@ -291,7 +283,7 @@ public final class WorldGenerator extends ALoader {
     private Texture getTexture(Map<String, ArrayList<Texture>> textureMap,
                                Tile[][] tiles, int x, int y) {
         // get free sides in a boolean array
-        if(tiles[x][y].tileType != TileType.SOLID) {
+        if (tiles[x][y].tileType != TileType.SOLID) {
             return null;
         }
         boolean[] freeSides = new boolean[]{
@@ -333,29 +325,8 @@ public final class WorldGenerator extends ALoader {
                 candidates.add(twoFlipped);
             }
         }
+        loaded++;
         return candidates.get(random.nextInt(candidates.size()));
-    }
-
-    private boolean allTrue(boolean[] bs) {
-        for (boolean b : bs) {
-            if (!b) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private TileType[][] placeholderTiles(Section section) {
-        TileType[][] tiles =
-            new TileType[section.bounds.width * Section.TILES_PER_SIDE][section.bounds.height
-                                                                        * Section.TILES_PER_SIDE];
-        for (int x = 0; x < tiles.length; x++) {
-            for (int y = 0; y < tiles[0].length; y++) {
-                tiles[x][y] = x == 0 || y == 0 || x == tiles.length - 1 || y == tiles[0].length - 1
-                              ? TileType.SOLID : TileType.EMPTY;
-            }
-        }
-        return tiles;
     }
 
     private boolean[][] addSectionOpenings(Iterable<Section> sections, boolean[][] openings) {
@@ -401,31 +372,6 @@ public final class WorldGenerator extends ALoader {
             }
         }
         return openings;
-    }
-
-    private void placeVerTrue(int startX, int startY, int length, boolean[][] openings) {
-        for (int y = 0; y < length; y++) {
-            openings[startX][startY + y] = true;
-        }
-    }
-
-    private void placeHorTrue(int startX, int startY, int length, boolean[][] openings) {
-        for (int x = 0; x < length; x++) {
-            openings[startX + x][startY] = true;
-        }
-    }
-
-    private int[][] getInts(TileType[][] mapTiles, TileType checkFor) {
-        int[][] ints = new int[mapTiles.length][mapTiles[0].length];
-        for (int x = 0; x < mapTiles.length; x++) {
-            for (int y = 0; y < mapTiles[0].length; y++) {
-                TileType tile = mapTiles[x][y];
-                if (tile == checkFor) {
-                    ints[x][y] = 1;
-                }
-            }
-        }
-        return ints;
     }
 
     /**
@@ -476,18 +422,5 @@ public final class WorldGenerator extends ALoader {
 
         }
         return max;
-    }
-
-    private ArrayList<Line> getPlatforms(int[][] ints) {
-        ArrayList<Line> lines = new ArrayList<>();
-        for (int x = 0; x < ints.length; x++) {
-            for (int y = 0; y < ints[0].length; y++) {
-                if (ints[x][y] == 1) {
-                    float newY = y + 1;
-                    lines.add(new Line(x, newY, x + 1, newY));
-                }
-            }
-        }
-        return lines;
     }
 }

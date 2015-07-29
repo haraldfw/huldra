@@ -98,21 +98,11 @@ final class TilesWithOpenings {
     }
 
     private boolean overlaps(boolean[] required, boolean[] booleans) {
-        System.out.print("req: ");
-        for (boolean b : required) {
-            System.out.print("[" + (b ? " " : "X") + "]");
-        }
-        System.out.print("\nbol: ");
-        for (boolean b : booleans) {
-            System.out.print("[" + (b ? " " : "X") + "]");
-        }
         List<List<Integer>> groups = getGroups(required);
         boolean allCovered = true;
-        System.out.println(groups.size());
         for (List<Integer> group : groups) {
             boolean covered = false;
             for (Integer i : group) {
-                System.out.print("{" + i + "}");
                 if (booleans[i]) {
                     covered = true;
                     break;
@@ -122,20 +112,10 @@ final class TilesWithOpenings {
                 allCovered = false;
             }
         }
-        if (allCovered) {
-            System.out.println("\nMATCHES");
-            return true;
-        } else {
-            System.out.println("\nNO MATCH");
-            return false;
-        }
+        return allCovered;
     }
 
     private List<List<Integer>> getGroups(boolean[] booleans) {
-        System.out.print("\nGetting group for: ");
-        for (boolean b : booleans) {
-            System.out.print("[" + (b ? "t" : "f") + "]");
-        }
         List<List<Integer>> groups = new ArrayList<>();
         List<Integer> group = new ArrayList<>();
         for (int i = 0; i < booleans.length; i++) {
@@ -177,7 +157,6 @@ final class TilesWithOpenings {
             }
         }
         sections.add(parseSection(Gdx.files.internal("sections/1.sec")));
-        System.out.println("Loaded " + sections.size() + " TilesWithOpenings-files!");
         return sections;
     }
 
