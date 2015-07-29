@@ -14,9 +14,9 @@ public class HuldraGame extends Game {
 
     public static final int X_TILES = 32;
     public static final int Y_TILES = 18;
-    public static final int PIXELS_PER_TILESIDE = 16;
-    public static final int X_PIXELS = X_TILES * 50;
-    public static final int Y_PIXELS = Y_TILES * 50;
+    public static final int PIXELS_PER_TILESIDE = 50;
+    public static final int X_PIXELS = X_TILES * PIXELS_PER_TILESIDE;
+    public static final int Y_PIXELS = Y_TILES * PIXELS_PER_TILESIDE;
 
     public Batch batch;
     public OrthographicCamera staticViewCamera;
