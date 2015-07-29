@@ -9,7 +9,7 @@ import com.polarbirds.huldra.model.character.player.PlayerCharacter;
 import com.polarbirds.huldra.model.drawing.AAnimation;
 import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
 import com.polarbirds.huldra.model.utility.SpriteLoader;
-import com.polarbirds.huldra.model.world.generation.LevelFile;
+import com.polarbirds.huldra.model.world.generation.LevelParser;
 import com.polarbirds.huldra.model.world.generation.WorldGenerator;
 import com.polarbirds.huldra.model.world.model.Level;
 import com.polarbirds.huldra.screen.game.overlay.HudOverlay;
@@ -70,7 +70,7 @@ public class GameScreen implements Screen {
                 game,
                 this,
                 new WorldGenerator(
-                    new LevelFile(
+                    new LevelParser(
                         level.difficulty + 1,
                         spriteLoader
                     ),

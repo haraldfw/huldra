@@ -6,7 +6,7 @@ import com.polarbirds.huldra.model.character.Team;
 import com.polarbirds.huldra.model.character.player.Knight;
 import com.polarbirds.huldra.model.character.player.PlayerCharacter;
 import com.polarbirds.huldra.model.utility.SpriteLoader;
-import com.polarbirds.huldra.model.world.generation.LevelFile;
+import com.polarbirds.huldra.model.world.generation.LevelParser;
 import com.polarbirds.huldra.model.world.generation.WorldGenerator;
 import com.polarbirds.huldra.screen.game.GameLoadingScreen;
 import com.polarbirds.huldra.screen.game.GameScreen;
@@ -38,7 +38,7 @@ public class CharacterSelectionScreen implements Screen {
         SpriteLoader spriteLoader = new SpriteLoader();
         game.setScreen(new GameLoadingScreen(
             game, new GameScreen(game, playerList.toArray(new PlayerCharacter[playerList.size()])),
-            new WorldGenerator(new LevelFile(1, spriteLoader), new Random(6)),
+            new WorldGenerator(new LevelParser(1, spriteLoader), new Random(6)),
             spriteLoader
         ));
     }

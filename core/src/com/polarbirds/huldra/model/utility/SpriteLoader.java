@@ -40,7 +40,7 @@ public class SpriteLoader extends ALoader implements Disposable {
     private final Map<IHasSingleFrame, TextureData> dataMap = new HashMap<>();
     private final Map<String, TextureData> dataArrayMap = new HashMap<>();
 
-    private Collection<String> paths = new TreeSet<>();
+    private final Collection<String> paths = new TreeSet<>();
 
     @Override
     public void run() {

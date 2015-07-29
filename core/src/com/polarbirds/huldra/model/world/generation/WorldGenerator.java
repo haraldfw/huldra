@@ -28,19 +28,19 @@ public final class WorldGenerator extends ALoader {
     public Tile[][] tiles;
     public Vector2 spawn;
 
-    private LevelFile levelFile;
+    private LevelParser levelParser;
     private Random random;
 
     private HashMap<String, ArrayList<TextureData>> textureDataMap;
 
-    public WorldGenerator(LevelFile levelFile, Random random) {
-        this.levelFile = levelFile;
+    public WorldGenerator(LevelParser levelParser, Random random) {
+        this.levelParser = levelParser;
         this.random = random;
     }
 
     @Override
     public void run() {
-        max = levelFile.amountOfSections * 2 + 2;
+        max = levelParser.amountOfSections * 2 + 2;
         generate();
         loaded++;
         loadTextureData();
@@ -49,8 +49,8 @@ public final class WorldGenerator extends ALoader {
     }
 
     private IntVector2 getSize() {
-        int width = 1 + (int) Math.abs(random.nextGaussian() * levelFile.type.rsSize);
-        int height = 1 + (int) Math.abs(random.nextGaussian() * levelFile.type.rsSize);
+        int width = 1 + (int) Math.abs(random.nextGaussian() * levelParser.type.rsSize);
+        int height = 1 + (int) Math.abs(random.nextGaussian() * levelParser.type.rsSize);
 
         if (width > Section.BOUNDS_MAX_WIDTH) {
             width = Section.BOUNDS_MAX_WIDTH;
@@ -119,7 +119,7 @@ public final class WorldGenerator extends ALoader {
     }
 
     private int getNewSelection(int size) {
-        return (int) cap((float) (Math.abs(random.nextGaussian()) * levelFile.type.rsSpread), 0,
+        return (int) cap((float) (Math.abs(random.nextGaussian()) * levelParser.type.rsSpread), 0,
                          size - 1);
     }
 
@@ -136,7 +136,7 @@ public final class WorldGenerator extends ALoader {
         int sectionsPlaced = 1;
 
         // loop until all sectionBoundsList are placed or the loop uses too many iterations
-        for (int iterations = 0; iterations < 10000 && sectionsPlaced < levelFile.amountOfSections;
+        for (int iterations = 0; iterations < 10000 && sectionsPlaced < levelParser.amountOfSections;
              iterations++) {
             // find dimensions for a new sectionBounds
             IntVector2 dimensions = getSize();
@@ -145,7 +145,7 @@ public final class WorldGenerator extends ALoader {
             //System.out.println("Finding combined location for dimensions: " + dimensions.x + ", " + dimensions.y);
             for (int iterations2 = 0; iterations2 < 10000; iterations2++) {
                 // Sort boundsList by their distance from spawn
-                boundsList.sort(new SpreadComparator(levelFile.type.rsHor, levelFile.type.rsVer));
+                boundsList.sort(new SpreadComparator(levelParser.type.rsHor, levelParser.type.rsVer));
 
                 // choose a random section to try to expand from
                 Bounds bounds = boundsList.get(getNewSelection(boundsList.size()));
@@ -244,7 +244,7 @@ public final class WorldGenerator extends ALoader {
 
     public void loadTextureData() {
         textureDataMap = new HashMap<>();
-        String dirString = "graphics/world/tiles/" + levelFile.worldTypeString + "/";
+        String dirString = "graphics/world/tiles/" + levelParser.worldTypeString + "/";
         for (String path : new File(dirString).list()) {
             if (path.contains(".png")) {
                 String key = path.substring(0, path.lastIndexOf("_"));

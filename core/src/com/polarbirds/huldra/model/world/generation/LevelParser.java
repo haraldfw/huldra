@@ -11,13 +11,13 @@ import java.io.IOException;
 /**
  * Created by Harald Wilhelmsen on 28/7/2015.
  */
-public class LevelFile {
+public class LevelParser {
 
     public String worldTypeString;
     public WorldType type;
     public int amountOfSections;
 
-    public LevelFile(int level, SpriteLoader spriteLoader) {
+    public LevelParser(int level, SpriteLoader spriteLoader) {
         try {
             BufferedReader reader = new BufferedReader(
                 new FileReader(new File("levels/" + level + ".lvl")));
