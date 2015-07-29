@@ -42,6 +42,7 @@ public final class WorldGenerator extends ALoader {
         max = 5;
         generate();
         loadTextureData();
+        loaded++;
         done = true;
     }
 
