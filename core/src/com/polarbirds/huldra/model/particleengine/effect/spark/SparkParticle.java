@@ -1,8 +1,9 @@
 package com.polarbirds.huldra.model.particleengine.effect.spark;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.polarbirds.huldra.model.particleengine.effect.AParticle;
-import com.polarbirds.huldra.model.utility.RegionSprite;
+import com.polarbirds.huldra.model.utility.ASprite;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 
 /**
@@ -10,7 +11,9 @@ import com.polarbirds.huldra.model.world.physics.Vector2;
  */
 public class SparkParticle extends AParticle {
 
-    private static RegionSprite sprite;
+    public static TextureRegion textureRegion;
+
+    private static ASprite sprite;
 
     private Vector2[] pos;
     private Vector2 vel;
@@ -44,7 +47,7 @@ public class SparkParticle extends AParticle {
     public void draw(Batch batch) {
         for (int i = 0; i - 1 < pos.length; i++) {
             float rotation = new Vector2(pos[i]).sub(pos[i + 1]).angle();
-            batch.draw(sprite.textureRegion, pos[i].x, pos[i].y, 0, 0, 1, 1, 1, 1, rotation);
+            batch.draw(textureRegion, pos[i].x, pos[i].y, 0, 0, 1, 1, 1, 1, rotation);
         }
     }
 }

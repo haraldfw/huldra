@@ -1,14 +1,19 @@
 package com.polarbirds.huldra.model.utility;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Disposable;
 import com.polarbirds.huldra.HuldraGame;
 import com.polarbirds.huldra.model.animation.AAnimation;
 import com.polarbirds.huldra.model.animation.AdvancedAnimation;
+import com.polarbirds.huldra.model.animation.IHasSingleFrame;
 import com.polarbirds.huldra.model.animation.ManualAnimation;
+import com.polarbirds.huldra.model.animation.RegionDrawable;
 import com.polarbirds.huldra.model.animation.SimpleAnimation;
 import com.polarbirds.huldra.model.animation.StaticAnimation;
+import com.polarbirds.huldra.model.animation.TextureDrawable;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 
 import java.io.BufferedReader;
@@ -17,10 +22,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeSet;
 
 /**
@@ -30,7 +35,11 @@ public class SpriteLoader extends ALoader implements Disposable {
 
     public Map<String, ASprite> loadedSprites = new HashMap<>();
     public Map<String, AAnimation> loadedAnimations = new HashMap<>();
-    private Set<String> paths = new TreeSet<>();
+
+    private HashMap<IHasSingleFrame, TextureData> dataMap = new HashMap<>();
+    private HashMap<String, TextureData> dataArrayMap = new HashMap<>();
+
+    private Collection<String> paths = new TreeSet<>();
 
     @Override
     public void run() {
@@ -41,9 +50,9 @@ public class SpriteLoader extends ALoader implements Disposable {
 
         for (String path : paths) {
             if (path.contains(".anim")) {
-                loadAnimation(path);
+                loadAnimationData(path);
             } else {
-                loadSprite(path);
+                loadSpriteData(path);
             }
             loaded++;
         }
@@ -52,22 +61,37 @@ public class SpriteLoader extends ALoader implements Disposable {
         done = true;
     }
 
-    private void loadSprite(String path) {
-        if (!loadedSprites.containsKey(path)) {
-            loadedSprites.put(path, new Sprite(new Texture(path), parseGraphicsDescriptor(path)));
+    public void finish() {
+        for (Map.Entry<String, ASprite> entry : loadedSprites.entrySet()) {
+            entry.getValue().set(new TextureDrawable(new Texture(dataMap.get(entry.getValue()))));
+        }
+
+        for (Map.Entry<String, TextureData> entry : dataArrayMap.entrySet()) {
+            splitAnimation(entry.getKey(), new Texture(entry.getValue()));
         }
     }
 
-    private void loadAnimation(String path) {
-        Texture texture = new Texture(path.substring(0, path.length() - 5) + ".png");
+    private void loadSpriteData(String path) {
+        Sprite s = new Sprite(parseGraphicsDescriptor(path));
+        loadedSprites.put(path, s);
+        dataMap.put(s, TextureData.Factory.loadFromFile(Gdx.files.internal(path), null, false));
+    }
+
+    private void loadAnimationData(String path) {
+        dataArrayMap.put(path.substring(0, path.length() - 4) + "png",
+                         TextureData.Factory.loadFromFile(Gdx.files.internal(path), false));
+    }
+
+    private void splitAnimation(String path, Texture texture) {
         int i = 0;
         while (true) {
-            File file = new File(
+            File animDescriptor = new File(
                 path.substring(path.lastIndexOf("\\"), path.length() - 5) + i);
-            if (file.isFile() && file.canWrite() && file.length() > 0) {
+            if (animDescriptor.isFile() && animDescriptor.canWrite()
+                && animDescriptor.length() > 0) {
                 // File exists
                 try {
-                    BufferedReader reader = new BufferedReader(new FileReader(file));
+                    BufferedReader reader = new BufferedReader(new FileReader(animDescriptor));
 
                     int width = Integer.parseInt(reader.readLine());
                     int height = Integer.parseInt(reader.readLine());
@@ -118,7 +142,8 @@ public class SpriteLoader extends ALoader implements Disposable {
     }
 
     private void parseStaticAnimation(String path, Texture texture, List<Vector2> shifts) {
-        putAnimation(path, new StaticAnimation(new Sprite(texture, shifts.get(0))));
+        putAnimation(path,
+                     new StaticAnimation(new Sprite(shifts.get(0), new TextureDrawable(texture))));
     }
 
     private void parseManualAnimation(String path, int width, int height, Texture texture,
@@ -156,10 +181,11 @@ public class SpriteLoader extends ALoader implements Disposable {
 
         for (int i = 0; i < shifts.size(); i++) {
             sprites.add(
-                new RegionSprite(
-                    new TextureRegion(texture, 0, height * i, width, height),
-                    shifts.get(i)
-                ));
+                new Sprite(
+                    shifts.get(i),
+                    new RegionDrawable(
+                        new TextureRegion(texture, 0, height * i, width, height)
+                    )));
         }
 
         return sprites.toArray(new ASprite[sprites.size()]);
@@ -197,7 +223,7 @@ public class SpriteLoader extends ALoader implements Disposable {
             return new Vector2(Float.parseFloat(reader.readLine()),
                                Float.parseFloat(reader.readLine()));
         } catch (Exception e) {
-            System.err.println("No descriptor for png '" + path + "' found. Using shift [0, 0]");
+            System.out.println("No descriptor for png '" + path + "' found. Using shift [0, 0]");
         }
         return new Vector2();
     }
@@ -211,4 +237,17 @@ public class SpriteLoader extends ALoader implements Disposable {
         }
     }
 
+    private class AnimationDescriptor {
+
+        Vector2 frameDim;
+        Vector2 shift;
+        float[] frameTimes;
+
+        public AnimationDescriptor(Vector2 frameDim,
+                                   Vector2 shift, float[] frameTimes) {
+            this.frameDim = frameDim;
+            this.shift = shift;
+            this.frameTimes = frameTimes;
+        }
+    }
 }

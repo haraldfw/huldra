@@ -6,13 +6,18 @@ import com.polarbirds.huldra.model.utility.ASprite;
  * A class for animations with different frametimes per frame. Created by Harald Wilhelmsen on
  * 16/6/2015.
  */
-public class AdvancedAnimation extends AAnimation {
+public class AdvancedAnimation extends AAnimation implements IHasMultipleFrames {
 
-    public ASprite[] frames;
-    private final float[] frameTimes;
+    private ASprite[] frames;
+    private float[] frameTimes;
 
     public AdvancedAnimation(float[] frameTimes) {
         super();
+        this.frameTimes = frameTimes;
+    }
+
+    public AdvancedAnimation(ASprite[] frames, float[] frameTimes) {
+        this.frames = frames;
         this.frameTimes = frameTimes;
     }
 
@@ -37,4 +42,8 @@ public class AdvancedAnimation extends AAnimation {
         return frames[0];
     }
 
+    @Override
+    public ASprite[] getFrames() {
+        return frames;
+    }
 }

@@ -1,7 +1,7 @@
 package com.polarbirds.huldra.model.utility;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.polarbirds.huldra.model.animation.Drawable;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 
 /**
@@ -9,20 +9,25 @@ import com.polarbirds.huldra.model.world.physics.Vector2;
  */
 public class Sprite extends ASprite {
 
-    public Texture texture;
+    public Drawable drawable;
 
     public Sprite(Vector2 shift) {
         super(shift);
         this.shift = shift;
     }
 
-    @Override
-    public void draw(Batch sb, Vector2 pos) {
-        sb.draw(texture, pos.x + shift.x, pos.y + shift.y);
+    public Sprite(Vector2 shift, Drawable drawable) {
+        super(shift);
+        this.drawable = drawable;
     }
 
     @Override
-    public void dispose() {
-        texture.dispose();
+    public void draw(Batch batch, Vector2 pos) {
+        drawable.draw(batch, pos.x + shift.x, pos.y + shift.y);
+    }
+
+    @Override
+    public void set(Drawable drawable) {
+        this.drawable = drawable;
     }
 }

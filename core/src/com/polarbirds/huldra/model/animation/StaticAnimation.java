@@ -6,9 +6,13 @@ import com.polarbirds.huldra.model.utility.ASprite;
 /**
  * A class for animations with only one sprite Created by Harald Wilhelmsen on 16/6/2015.
  */
-public class StaticAnimation extends AAnimation {
+public class StaticAnimation extends AAnimation implements IHasSingleFrame {
 
     public ASprite s;
+
+    public StaticAnimation(ASprite s) {
+        this.s = s;
+    }
 
     @Override
     public void update(Object caller, float delta) {
@@ -24,4 +28,8 @@ public class StaticAnimation extends AAnimation {
         return s;
     }
 
+    @Override
+    public void set(Drawable drawable) {
+        s.set(drawable);
+    }
 }

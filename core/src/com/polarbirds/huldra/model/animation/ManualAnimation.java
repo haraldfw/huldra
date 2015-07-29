@@ -7,13 +7,18 @@ import java.util.HashMap;
 /**
  * Created by Harald Wilhelmsen on 30/6/2015.
  */
-public class ManualAnimation extends AAnimation {
+public class ManualAnimation extends AAnimation implements IHasMultipleFrames {
 
-    public ASprite[] frames;
+    private ASprite[] frames;
     private HashMap<Object, Integer> activeFrames;
 
     public ManualAnimation() {
         activeFrames = new HashMap<>();
+    }
+
+    public ManualAnimation(ASprite[] frames) {
+        this();
+        this.frames = frames;
     }
 
     public void setFrame(Object caller, int frameId) {
@@ -34,4 +39,8 @@ public class ManualAnimation extends AAnimation {
         return frames[activeFrames.get(caller)];
     }
 
+    @Override
+    public ASprite[] getFrames() {
+        return frames;
+    }
 }
