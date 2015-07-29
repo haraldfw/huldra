@@ -1,6 +1,6 @@
 package com.polarbirds.huldra.model.character.player;
 
-import com.polarbirds.huldra.model.animation.AAnimation;
+import com.polarbirds.huldra.model.drawing.AAnimation;
 import com.polarbirds.huldra.model.character.Team;
 import com.polarbirds.huldra.model.character.player.stat.StatClass;
 import com.polarbirds.huldra.model.character.player.stat.StatModifier;

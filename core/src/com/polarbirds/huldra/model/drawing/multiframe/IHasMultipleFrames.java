@@ -1,6 +1,7 @@
-package com.polarbirds.huldra.model.animation;
+package com.polarbirds.huldra.model.drawing.multiframe;
 
-import com.polarbirds.huldra.model.utility.ASprite;
+import com.polarbirds.huldra.model.drawing.drawable.Drawable;
+import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
 
 /**
  * Created by Harald Wilhelmsen on 29/7/2015.

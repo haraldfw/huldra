@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.model.animation;
+package com.polarbirds.huldra.model.drawing.drawable;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;

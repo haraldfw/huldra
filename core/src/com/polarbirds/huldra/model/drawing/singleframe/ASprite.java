@@ -1,7 +1,6 @@
-package com.polarbirds.huldra.model.utility;
+package com.polarbirds.huldra.model.drawing.singleframe;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.polarbirds.huldra.model.animation.IHasSingleFrame;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 
 /**

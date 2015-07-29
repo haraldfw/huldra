@@ -1,6 +1,7 @@
-package com.polarbirds.huldra.model.animation;
+package com.polarbirds.huldra.model.drawing.multiframe;
 
-import com.polarbirds.huldra.model.utility.ASprite;
+import com.polarbirds.huldra.model.drawing.AAnimation;
+import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
 
 /**
  * A class for animations with different frametimes per frame. Created by Harald Wilhelmsen on

@@ -1,7 +1,7 @@
-package com.polarbirds.huldra.model.animation;
+package com.polarbirds.huldra.model.drawing;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.polarbirds.huldra.model.utility.ASprite;
+import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 
 import java.util.HashMap;
