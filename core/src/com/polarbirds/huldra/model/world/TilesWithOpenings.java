@@ -21,16 +21,16 @@ final class TilesWithOpenings {
 
     final TileType[][] tiles;
     final Map<Side, boolean[]> reachableOpenings;
-    final Map<String, List<IntVector2>> locs;
+    final Map<String, List<IntVector2>> locations;
 
     final int width;
     final int height;
 
     TilesWithOpenings(TileType[][] tiles, Map<Side, boolean[]> reachableOpenings,
-                      Map<String, List<IntVector2>> locs) {
+                      Map<String, List<IntVector2>> locations) {
         this.tiles = tiles;
         this.reachableOpenings = reachableOpenings;
-        this.locs = locs;
+        this.locations = locations;
 
         width = tiles.length / Section.TILES_PER_SIDE;
         height = tiles[0].length / Section.TILES_PER_SIDE;
@@ -84,7 +84,7 @@ final class TilesWithOpenings {
         flippedSides.put(Side.BOTTOM, flippedBottom);
 
         Map<String, List<IntVector2>> flippedLocations = new HashMap<>();
-        for (Map.Entry<String, List<IntVector2>> entry : this.locs.entrySet()) {
+        for (Map.Entry<String, List<IntVector2>> entry : this.locations.entrySet()) {
             List<IntVector2> flipped = new ArrayList<>();
             for (IntVector2 vector : entry.getValue()) {
                 IntVector2 fv =

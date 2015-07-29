@@ -34,7 +34,7 @@ public abstract class AWalkingCharacter extends ADynamicCharacter {
                 }
                 break;
             case HANGING:
-                if(input.moveY() < -0.2f) {
+                if (input.moveY() < -0.2f) {
                     setWalkingState(WalkingState.FALLING);
                 }
                 body.applyForce(input.moveX() * StatType.MOVE_STRENGTH.calculate(this), 0);

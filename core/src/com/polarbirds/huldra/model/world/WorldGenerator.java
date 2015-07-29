@@ -220,7 +220,7 @@ public final class WorldGenerator extends ALoader {
                 spawnSection = s;
             }
         }
-        List<IntVector2> spawns = spawnSection.tilesWithOpenings.locs.get("SPAWN");
+        List<IntVector2> spawns = spawnSection.tilesWithOpenings.locations.get("SPAWN");
         IntVector2 gottenSpawn = spawns.get(spawns.size() - 1);
         Vector2 spawn =
             new Vector2(spawnSection.bounds.x * Section.TILES_PER_SIDE + gottenSpawn.x + 1,

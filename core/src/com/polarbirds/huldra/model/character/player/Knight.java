@@ -1,10 +1,10 @@
 package com.polarbirds.huldra.model.character.player;
 
-import com.polarbirds.huldra.model.drawing.AAnimation;
 import com.polarbirds.huldra.model.character.Team;
 import com.polarbirds.huldra.model.character.player.stat.StatClass;
 import com.polarbirds.huldra.model.character.player.stat.StatModifier;
 import com.polarbirds.huldra.model.character.player.stat.StatType;
+import com.polarbirds.huldra.model.drawing.AAnimation;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.polarbirds.huldra.screen.game.GameScreen;
 

@@ -1,8 +1,8 @@
 package com.polarbirds.huldra.model.particleengine.effect.fire;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.polarbirds.huldra.model.particleengine.effect.AParticle;
 import com.polarbirds.huldra.model.drawing.singleframe.Sprite;
+import com.polarbirds.huldra.model.particleengine.effect.AParticle;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 
 /**
