@@ -10,7 +10,7 @@ import java.util.HashMap;
  */
 public final class XboxController extends InputProcessor {
 
-    Controller controller;
+    private final Controller controller;
 
     public XboxController(Controller controller) {
         super(getKeys());

@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class ManualAnimation extends AAnimation implements IHasMultipleFrames {
 
     private ASprite[] frames;
-    private HashMap<Object, Integer> activeFrames;
+    private final HashMap<Object, Integer> activeFrames;
 
     public ManualAnimation() {
         activeFrames = new HashMap<>();

@@ -37,8 +37,8 @@ public class SpriteLoader extends ALoader implements Disposable {
     public Map<String, ASprite> loadedSprites = new HashMap<>();
     public Map<String, AAnimation> loadedAnimations = new HashMap<>();
 
-    private HashMap<IHasSingleFrame, TextureData> dataMap = new HashMap<>();
-    private HashMap<String, TextureData> dataArrayMap = new HashMap<>();
+    private final Map<IHasSingleFrame, TextureData> dataMap = new HashMap<>();
+    private final Map<String, TextureData> dataArrayMap = new HashMap<>();
 
     private Collection<String> paths = new TreeSet<>();
 

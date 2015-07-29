@@ -19,9 +19,9 @@ import java.util.Random;
  */
 public class CharacterSelectionScreen implements Screen {
 
-    private HuldraGame game;
+    private final HuldraGame game;
 
-    private ArrayList<PlayerCharacter> playerList;
+    private final ArrayList<PlayerCharacter> playerList;
 
     public CharacterSelectionScreen(HuldraGame game) {
         this.game = game;

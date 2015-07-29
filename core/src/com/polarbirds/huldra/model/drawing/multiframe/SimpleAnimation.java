@@ -10,7 +10,7 @@ import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
 public class SimpleAnimation extends AAnimation implements IHasMultipleFrames {
 
     private ASprite[] frames;
-    private float timePerFrame;
+    private final float timePerFrame;
 
     public SimpleAnimation(float timePerFrame) {
         this.timePerFrame = timePerFrame;

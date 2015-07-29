@@ -9,9 +9,9 @@ import com.polarbirds.huldra.model.character.player.PlayerCharacter;
 import com.polarbirds.huldra.model.drawing.AAnimation;
 import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
 import com.polarbirds.huldra.model.utility.SpriteLoader;
-import com.polarbirds.huldra.model.world.model.Level;
 import com.polarbirds.huldra.model.world.generation.LevelFile;
 import com.polarbirds.huldra.model.world.generation.WorldGenerator;
+import com.polarbirds.huldra.model.world.model.Level;
 import com.polarbirds.huldra.screen.game.overlay.HudOverlay;
 import com.polarbirds.huldra.screen.game.overlay.IOverlay;
 import com.polarbirds.huldra.screen.game.overlay.PauseOverlay;
@@ -26,17 +26,18 @@ import java.util.Random;
 public class GameScreen implements Screen {
 
     public final HuldraGame game;
+
     private final OrthographicCamera gameCamera;
+    private final IOverlay hudOverlay;        // Overlay to display player stats
+    private final IOverlay playerSpecOverlay; // Menu to display when a player
+    private final IOverlay pauseOverlay;      // Menu to display when the game is paused
+
     public Level level;
     public Map<String, ASprite> sprites;
     public Map<String, AAnimation> animations;
+
     private State state;
     private Stage gameStage;         // stage containing game actors
-
-    private IOverlay hudOverlay;        // Overlay to display player stats
-    private IOverlay playerSpecOverlay; // Menu to display when a player
-    private IOverlay pauseOverlay;      // Menu to display when the game is paused
-
     private ShapeRenderer sr;
 
     public GameScreen(HuldraGame game, PlayerCharacter[] players) {

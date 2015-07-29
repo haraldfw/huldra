@@ -10,7 +10,7 @@ import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
 public class AdvancedAnimation extends AAnimation implements IHasMultipleFrames {
 
     private ASprite[] frames;
-    private float[] frameTimes;
+    private final float[] frameTimes;
 
     public AdvancedAnimation(float[] frameTimes) {
         super();
