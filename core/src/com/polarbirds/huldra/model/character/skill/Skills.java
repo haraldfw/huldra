@@ -1,6 +1,6 @@
 package com.polarbirds.huldra.model.character.skill;
 
-import com.polarbirds.huldra.model.world.Level;
+import com.polarbirds.huldra.model.world.model.Level;
 import com.polarbirds.huldra.model.world.physics.DynamicBody;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.polarbirds.huldra.model.world.physics.shape.CircleShape;

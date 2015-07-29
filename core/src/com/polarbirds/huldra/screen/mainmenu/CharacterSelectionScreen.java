@@ -6,8 +6,8 @@ import com.polarbirds.huldra.model.character.Team;
 import com.polarbirds.huldra.model.character.player.Knight;
 import com.polarbirds.huldra.model.character.player.PlayerCharacter;
 import com.polarbirds.huldra.model.utility.SpriteLoader;
-import com.polarbirds.huldra.model.world.LevelFile;
-import com.polarbirds.huldra.model.world.WorldGenerator;
+import com.polarbirds.huldra.model.world.generation.LevelFile;
+import com.polarbirds.huldra.model.world.generation.WorldGenerator;
 import com.polarbirds.huldra.screen.game.GameLoadingScreen;
 import com.polarbirds.huldra.screen.game.GameScreen;
 

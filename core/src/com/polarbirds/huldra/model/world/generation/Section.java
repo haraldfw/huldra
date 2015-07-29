@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.model.world;
+package com.polarbirds.huldra.model.world.generation;
 
 import com.smokebox.lib.utils.geom.Bounds;
 
@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Created by Harald on 16.5.15.
  */
-public class Section {
+class Section {
 
     public static final int TILES_PER_SIDE = 8;
     public static final int BOUNDS_MAX_HEIGHT = 3;

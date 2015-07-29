@@ -1,6 +1,7 @@
-package com.polarbirds.huldra.model.world;
+package com.polarbirds.huldra.model.world.generation;
 
 import com.polarbirds.huldra.model.utility.SpriteLoader;
+import com.polarbirds.huldra.model.world.model.WorldType;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -1,9 +1,11 @@
-package com.polarbirds.huldra.model.world;
+package com.polarbirds.huldra.model.world.generation;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
 import com.polarbirds.huldra.model.utility.ALoader;
+import com.polarbirds.huldra.model.world.model.Tile;
+import com.polarbirds.huldra.model.world.model.TileType;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.smokebox.lib.utils.IntVector2;
 import com.smokebox.lib.utils.geom.Bounds;

@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.model.world;
+package com.polarbirds.huldra.model.world.model;
 
 import com.badlogic.gdx.graphics.Texture;
 

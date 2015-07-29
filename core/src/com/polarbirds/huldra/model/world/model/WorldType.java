@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.model.world;
+package com.polarbirds.huldra.model.world.model;
 
 /**
  * Created by Harald on 16.5.15.

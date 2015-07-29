@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.model.world;
+package com.polarbirds.huldra.model.world.model;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;

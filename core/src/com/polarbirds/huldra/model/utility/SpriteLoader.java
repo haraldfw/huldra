@@ -15,7 +15,6 @@ import com.polarbirds.huldra.model.drawing.multiframe.SimpleAnimation;
 import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
 import com.polarbirds.huldra.model.drawing.singleframe.IHasSingleFrame;
 import com.polarbirds.huldra.model.drawing.singleframe.Sprite;
-import com.polarbirds.huldra.model.drawing.singleframe.StaticAnimation;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 
 import java.io.BufferedReader;
@@ -102,9 +101,7 @@ public class SpriteLoader extends ALoader implements Disposable {
                         parseShifts(texture.getWidth() / width * (texture.getHeight() / height),
                                     reader);
 
-                    if (texture.getWidth() == width && texture.getHeight() == height) {
-                        parseStaticAnimation(path, texture, shifts);
-                    } else if (reader.readLine() == null) {
+                    if (reader.readLine() == null) {
                         parseManualAnimation(path, width, height, texture, shifts);
                     } else {
                         float frameTime = Float.parseFloat(reader.readLine());
@@ -141,11 +138,6 @@ public class SpriteLoader extends ALoader implements Disposable {
             e.printStackTrace();
         }
         return shifts;
-    }
-
-    private void parseStaticAnimation(String path, Texture texture, List<Vector2> shifts) {
-        putAnimation(path,
-                     new StaticAnimation(new Sprite(shifts.get(0), new TextureDrawable(texture))));
     }
 
     private void parseManualAnimation(String path, int width, int height, Texture texture,

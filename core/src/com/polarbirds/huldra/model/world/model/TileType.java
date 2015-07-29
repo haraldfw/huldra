@@ -1,9 +1,9 @@
-package com.polarbirds.huldra.model.world;
+package com.polarbirds.huldra.model.world.model;
 
 /**
  * Enum for all available TileTypes Created by Harald Wilhelmsen on 13/5/2015.
  */
-enum TileType {
+public enum TileType {
     EMPTY,
     SOLID,
     PLATFORM,

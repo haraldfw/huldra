@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.model.world;
+package com.polarbirds.huldra.model.world.generation;
 
 import com.smokebox.lib.utils.geom.Bounds;
 

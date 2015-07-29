@@ -3,7 +3,7 @@ package com.polarbirds.huldra.screen.game;
 import com.badlogic.gdx.Screen;
 import com.polarbirds.huldra.HuldraGame;
 import com.polarbirds.huldra.model.utility.SpriteLoader;
-import com.polarbirds.huldra.model.world.WorldGenerator;
+import com.polarbirds.huldra.model.world.generation.WorldGenerator;
 
 /**
  * Created by Harald on 23.07.2015.
