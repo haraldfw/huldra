@@ -58,8 +58,13 @@ public final class Level {
                     case PLATFORM:
                         sr.line(x, y + 1, x + 1, y + 1);
                         break;
+                    case LADDER:
+                        sr.line(x + 1/2f, y, x + 1/2f, y + 1);
+                        sr.line(x + 1/3f, y + 1/2f, x + 2/3f, y + 1/2f);
+                        break;
                     case SOLID:
                         sr.rect(x, y, 1, 1);
+                        sr.line(x, y, x + 1, y + 1);
                         break;
                 }
             }
