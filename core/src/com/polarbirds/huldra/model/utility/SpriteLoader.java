@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.polarbirds.huldra.model.drawing.AAnimation;
@@ -30,7 +29,7 @@ import java.util.TreeSet;
 /**
  * Created by Harald on 10.7.15.
  */
-public class SpriteLoader extends ALoader implements Disposable {
+public class SpriteLoader extends ALoader {
 
   private final Map<IHasSingleFrame, TextureData> dataMap = new HashMap<>();
   private final Map<String, TextureData> dataArrayMap = new HashMap<>();
@@ -153,14 +152,5 @@ public class SpriteLoader extends ALoader implements Disposable {
       System.out.println("No descriptor for png '" + path + "' found. Using shift [0, 0]");
     }
     return new Vector2();
-  }
-
-  @Override
-  public void dispose() {
-    for (Map.Entry s : loadedSprites.entrySet()) {
-      if (s != null) {
-        ((Disposable) s).dispose();
-      }
-    }
   }
 }
