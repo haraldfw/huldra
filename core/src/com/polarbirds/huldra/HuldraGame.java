@@ -22,7 +22,7 @@ public class HuldraGame extends Game {
   public OrthographicCamera staticViewCamera;
   public float timeStep;
 
-  public SpriteLoader spriteLoader;
+  private SpriteLoader spriteLoader;
 
   @Override
   public void create() {

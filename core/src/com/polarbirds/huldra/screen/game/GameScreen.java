@@ -32,13 +32,13 @@ public class GameScreen implements Screen {
   private final IOverlay playerSpecOverlay; // Menu to display when a player
   private final IOverlay pauseOverlay;      // Menu to display when the game is paused
 
+  private final ShapeRenderer sr;
+
   public Level level;
   public Map<String, ASprite> sprites;
   public Map<String, AAnimation> animations;
-
   private State state;
   private Stage gameStage;         // stage containing game actors
-  private ShapeRenderer sr;
 
   public GameScreen(HuldraGame game, PlayerCharacter[] players) {
     this.game = game;
