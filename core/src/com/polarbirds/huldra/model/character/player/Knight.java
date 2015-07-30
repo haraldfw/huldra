@@ -18,8 +18,6 @@ import java.util.Map;
  */
 public class Knight extends PlayerCharacter {
 
-  private static final float sMove = 25f;
-  private static final float sDmg = 1f;
   private final StatModifier[] baseStats = new StatModifier[]{
       new StatModifier(StatType.JUMP_STRENGTH, StatClass.BASE, 1),
       new StatModifier(StatType.MOVE_STRENGTH, StatClass.BASE, 25f),
