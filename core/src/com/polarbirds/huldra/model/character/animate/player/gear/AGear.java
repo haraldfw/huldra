@@ -1,7 +1,7 @@
-package com.polarbirds.huldra.model.character.player.gear;
+package com.polarbirds.huldra.model.character.animate.player.gear;
 
-import com.polarbirds.huldra.model.character.player.stat.IStatContainer;
-import com.polarbirds.huldra.model.character.player.stat.StatModifier;
+import com.polarbirds.huldra.model.character.stat.IStatContainer;
+import com.polarbirds.huldra.model.character.stat.StatModifier;
 
 /**
  * Created by Harald Wilhelmsen on 26/7/2015.

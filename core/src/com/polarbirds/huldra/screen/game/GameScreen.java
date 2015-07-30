@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.polarbirds.huldra.HuldraGame;
-import com.polarbirds.huldra.model.character.player.PlayerCharacter;
+import com.polarbirds.huldra.model.character.animate.player.PlayerCharacter;
 import com.polarbirds.huldra.model.drawing.AAnimation;
 import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
 import com.polarbirds.huldra.model.utility.SpriteLoader;

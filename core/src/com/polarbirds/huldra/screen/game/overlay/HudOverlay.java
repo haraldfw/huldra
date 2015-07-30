@@ -1,7 +1,7 @@
 package com.polarbirds.huldra.screen.game.overlay;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.polarbirds.huldra.model.character.player.PlayerCharacter;
+import com.polarbirds.huldra.model.character.animate.player.PlayerCharacter;
 import com.polarbirds.huldra.model.drawing.AAnimation;
 import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
 import com.polarbirds.huldra.model.utility.IHasGraphics;

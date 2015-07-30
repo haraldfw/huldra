@@ -1,6 +1,6 @@
-package com.polarbirds.huldra.model.character.projectile;
+package com.polarbirds.huldra.model.character.inanimate.projectile;
 
-import com.polarbirds.huldra.model.character.ADynamicCharacter;
+import com.polarbirds.huldra.model.character.animate.ADynamicCharacter;
 import com.polarbirds.huldra.model.character.Team;
 import com.polarbirds.huldra.model.world.physics.DynamicBody;
 import com.polarbirds.huldra.model.world.physics.Vector2;

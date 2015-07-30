@@ -1,8 +1,8 @@
-package com.polarbirds.huldra.model.character.player.stat;
+package com.polarbirds.huldra.model.character.stat;
 
 import com.badlogic.gdx.math.Vector3;
-import com.polarbirds.huldra.model.character.player.gear.AGear;
-import com.polarbirds.huldra.model.character.player.gear.GearWearer;
+import com.polarbirds.huldra.model.character.animate.player.gear.AGear;
+import com.polarbirds.huldra.model.character.animate.player.gear.GearWearer;
 
 import java.util.Map;
 

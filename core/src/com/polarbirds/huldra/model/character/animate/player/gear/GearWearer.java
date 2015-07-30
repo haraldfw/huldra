@@ -1,6 +1,6 @@
-package com.polarbirds.huldra.model.character.player.gear;
+package com.polarbirds.huldra.model.character.animate.player.gear;
 
-import com.polarbirds.huldra.model.character.player.stat.StatModifier;
+import com.polarbirds.huldra.model.character.stat.StatModifier;
 
 import java.util.Map;
 
