@@ -96,7 +96,7 @@ public class GameScreen implements Screen {
 
     if (state == State.PRESPAWN) {
       for (PlayerCharacter player : level.players) {
-        player.setPosition(level.spawn.x, level.spawn.y);
+        player.body.pos.set(level.spawn.x, level.spawn.y);
       }
       level.integrate(delta);
 //            gameStage.draw();

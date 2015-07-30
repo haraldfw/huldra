@@ -8,5 +8,4 @@ import com.polarbirds.huldra.model.character.animate.AWalkingCharacter;
 public class EnemyCharacter extends AWalkingCharacter {
 
 
-
 }

@@ -1,7 +1,6 @@
 package com.polarbirds.huldra.model.character.animate;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.polarbirds.huldra.model.character.Team;
 import com.polarbirds.huldra.model.character.animate.player.gear.GearWearer;
 import com.polarbirds.huldra.model.drawing.AAnimation;

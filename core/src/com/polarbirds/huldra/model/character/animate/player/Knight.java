@@ -4,14 +4,8 @@ import com.polarbirds.huldra.model.character.Team;
 import com.polarbirds.huldra.model.character.stat.StatClass;
 import com.polarbirds.huldra.model.character.stat.StatModifier;
 import com.polarbirds.huldra.model.character.stat.StatType;
-import com.polarbirds.huldra.model.drawing.AAnimation;
-import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
-import com.polarbirds.huldra.model.utility.SpriteLoader;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.polarbirds.huldra.screen.game.GameScreen;
-
-import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Created by Harald on 8.5.15.
