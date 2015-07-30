@@ -10,6 +10,4 @@ public interface IOverlay {
   void init();
 
   void render(Batch batch);
-
-  void queueAssets();
 }

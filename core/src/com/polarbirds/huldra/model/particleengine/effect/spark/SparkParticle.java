@@ -1,22 +1,23 @@
 package com.polarbirds.huldra.model.particleengine.effect.spark;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.polarbirds.huldra.model.drawing.AAnimation;
+import com.polarbirds.huldra.model.drawing.drawable.RegionDrawable;
 import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
 import com.polarbirds.huldra.model.particleengine.effect.AParticle;
+import com.polarbirds.huldra.model.utility.SpriteLoader;
 import com.polarbirds.huldra.model.world.physics.Vector2;
+
+import java.util.Map;
 
 /**
  * Created by Harald Wilhelmsen on 24/7/2015.
  */
 public class SparkParticle extends AParticle {
 
-  public static TextureRegion textureRegion;
-
-  private static ASprite sprite;
-
-  private Vector2[] pos;
-  private Vector2 vel;
+  private final Vector2[] pos;
+  private final Vector2 vel;
+  private RegionDrawable regionDrawable;
 
   public SparkParticle(Vector2 start, Vector2 vel) {
     super((float) Math.random() / 2);
@@ -47,7 +48,17 @@ public class SparkParticle extends AParticle {
   public void draw(Batch batch) {
     for (int i = 0; i - 1 < pos.length; i++) {
       float rotation = new Vector2(pos[i]).sub(pos[i + 1]).angle();
-      batch.draw(textureRegion, pos[i].x, pos[i].y, 0, 0, 1, 1, 1, 1, rotation);
+      batch.draw(regionDrawable.region, pos[i].x, pos[i].y, 0, 0, 1, 1, 1, 1, rotation);
     }
+  }
+
+  @Override
+  public void initGraphics(Map<String, ASprite> sprites, Map<String, AAnimation> animations) {
+
+  }
+
+  @Override
+  public void queueAssets(SpriteLoader spriteLoader) {
+
   }
 }

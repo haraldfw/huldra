@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class RegionDrawable implements Drawable {
 
-  TextureRegion region;
+  public final TextureRegion region;
 
   public RegionDrawable(TextureRegion region) {
     this.region = region;

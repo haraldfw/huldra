@@ -1,12 +1,13 @@
 package com.polarbirds.huldra.model.particleengine.effect;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.polarbirds.huldra.model.utility.IHasGraphics;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 
 /**
  * Created by Harald Wilhelmsen on 24/7/2015.
  */
-public abstract class AParticle {
+public abstract class AParticle implements IHasGraphics {
 
   private float time;
   private float maxLife;

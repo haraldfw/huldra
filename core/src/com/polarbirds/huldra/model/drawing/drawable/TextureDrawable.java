@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
  */
 public class TextureDrawable implements Drawable {
 
-  public Texture texture;
+  public final Texture texture;
 
   public TextureDrawable(Texture texture) {
     this.texture = texture;

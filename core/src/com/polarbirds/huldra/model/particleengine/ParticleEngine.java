@@ -2,7 +2,6 @@ package com.polarbirds.huldra.model.particleengine;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.polarbirds.huldra.model.particleengine.effect.AParticle;
-import com.polarbirds.huldra.model.utility.SpriteLoader;
 
 import java.util.ArrayList;
 
@@ -17,10 +16,6 @@ public class ParticleEngine {
   public ParticleEngine() {
     particles = new ArrayList<>();
     toRemove = new ArrayList<>();
-  }
-
-  public static void queueAssets(SpriteLoader loader) { // queue the particles' sprites
-
   }
 
   public void update(float delta) {
