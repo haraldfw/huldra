@@ -7,5 +7,5 @@ import com.polarbirds.huldra.model.world.physics.Vector2;
  */
 public interface IEffect {
 
-    void update(float delta, Vector2 pos);
+  void update(float delta, Vector2 pos);
 }

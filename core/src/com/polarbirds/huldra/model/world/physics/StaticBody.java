@@ -7,8 +7,8 @@ import com.polarbirds.huldra.model.world.physics.shape.Shape;
  */
 public class StaticBody extends ABody {
 
-    public StaticBody(Vector2 pos, Shape shape) {
-        super(pos, shape);
+  public StaticBody(Vector2 pos, Shape shape) {
+    super(pos, shape);
 
-    }
+  }
 }

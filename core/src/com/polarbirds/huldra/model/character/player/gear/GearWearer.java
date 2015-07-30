@@ -9,7 +9,7 @@ import java.util.Map;
  */
 public interface GearWearer {
 
-    StatModifier[] getBaseStats();
+  StatModifier[] getBaseStats();
 
-    Map<String, AGear> getGear();
+  Map<String, AGear> getGear();
 }

@@ -8,14 +8,14 @@ import com.polarbirds.huldra.model.character.player.stat.StatModifier;
  */
 public abstract class AGear implements IStatContainer {
 
-    private StatModifier[] stats;
+  private StatModifier[] stats;
 
-    public AGear(StatModifier[] stats) {
-        this.stats = stats;
-    }
+  public AGear(StatModifier[] stats) {
+    this.stats = stats;
+  }
 
-    @Override
-    public StatModifier[] getMods() {
-        return stats;
-    }
+  @Override
+  public StatModifier[] getMods() {
+    return stats;
+  }
 }

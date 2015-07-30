@@ -7,6 +7,6 @@ import com.polarbirds.huldra.model.drawing.drawable.Drawable;
  */
 public interface IHasSingleFrame {
 
-    void set(Drawable drawable);
+  void set(Drawable drawable);
 
 }

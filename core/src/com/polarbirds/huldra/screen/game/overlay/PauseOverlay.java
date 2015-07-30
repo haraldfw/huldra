@@ -8,24 +8,24 @@ import com.polarbirds.huldra.screen.game.GameScreen;
  */
 public class PauseOverlay implements IOverlay {
 
-    private GameScreen gameScreen;
+  private GameScreen gameScreen;
 
-    public PauseOverlay(GameScreen gameScreen) {
-        this.gameScreen = gameScreen;
-    }
+  public PauseOverlay(GameScreen gameScreen) {
+    this.gameScreen = gameScreen;
+  }
 
-    @Override
-    public void render(Batch batch) {
+  @Override
+  public void render(Batch batch) {
 
-    }
+  }
 
-    @Override
-    public void init() {
+  @Override
+  public void init() {
 
-    }
+  }
 
-    @Override
-    public void queueAssets() {
+  @Override
+  public void queueAssets() {
 
-    }
+  }
 }

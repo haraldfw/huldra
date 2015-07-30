@@ -15,39 +15,39 @@ import java.util.ArrayList;
  */
 public class Knight extends PlayerCharacter {
 
-    private static final float sMove = 25f;
-    private static final float sDmg = 1f;
-    private StatModifier[] baseStats = new StatModifier[]{
-        new StatModifier(StatType.JUMP_STRENGTH, StatClass.BASE, 1),
-        new StatModifier(StatType.MOVE_STRENGTH, StatClass.BASE, 25f),
-        new StatModifier(StatType.DMG_PHYSICAL, StatClass.BASE, 1)
-    };
-    private AAnimation[] animations;
+  private static final float sMove = 25f;
+  private static final float sDmg = 1f;
+  private StatModifier[] baseStats = new StatModifier[]{
+      new StatModifier(StatType.JUMP_STRENGTH, StatClass.BASE, 1),
+      new StatModifier(StatType.MOVE_STRENGTH, StatClass.BASE, 25f),
+      new StatModifier(StatType.DMG_PHYSICAL, StatClass.BASE, 1)
+  };
+  private AAnimation[] animations;
 
-    private int activeAnimation;
+  private int activeAnimation;
 
-    public Knight(Team team) {
-        super(team);
+  public Knight(Team team) {
+    super(team);
 
-    }
+  }
 
-    @Override
-    public void init(Vector2 pos, GameScreen gameScreen) {
-        super.init(pos, gameScreen);
+  @Override
+  public void init(Vector2 pos, GameScreen gameScreen) {
+    super.init(pos, gameScreen);
 
-        ArrayList<AAnimation> animations = new ArrayList<>();
-        animations.add(
-            gameScreen.game.spriteLoader.getAnimation("graphics/player/knight/walk.anim"));
-        this.animations = animations.toArray(new AAnimation[animations.size()]);
-    }
+    ArrayList<AAnimation> animations = new ArrayList<>();
+    animations.add(
+        gameScreen.game.spriteLoader.getAnimation("graphics/player/knight/walk.anim"));
+    this.animations = animations.toArray(new AAnimation[animations.size()]);
+  }
 
-    @Override
-    protected AAnimation getCurrentAnimation() {
-        return animations[activeAnimation];
-    }
+  @Override
+  protected AAnimation getCurrentAnimation() {
+    return animations[activeAnimation];
+  }
 
-    @Override
-    public StatModifier[] getBaseStats() {
-        return baseStats;
-    }
+  @Override
+  public StatModifier[] getBaseStats() {
+    return baseStats;
+  }
 }

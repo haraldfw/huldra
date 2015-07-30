@@ -13,30 +13,30 @@ import java.io.IOException;
  */
 public class LevelParser {
 
-    public String worldTypeString;
-    public WorldType type;
-    public int amountOfSections;
+  public String worldTypeString;
+  public WorldType type;
+  public int amountOfSections;
 
-    public LevelParser(int level, SpriteLoader spriteLoader) {
-        try {
-            BufferedReader reader = new BufferedReader(
-                new FileReader(new File("levels/" + level + ".lvl")));
+  public LevelParser(int level, SpriteLoader spriteLoader) {
+    try {
+      BufferedReader reader = new BufferedReader(
+          new FileReader(new File("levels/" + level + ".lvl")));
 
-            worldTypeString = reader.readLine();
-            switch (worldTypeString) {
-                case "caves":
-                    type = WorldType.CAVES;
-                    break;
-                case "forest":
-                    type = WorldType.FOREST;
-                    break;
-                default:
-                    type = WorldType.TEST_STAGE;
-            }
-            amountOfSections = Integer.parseInt(reader.readLine());
-            // TODO queue assets in spriteLoader
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+      worldTypeString = reader.readLine();
+      switch (worldTypeString) {
+        case "caves":
+          type = WorldType.CAVES;
+          break;
+        case "forest":
+          type = WorldType.FOREST;
+          break;
+        default:
+          type = WorldType.TEST_STAGE;
+      }
+      amountOfSections = Integer.parseInt(reader.readLine());
+      // TODO queue assets in spriteLoader
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+  }
 }

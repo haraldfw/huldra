@@ -11,30 +11,30 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
  */
 public class Parallax extends Actor {
 
-    private final Image[] images;
-    private final float[] dividers;
-    private final OrthographicCamera camera;
+  private final Image[] images;
+  private final float[] dividers;
+  private final OrthographicCamera camera;
 
-    public Parallax(OrthographicCamera camera, Image[] images, float[] dividers) {
-        this.camera = camera;
+  public Parallax(OrthographicCamera camera, Image[] images, float[] dividers) {
+    this.camera = camera;
 
-        if (images.length != dividers.length * 2) {
-            throw new IllegalArgumentException(
-                "images.length != dividers.length*2");
-        }
-
-        this.images = images;
-        this.dividers = dividers;
+    if (images.length != dividers.length * 2) {
+      throw new IllegalArgumentException(
+          "images.length != dividers.length*2");
     }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        Vector3 camPos = camera.position;
+    this.images = images;
+    this.dividers = dividers;
+  }
 
-        for (int i = 0; i < images.length; i++) {
-            Image image = images[i];
-            image.setPosition(camPos.x / dividers[i * 2], camPos.y / dividers[i * 2 + 1]);
-            image.draw(batch, parentAlpha);
-        }
+  @Override
+  public void draw(Batch batch, float parentAlpha) {
+    Vector3 camPos = camera.position;
+
+    for (int i = 0; i < images.length; i++) {
+      Image image = images[i];
+      image.setPosition(camPos.x / dividers[i * 2], camPos.y / dividers[i * 2 + 1]);
+      image.draw(batch, parentAlpha);
     }
+  }
 }

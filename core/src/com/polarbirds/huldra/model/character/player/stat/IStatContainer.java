@@ -5,5 +5,5 @@ package com.polarbirds.huldra.model.character.player.stat;
  */
 public interface IStatContainer {
 
-    StatModifier[] getMods();
+  StatModifier[] getMods();
 }

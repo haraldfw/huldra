@@ -7,14 +7,14 @@ import com.badlogic.gdx.graphics.Texture;
  */
 public class Tile {
 
-    public TileType tileType;
-    public Texture texture;
+  public TileType tileType;
+  public Texture texture;
 
-    public Tile(TileType tileType) {
-        this.tileType = tileType;
-    }
+  public Tile(TileType tileType) {
+    this.tileType = tileType;
+  }
 
-    public void setTexture(Texture texture) {
-        this.texture = texture;
-    }
+  public void setTexture(Texture texture) {
+    this.texture = texture;
+  }
 }

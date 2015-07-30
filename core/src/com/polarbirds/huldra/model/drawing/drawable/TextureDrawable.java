@@ -8,14 +8,14 @@ import com.badlogic.gdx.graphics.g2d.Batch;
  */
 public class TextureDrawable implements Drawable {
 
-    public Texture texture;
+  public Texture texture;
 
-    public TextureDrawable(Texture texture) {
-        this.texture = texture;
-    }
+  public TextureDrawable(Texture texture) {
+    this.texture = texture;
+  }
 
-    @Override
-    public void draw(Batch batch, float x, float y) {
-        batch.draw(texture, x, y);
-    }
+  @Override
+  public void draw(Batch batch, float x, float y) {
+    batch.draw(texture, x, y);
+  }
 }

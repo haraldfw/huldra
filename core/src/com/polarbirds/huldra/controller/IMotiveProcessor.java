@@ -6,25 +6,25 @@ package com.polarbirds.huldra.controller;
  */
 public interface IMotiveProcessor {
 
-    float moveX();
+  float moveX();
 
-    float moveY();
+  float moveY();
 
-    float lookX();
+  float lookX();
 
-    float lookY();
+  float lookY();
 
-    boolean attack1();
+  boolean attack1();
 
-    boolean attack2();
+  boolean attack2();
 
-    boolean jump();
+  boolean jump();
 
-    boolean interact();
+  boolean interact();
 
-    boolean pause();
+  boolean pause();
 
-    boolean toggleMenu();
+  boolean toggleMenu();
 
-    void update();
+  void update();
 }

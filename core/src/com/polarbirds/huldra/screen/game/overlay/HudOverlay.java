@@ -8,25 +8,25 @@ import com.polarbirds.huldra.model.character.player.PlayerCharacter;
  */
 public class HudOverlay implements IOverlay {
 
-    private PlayerCharacter[] players;
+  private PlayerCharacter[] players;
 
-    public HudOverlay(PlayerCharacter[] players) {
-        this.players = players;
+  public HudOverlay(PlayerCharacter[] players) {
+    this.players = players;
 
-    }
+  }
 
-    @Override
-    public void render(Batch batch) {
+  @Override
+  public void render(Batch batch) {
 
-    }
+  }
 
-    @Override
-    public void init() {
+  @Override
+  public void init() {
 
-    }
+  }
 
-    @Override
-    public void queueAssets() {
+  @Override
+  public void queueAssets() {
 
-    }
+  }
 }

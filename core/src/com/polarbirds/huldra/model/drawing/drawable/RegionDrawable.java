@@ -8,14 +8,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class RegionDrawable implements Drawable {
 
-    TextureRegion region;
+  TextureRegion region;
 
-    public RegionDrawable(TextureRegion region) {
-        this.region = region;
-    }
+  public RegionDrawable(TextureRegion region) {
+    this.region = region;
+  }
 
-    @Override
-    public void draw(Batch batch, float x, float y) {
-        batch.draw(region, x, y);
-    }
+  @Override
+  public void draw(Batch batch, float x, float y) {
+    batch.draw(region, x, y);
+  }
 }

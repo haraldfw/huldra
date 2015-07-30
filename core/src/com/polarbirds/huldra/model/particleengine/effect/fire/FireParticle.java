@@ -10,31 +10,31 @@ import com.polarbirds.huldra.model.world.physics.Vector2;
  */
 public class FireParticle extends AParticle {
 
-    private static Sprite sprite;
+  private static Sprite sprite;
 
-    private Vector2 pos;
-    private float startX;
-    private Vector2 vel;
+  private Vector2 pos;
+  private float startX;
+  private Vector2 vel;
 
-    public FireParticle(Vector2 pos, Vector2 vel) {
-        super(0.25f + (float) Math.random() * 0.75f);
-        this.pos = pos;
-        this.vel = vel;
-        startX = pos.x;
-    }
+  public FireParticle(Vector2 pos, Vector2 vel) {
+    super(0.25f + (float) Math.random() * 0.75f);
+    this.pos = pos;
+    this.vel = vel;
+    startX = pos.x;
+  }
 
-    public FireParticle(Vector2 pos) {
-        this(pos, getRandomNormalized().add(0, 1));
-    }
+  public FireParticle(Vector2 pos) {
+    this(pos, getRandomNormalized().add(0, 1));
+  }
 
-    @Override
-    public void update(float delta) {
-        super.update(delta);
-        vel.add((startX - pos.x) * delta, 10);
-    }
+  @Override
+  public void update(float delta) {
+    super.update(delta);
+    vel.add((startX - pos.x) * delta, 10);
+  }
 
-    @Override
-    public void draw(Batch batch) {
-        sprite.draw(batch, pos);
-    }
+  @Override
+  public void draw(Batch batch) {
+    sprite.draw(batch, pos);
+  }
 }

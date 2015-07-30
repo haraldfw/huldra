@@ -8,12 +8,12 @@ import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
  */
 public interface IHasMultipleFrames {
 
-    ASprite[] getFrames();
+  ASprite[] getFrames();
 
-    default void set(Drawable[] drawables) {
-        for (int i = 0; i < drawables.length; i++) {
-            getFrames()[i].set(drawables[i]);
-        }
+  default void set(Drawable[] drawables) {
+    for (int i = 0; i < drawables.length; i++) {
+      getFrames()[i].set(drawables[i]);
     }
+  }
 
 }

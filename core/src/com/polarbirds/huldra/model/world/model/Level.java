@@ -17,75 +17,74 @@ import java.util.List;
  */
 public final class Level {
 
-    public PlayerCharacter[] players;
-    public Tile[][] tiles;
-    public Vector2 spawn;
-    public int difficulty;
+  private final List<DynamicBody> dynamicBodies;
+  private final List<StaticBody> staticBodies;
+  public PlayerCharacter[] players;
+  public Tile[][] tiles;
+  public Vector2 spawn;
+  public int difficulty;
 
-    private final List<DynamicBody> dynamicBodies;
-    private final List<StaticBody> staticBodies;
+  public Level(PlayerCharacter[] players) {
+    this.players = players;
 
-    public Level(PlayerCharacter[] players) {
-        this.players = players;
+    dynamicBodies = new ArrayList<>();
+    staticBodies = new ArrayList<>();
+  }
 
-        dynamicBodies = new ArrayList<>();
-        staticBodies = new ArrayList<>();
-    }
+  public void setNew(Tile[][] tiles, Vector2 spawn, int difficulty) {
+    this.tiles = tiles;
+    this.spawn = spawn;
+    this.difficulty = difficulty;
+  }
 
-    public void setNew(Tile[][] tiles, Vector2 spawn, int difficulty) {
-        this.tiles = tiles;
-        this.spawn = spawn;
-        this.difficulty = difficulty;
-    }
-
-    public void draw(Batch batch) {
-        batch.begin();
-        for (int x = 0; x < tiles.length; x++) {
-            for (int y = 0; y < tiles[0].length; y++) {
-                Texture t = tiles[x][y].texture;
-                if (t != null) {
-                    batch.draw(t, x, y, 1, 1);
-                }
-            }
+  public void draw(Batch batch) {
+    batch.begin();
+    for (int x = 0; x < tiles.length; x++) {
+      for (int y = 0; y < tiles[0].length; y++) {
+        Texture t = tiles[x][y].texture;
+        if (t != null) {
+          batch.draw(t, x, y, 1, 1);
         }
-        batch.end();
+      }
+    }
+    batch.end();
+  }
+
+  public void debugDraw(ShapeRenderer sr) {
+    for (int x = 0; x < tiles.length; x++) {
+      for (int y = 0; y < tiles[0].length; y++) {
+        switch (tiles[x][y].tileType) {
+          case PLATFORM:
+            sr.line(x, y + 1, x + 1, y + 1);
+            break;
+          case LADDER:
+            sr.line(x + 1 / 2f, y, x + 1 / 2f, y + 1);
+            sr.line(x + 1 / 3f, y + 1 / 2f, x + 2 / 3f, y + 1 / 2f);
+            break;
+          case SOLID:
+            sr.rect(x, y, 1, 1);
+            sr.line(x, y, x + 1, y + 1);
+            break;
+        }
+      }
     }
 
-    public void debugDraw(ShapeRenderer sr) {
-        for (int x = 0; x < tiles.length; x++) {
-            for (int y = 0; y < tiles[0].length; y++) {
-                switch (tiles[x][y].tileType) {
-                    case PLATFORM:
-                        sr.line(x, y + 1, x + 1, y + 1);
-                        break;
-                    case LADDER:
-                        sr.line(x + 1 / 2f, y, x + 1 / 2f, y + 1);
-                        sr.line(x + 1 / 3f, y + 1 / 2f, x + 2 / 3f, y + 1 / 2f);
-                        break;
-                    case SOLID:
-                        sr.rect(x, y, 1, 1);
-                        sr.line(x, y, x + 1, y + 1);
-                        break;
-                }
-            }
-        }
-
-        for (DynamicBody body : dynamicBodies) {
-            body.debugDraw(sr);
-        }
-
-        for (StaticBody body : staticBodies) {
-            body.debugDraw(sr);
-        }
+    for (DynamicBody body : dynamicBodies) {
+      body.debugDraw(sr);
     }
 
-    public void addDynamicBody(DynamicBody body) {
-        dynamicBodies.add(body);
+    for (StaticBody body : staticBodies) {
+      body.debugDraw(sr);
     }
+  }
 
-    public void integrate(float delta) {
-        for (DynamicBody body : dynamicBodies) {
-            body.integrate(delta);
-        }
+  public void addDynamicBody(DynamicBody body) {
+    dynamicBodies.add(body);
+  }
+
+  public void integrate(float delta) {
+    for (DynamicBody body : dynamicBodies) {
+      body.integrate(delta);
     }
+  }
 }

@@ -19,57 +19,57 @@ import java.util.Random;
  */
 public class CharacterSelectionScreen implements Screen {
 
-    private final HuldraGame game;
+  private final HuldraGame game;
 
-    private final ArrayList<PlayerCharacter> playerList;
+  private final ArrayList<PlayerCharacter> playerList;
 
-    public CharacterSelectionScreen(HuldraGame game) {
-        this.game = game;
-        playerList = new ArrayList<>();
-        playerList.add(new Knight(Team.PLAYER));
-    }
+  public CharacterSelectionScreen(HuldraGame game) {
+    this.game = game;
+    playerList = new ArrayList<>();
+    playerList.add(new Knight(Team.PLAYER));
+  }
 
-    @Override
-    public void render(float delta) {
-        startGame();
-    }
+  @Override
+  public void render(float delta) {
+    startGame();
+  }
 
-    public void startGame() {
-        SpriteLoader spriteLoader = new SpriteLoader();
-        game.setScreen(new GameLoadingScreen(
-            game, new GameScreen(game, playerList.toArray(new PlayerCharacter[playerList.size()])),
-            new WorldGenerator(new LevelParser(1, spriteLoader), new Random(6)),
-            spriteLoader
-        ));
-    }
+  public void startGame() {
+    SpriteLoader spriteLoader = new SpriteLoader();
+    game.setScreen(new GameLoadingScreen(
+        game, new GameScreen(game, playerList.toArray(new PlayerCharacter[playerList.size()])),
+        new WorldGenerator(new LevelParser(1, spriteLoader), new Random(6)),
+        spriteLoader
+    ));
+  }
 
-    @Override
-    public void dispose() {
+  @Override
+  public void dispose() {
 
-    }
+  }
 
-    @Override
-    public void show() {
+  @Override
+  public void show() {
 
-    }
+  }
 
-    @Override
-    public void hide() {
+  @Override
+  public void hide() {
 
-    }
+  }
 
-    @Override
-    public void resume() {
+  @Override
+  public void resume() {
 
-    }
+  }
 
-    @Override
-    public void pause() {
+  @Override
+  public void pause() {
 
-    }
+  }
 
-    @Override
-    public void resize(int width, int height) {
+  @Override
+  public void resize(int width, int height) {
 
-    }
+  }
 }

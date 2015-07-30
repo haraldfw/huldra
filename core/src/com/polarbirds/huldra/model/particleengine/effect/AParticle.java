@@ -8,25 +8,25 @@ import com.polarbirds.huldra.model.world.physics.Vector2;
  */
 public abstract class AParticle {
 
-    private float time;
-    private float maxLife;
+  private float time;
+  private float maxLife;
 
-    protected AParticle(float maxLife) {
-        time = 0;
-        this.maxLife = maxLife;
-    }
+  protected AParticle(float maxLife) {
+    time = 0;
+    this.maxLife = maxLife;
+  }
 
-    public void update(float delta) {
-        time += delta;
-    }
+  public static Vector2 getRandomNormalized() {
+    return new Vector2((float) Math.random() - 0.5f, (float) Math.random() - 0.5f).nor();
+  }
 
-    public abstract void draw(Batch batch);
+  public void update(float delta) {
+    time += delta;
+  }
 
-    public boolean isAlive() {
-        return time < maxLife;
-    }
+  public abstract void draw(Batch batch);
 
-    public static Vector2 getRandomNormalized() {
-        return new Vector2((float) Math.random() - 0.5f, (float) Math.random() - 0.5f).nor();
-    }
+  public boolean isAlive() {
+    return time < maxLife;
+  }
 }

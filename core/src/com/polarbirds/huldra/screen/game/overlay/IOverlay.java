@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
  */
 public interface IOverlay {
 
-    void init();
+  void init();
 
-    void render(Batch batch);
+  void render(Batch batch);
 
-    void queueAssets();
+  void queueAssets();
 }

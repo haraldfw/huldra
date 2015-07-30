@@ -9,9 +9,9 @@ import com.polarbirds.huldra.model.character.player.PlayerCharacter;
  */
 public abstract class Interactable extends Image {
 
-    public Interactable() {
+  public Interactable() {
 
-    }
+  }
 
-    public abstract void interact(PlayerCharacter character);
+  public abstract void interact(PlayerCharacter character);
 }

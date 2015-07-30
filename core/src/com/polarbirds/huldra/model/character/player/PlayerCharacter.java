@@ -17,27 +17,27 @@ import java.util.Map;
  */
 public abstract class PlayerCharacter extends AWalkingCharacter {
 
-    public Map<String, AGear> gear;
+  public Map<String, AGear> gear;
 
-    public PlayerCharacter(Team team) {
-        super(0.5f, 0.7f, 0.0167f, team);
-        gear = new HashMap<>(10);
-    }
+  public PlayerCharacter(Team team) {
+    super(0.5f, 0.7f, 0.0167f, team);
+    gear = new HashMap<>(10);
+  }
 
-    public void init(Vector2 pos, GameScreen gameScreen) {
-        this.input =
-            Controllers.getControllers().size > 0 ? new XboxController(
-                Controllers.getControllers().get(0)) :
-            new Keyboard(gameScreen.game.staticViewCamera);
-    }
+  public void init(Vector2 pos, GameScreen gameScreen) {
+    this.input =
+        Controllers.getControllers().size > 0 ? new XboxController(
+            Controllers.getControllers().get(0)) :
+        new Keyboard(gameScreen.game.staticViewCamera);
+  }
 
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-    }
+  @Override
+  public void act(float delta) {
+    super.act(delta);
+  }
 
-    @Override
-    public Map<String, AGear> getGear() {
-        return null;
-    }
+  @Override
+  public Map<String, AGear> getGear() {
+    return null;
+  }
 }

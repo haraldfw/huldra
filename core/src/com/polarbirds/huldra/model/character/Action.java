@@ -7,8 +7,8 @@ import com.polarbirds.huldra.model.character.player.PlayerCharacter;
  */
 public abstract class Action {
 
-    public Action(PlayerCharacter playerCharacter) {
+  public Action(PlayerCharacter playerCharacter) {
 
-    }
+  }
 
 }
