@@ -1,0 +1,11 @@
+{
+  "width": 10,
+  "height": 15,
+  "type": "simple",
+  "frametime": 0.2,
+  "shifts": [
+    0, 0,
+    0, 0,
+    0, 0
+  ]
+}
