@@ -8,9 +8,11 @@ import com.polarbirds.huldra.model.character.player.stat.StatModifier;
  */
 public abstract class AGear implements IStatContainer {
 
-  private StatModifier[] stats;
+  public final GearSlot gearSlot;
+  private final StatModifier[] stats;
 
-  public AGear(StatModifier[] stats) {
+  public AGear(GearSlot gearSlot, StatModifier[] stats) {
+    this.gearSlot = gearSlot;
     this.stats = stats;
   }
 
