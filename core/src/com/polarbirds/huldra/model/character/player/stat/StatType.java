@@ -1,8 +1,8 @@
 package com.polarbirds.huldra.model.character.player.stat;
 
 import com.badlogic.gdx.math.Vector3;
-import com.polarbirds.huldra.model.character.ADynamicCharacter;
 import com.polarbirds.huldra.model.character.player.gear.AGear;
+import com.polarbirds.huldra.model.character.player.gear.GearWearer;
 
 import java.util.Map;
 
@@ -13,42 +13,32 @@ public enum StatType {
   DMG_OVERALL,
   DMG_PHYSICAL {
     @Override
-    public float calculate(ADynamicCharacter character) {
-      Vector3 stats = getTotal(character, this);
-      merge(stats, getTotal(character, DMG_OVERALL));
-      return get(stats);
+    public float calculate(GearWearer character) {
+      return calculateMerged(DMG_OVERALL, character);
     }
   },
   DMG_MAGICAL {
     @Override
-    public float calculate(ADynamicCharacter character) {
-      Vector3 stats = getTotal(character, this);
-      merge(stats, getTotal(character, DMG_OVERALL));
-      return get(stats);
+    public float calculate(GearWearer character) {
+      return calculateMerged(DMG_OVERALL, character);
     }
   },
   DMG_LIGHTNING {
     @Override
-    public float calculate(ADynamicCharacter character) {
-      Vector3 stats = getTotal(character, this);
-      merge(stats, getTotal(character, DMG_OVERALL));
-      return get(stats);
+    public float calculate(GearWearer character) {
+      return calculateMerged(DMG_OVERALL, character);
     }
   },
   DMG_FIRE {
     @Override
-    public float calculate(ADynamicCharacter character) {
-      Vector3 stats = getTotal(character, this);
-      merge(stats, getTotal(character, DMG_OVERALL));
-      return get(stats);
+    public float calculate(GearWearer character) {
+      return calculateMerged(DMG_OVERALL, character);
     }
   },
   DMG_ICE {
     @Override
-    public float calculate(ADynamicCharacter character) {
-      Vector3 stats = getTotal(character, this);
-      merge(stats, getTotal(character, DMG_OVERALL));
-      return get(stats);
+    public float calculate(GearWearer character) {
+      return calculateMerged(DMG_OVERALL, character);
     }
   },
   KNOCKBACK,
@@ -56,7 +46,7 @@ public enum StatType {
   MOVE_STRENGTH,
   MAX_HEALTH;
 
-  protected final float get(Vector3 v) {
+  protected final float convertToFloat(Vector3 v) {
     return v.x * v.y + v.z;
   }
 
@@ -66,12 +56,12 @@ public enum StatType {
     v1.z += v2.z;
   }
 
-  public float calculate(ADynamicCharacter character) {
+  public float calculate(GearWearer character) {
     Vector3 stats = getTotal(character, this);
-    return get(stats);
+    return convertToFloat(stats);
   }
 
-  protected final Vector3 getTotal(ADynamicCharacter character, StatType type) {
+  protected final Vector3 getTotal(GearWearer character, StatType type) {
     Vector3 stats = new Vector3(0, 1, 0);
     mergeArray(stats, character.getBaseStats(), type);
     mergeMap(stats, character.getGear(), type);
@@ -100,6 +90,13 @@ public enum StatType {
         }
       }
     }
+  }
+
+  protected final float calculateMerged(
+      StatType mergeWith, GearWearer character) {
+    Vector3 stats = getTotal(character, this);
+    merge(stats, getTotal(character, mergeWith));
+    return convertToFloat(stats);
   }
 }
 
