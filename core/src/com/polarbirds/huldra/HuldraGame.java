@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.polarbirds.huldra.model.utility.SpriteLoader;
 import com.polarbirds.huldra.screen.mainmenu.CharacterSelectionScreen;
 
 public class HuldraGame extends Game {
@@ -22,12 +21,8 @@ public class HuldraGame extends Game {
   public OrthographicCamera staticViewCamera;
   public float timeStep;
 
-  private SpriteLoader spriteLoader;
-
   @Override
   public void create() {
-    spriteLoader = new SpriteLoader();
-
     batch = new SpriteBatch();
     staticViewCamera = new OrthographicCamera();
     staticViewCamera.setToOrtho(false, X_TILES, Y_TILES);
@@ -69,6 +64,6 @@ public class HuldraGame extends Game {
   @Override
   public void dispose() {
     super.dispose();
-    spriteLoader.dispose();
+    batch.dispose();
   }
 }
