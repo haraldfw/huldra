@@ -5,7 +5,7 @@ import com.polarbirds.huldra.controller.player.Keyboard;
 import com.polarbirds.huldra.controller.player.XboxController;
 import com.polarbirds.huldra.model.character.Team;
 import com.polarbirds.huldra.model.character.animate.AWalkingCharacter;
-import com.polarbirds.huldra.model.character.animate.player.gear.AGear;
+import com.polarbirds.huldra.model.character.animate.player.gear.GearHandler;
 import com.polarbirds.huldra.model.drawing.AAnimation;
 import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
 import com.polarbirds.huldra.model.utility.SpriteLoader;
@@ -13,7 +13,6 @@ import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.polarbirds.huldra.screen.game.GameScreen;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,13 +21,13 @@ import java.util.Map;
  */
 public abstract class PlayerCharacter extends AWalkingCharacter {
 
-  private final Map<String, AGear> gear;
+  private final GearHandler gearHandler;
   private AAnimation[] animations;
   private int activeAnimation;
 
   public PlayerCharacter(Team team) {
     super(0.5f, 0.7f, 0.0167f, team);
-    gear = new HashMap<>(10);
+    gearHandler = new GearHandler();
   }
 
   public void init(Vector2 pos, GameScreen gameScreen) {
@@ -45,8 +44,8 @@ public abstract class PlayerCharacter extends AWalkingCharacter {
   }
 
   @Override
-  public Map<String, AGear> getGear() {
-    return null;
+  public GearHandler getGear() {
+    return gearHandler;
   }
 
   @Override

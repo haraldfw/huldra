@@ -7,9 +7,9 @@ public enum GearSlot {
   HEAD,
   NECKLACE,
   TORSO,
-  RING_LEFT,
-  RING_RIGHT,
-  GLOVES,
+  RING,
+  PANTS,
+  BRACERS,
   BELT,
   BOOTS
 }
