@@ -36,6 +36,7 @@ public class GameLoadingScreen implements Screen {
     if (worldGenerator.done) {
       worldGenerator.placeTextures();
       if (spriteLoader.done) {
+        spriteLoader.finish();
         gameScreen.level.setNew(worldGenerator.tiles, worldGenerator.spawn,
                                 gameScreen.level.difficulty + 1);
         gameScreen.setNew(spriteLoader.loadedSprites, spriteLoader.loadedAnimations);
