@@ -34,18 +34,14 @@ public class SpriteLoader extends ALoader {
   private final Map<IHasSingleFrame, TextureData> dataMap = new HashMap<>();
   private final Map<String, TextureData> dataArrayMap = new HashMap<>();
   private final Collection<String> paths = new TreeSet<>();
-  public Map<String, ASprite> loadedSprites = new HashMap<>();
-  public Map<String, AAnimation> loadedAnimations = new HashMap<>();
+  public final Map<String, ASprite> loadedSprites = new HashMap<>();
+  public final Map<String, AAnimation> loadedAnimations = new HashMap<>();
 
   @Override
   public void run() {
     max = paths.size();
 
-    loadedSprites.clear();
-    loadedAnimations.clear();
-
     for (String path : paths) {
-
       if (path.contains(".json")) {
         loadAnimationData(path);
       } else {
@@ -54,7 +50,6 @@ public class SpriteLoader extends ALoader {
       loaded++;
     }
 
-    paths.clear();
     done = true;
   }
 
