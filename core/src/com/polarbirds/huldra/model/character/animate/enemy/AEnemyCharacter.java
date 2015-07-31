@@ -14,9 +14,9 @@ import java.util.Map;
 /**
  * Created by Harald Wilhelmsen on 30/7/2015.
  */
-public class EnemyCharacter extends AWalkingCharacter {
+public abstract class AEnemyCharacter extends AWalkingCharacter {
 
-  public EnemyCharacter(float width, float height, float inverseMass, Team team) {
+  public AEnemyCharacter(float width, float height, float inverseMass, Team team) {
     super(width, height, inverseMass, team);
   }
 
