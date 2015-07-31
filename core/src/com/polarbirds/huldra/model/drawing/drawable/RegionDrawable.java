@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 /**
  * Created by Harald Wilhelmsen on 29/7/2015.
  */
-public class RegionDrawable implements Drawable {
+public class RegionDrawable implements IDrawable {
 
   public final TextureRegion region;
 

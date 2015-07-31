@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 /**
  * Created by Harald Wilhelmsen on 29/7/2015.
  */
-public class TextureDrawable implements Drawable {
+public class TextureDrawable implements IDrawable {
 
   public final Texture texture;
 

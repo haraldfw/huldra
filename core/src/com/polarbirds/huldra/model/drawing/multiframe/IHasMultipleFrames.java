@@ -1,6 +1,6 @@
 package com.polarbirds.huldra.model.drawing.multiframe;
 
-import com.polarbirds.huldra.model.drawing.drawable.Drawable;
+import com.polarbirds.huldra.model.drawing.drawable.IDrawable;
 import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
 
 /**
@@ -10,7 +10,7 @@ public interface IHasMultipleFrames {
 
   ASprite[] getFrames();
 
-  default void set(Drawable[] drawables) {
+  default void set(IDrawable[] drawables) {
     for (int i = 0; i < drawables.length; i++) {
       getFrames()[i].set(drawables[i]);
     }
