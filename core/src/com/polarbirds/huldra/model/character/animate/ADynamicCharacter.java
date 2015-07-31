@@ -3,6 +3,7 @@ package com.polarbirds.huldra.model.character.animate;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.polarbirds.huldra.model.character.Team;
 import com.polarbirds.huldra.model.character.animate.player.gear.GearWearer;
+import com.polarbirds.huldra.model.character.stat.IHasBaseStats;
 import com.polarbirds.huldra.model.drawing.AAnimation;
 import com.polarbirds.huldra.model.utility.IHasGraphics;
 import com.polarbirds.huldra.model.world.physics.DynamicBody;
@@ -10,7 +11,7 @@ import com.polarbirds.huldra.model.world.physics.DynamicBody;
 /**
  * Created by Harald Wilhelmsen on 16/6/2015.
  */
-public abstract class ADynamicCharacter implements GearWearer, IHasGraphics {
+public abstract class ADynamicCharacter implements IHasGraphics, IHasBaseStats {
 
   public DynamicBody body;
   public Team team;

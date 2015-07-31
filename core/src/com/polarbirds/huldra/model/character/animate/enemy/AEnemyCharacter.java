@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.polarbirds.huldra.model.character.Team;
 import com.polarbirds.huldra.model.character.animate.AWalkingCharacter;
 import com.polarbirds.huldra.model.character.animate.player.gear.GearHandler;
+import com.polarbirds.huldra.model.character.stat.IHasBaseStats;
 import com.polarbirds.huldra.model.character.stat.StatModifier;
 import com.polarbirds.huldra.model.drawing.AAnimation;
 import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
@@ -14,7 +15,7 @@ import java.util.Map;
 /**
  * Created by Harald Wilhelmsen on 30/7/2015.
  */
-public abstract class AEnemyCharacter extends AWalkingCharacter {
+public abstract class AEnemyCharacter extends AWalkingCharacter implements IHasBaseStats {
 
   public AEnemyCharacter(float width, float height, float inverseMass, Team team) {
     super(width, height, inverseMass, team);
@@ -44,11 +45,6 @@ public abstract class AEnemyCharacter extends AWalkingCharacter {
   @Override
   public void queueAssets(SpriteLoader spriteLoader) {
 
-  }
-
-  @Override
-  public GearHandler getGear() {
-    return null;
   }
 
   @Override

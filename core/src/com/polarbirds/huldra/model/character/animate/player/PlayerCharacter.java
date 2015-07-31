@@ -6,6 +6,7 @@ import com.polarbirds.huldra.controller.player.XboxController;
 import com.polarbirds.huldra.model.character.Team;
 import com.polarbirds.huldra.model.character.animate.AWalkingCharacter;
 import com.polarbirds.huldra.model.character.animate.player.gear.GearHandler;
+import com.polarbirds.huldra.model.character.animate.player.gear.GearWearer;
 import com.polarbirds.huldra.model.drawing.AAnimation;
 import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
 import com.polarbirds.huldra.model.utility.SpriteLoader;
@@ -19,7 +20,7 @@ import java.util.Map;
 /**
  * Created by Harald on 1.5.15.
  */
-public abstract class PlayerCharacter extends AWalkingCharacter {
+public abstract class PlayerCharacter extends AWalkingCharacter implements GearWearer {
 
   private final GearHandler gearHandler;
   private AAnimation[] animations;
