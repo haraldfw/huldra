@@ -7,7 +7,7 @@ import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
  * A class for animations with different frametimes per frame. Created by Harald Wilhelmsen on
  * 16/6/2015.
  */
-public class AdvancedAnimation extends AAnimation implements IHasMultipleFrames {
+public class AdvancedAnimation extends AAnimation {
 
   private final float[] frameTimes;
   private ASprite[] frames;

@@ -8,7 +8,7 @@ import java.util.HashMap;
 /**
  * Created by Harald Wilhelmsen on 30/6/2015.
  */
-public class ManualAnimation extends AAnimation implements IHasMultipleFrames {
+public class ManualAnimation extends AAnimation {
 
   private final HashMap<Object, Integer> activeFrames;
   private ASprite[] frames;

@@ -18,4 +18,9 @@ public class TextureDrawable implements Drawable {
   public void draw(Batch batch, float x, float y) {
     batch.draw(texture, x, y);
   }
+
+  @Override
+  public void dispose() {
+    texture.dispose();
+  }
 }

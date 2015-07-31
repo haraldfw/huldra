@@ -30,4 +30,9 @@ public class Sprite extends ASprite {
   public void set(Drawable drawable) {
     this.drawable = drawable;
   }
+
+  @Override
+  public void dispose() {
+    drawable.dispose();
+  }
 }

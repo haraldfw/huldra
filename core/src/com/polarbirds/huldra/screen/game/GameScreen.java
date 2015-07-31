@@ -4,6 +4,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Disposable;
 import com.polarbirds.huldra.HuldraGame;
 import com.polarbirds.huldra.model.character.animate.player.PlayerCharacter;
 import com.polarbirds.huldra.model.drawing.AAnimation;
@@ -63,7 +64,7 @@ public class GameScreen implements Screen {
     this.animations = animations;
   }
 
-  private void startLevelTransition() {
+  private void gotoNextLevel() {
     SpriteLoader spriteLoader = new SpriteLoader();
     game.setScreen(
         new GameLoadingScreen(
@@ -145,7 +146,11 @@ public class GameScreen implements Screen {
 
   @Override
   public void dispose() {
-
+    for (Map.Entry s : sprites.entrySet()) {
+      if (s != null) {
+        ((Disposable) s).dispose();
+      }
+    }
   }
 
   private void updateCamera(OrthographicCamera camera) {

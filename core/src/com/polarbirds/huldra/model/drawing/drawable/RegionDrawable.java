@@ -18,4 +18,9 @@ public class RegionDrawable implements Drawable {
   public void draw(Batch batch, float x, float y) {
     batch.draw(region, x, y);
   }
+
+  @Override
+  public void dispose() {
+    region.getTexture().dispose();
+  }
 }

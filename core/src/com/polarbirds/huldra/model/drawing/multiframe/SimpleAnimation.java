@@ -7,7 +7,7 @@ import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
  * A class for animations with equal frametimes for each frame. Created by Harald Wilhelmsen on
  * 16/6/2015.
  */
-public class SimpleAnimation extends AAnimation implements IHasMultipleFrames {
+public class SimpleAnimation extends AAnimation {
 
   private final float timePerFrame;
   private ASprite[] frames;

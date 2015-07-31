@@ -15,5 +15,4 @@ public interface IHasMultipleFrames {
       getFrames()[i].set(drawables[i]);
     }
   }
-
 }

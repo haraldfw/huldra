@@ -1,6 +1,8 @@
 package com.polarbirds.huldra.model.drawing;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.utils.Disposable;
+import com.polarbirds.huldra.model.drawing.multiframe.IHasMultipleFrames;
 import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 
@@ -10,7 +12,7 @@ import java.util.Map;
 /**
  * A class for storing, updating and drawing animations. Created by Harald Wilhelmsen on 10/6/2015.
  */
-public abstract class AAnimation {
+public abstract class AAnimation implements Disposable, IHasMultipleFrames {
 
   protected Map<Object, Float> timePassed;
 
@@ -42,5 +44,10 @@ public abstract class AAnimation {
 
   public final void draw(Object caller, Batch sb, Vector2 pos) {
     getCurrentFrame(caller).draw(sb, pos);
+  }
+
+  @Override
+  public void dispose() {
+    getFrames()[0].dispose();
   }
 }
