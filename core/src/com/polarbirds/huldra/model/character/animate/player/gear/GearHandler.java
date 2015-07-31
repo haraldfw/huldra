@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public class GearHandler {
 
-  private Map<GearSlot, AGear> gearMap;
+  private final Map<GearSlot, AGear> gearMap;
 
   public GearHandler() {
     gearMap = new HashMap<>(8);
@@ -31,5 +31,9 @@ public class GearHandler {
       gearMap.put(gear.gearSlot, gear);
       return temp;
     }
+  }
+
+  public Map<GearSlot, AGear> getGear() {
+    return gearMap;
   }
 }

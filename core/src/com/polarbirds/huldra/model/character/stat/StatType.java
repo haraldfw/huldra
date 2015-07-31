@@ -2,6 +2,7 @@ package com.polarbirds.huldra.model.character.stat;
 
 import com.badlogic.gdx.math.Vector3;
 import com.polarbirds.huldra.model.character.animate.player.gear.AGear;
+import com.polarbirds.huldra.model.character.animate.player.gear.GearSlot;
 import com.polarbirds.huldra.model.character.animate.player.gear.GearWearer;
 
 import java.util.Map;
@@ -64,12 +65,12 @@ public enum StatType {
   protected final Vector3 getTotal(GearWearer character, StatType type) {
     Vector3 stats = new Vector3(0, 1, 0);
     mergeArray(stats, character.getBaseStats(), type);
-    mergeMap(stats, character.getGear(), type);
+    mergeMap(stats, character.getGear().getGear(), type);
     return stats;
   }
 
-  private void mergeMap(Vector3 mergeInto, Map<String, AGear> map, StatType type) {
-    for (Map.Entry<String, AGear> entry : map.entrySet()) {
+  private void mergeMap(Vector3 mergeInto, Map<GearSlot, AGear> map, StatType type) {
+    for (Map.Entry<GearSlot, AGear> entry : map.entrySet()) {
       mergeArray(mergeInto, entry.getValue().getMods(), type);
     }
   }
