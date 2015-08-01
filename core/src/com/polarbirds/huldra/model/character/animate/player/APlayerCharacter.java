@@ -5,29 +5,30 @@ import com.polarbirds.huldra.controller.player.Keyboard;
 import com.polarbirds.huldra.controller.player.XboxController;
 import com.polarbirds.huldra.model.character.Team;
 import com.polarbirds.huldra.model.character.animate.AWalkingCharacter;
+import com.polarbirds.huldra.model.character.animate.CharacterState;
 import com.polarbirds.huldra.model.character.animate.player.gear.GearHandler;
 import com.polarbirds.huldra.model.character.animate.player.gear.GearWearer;
+import com.polarbirds.huldra.model.character.stat.StatModifier;
 import com.polarbirds.huldra.model.drawing.AAnimation;
-import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
-import com.polarbirds.huldra.model.utility.SpriteLoader;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.polarbirds.huldra.screen.game.GameScreen;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Created by Harald on 1.5.15.
  */
-public abstract class PlayerCharacter extends AWalkingCharacter implements GearWearer {
+public abstract class APlayerCharacter extends AWalkingCharacter implements GearWearer {
 
   private final GearHandler gearHandler;
-  private AAnimation[] animations;
-  private int activeAnimation;
+  private final Map<CharacterState, AAnimation> animations;
+  private final StatModifier[] baseStats;
 
-  public PlayerCharacter(Team team) {
+  public APlayerCharacter(Map<CharacterState, AAnimation> animations, StatModifier[] baseStats,
+                          Team team) {
     super(0.5f, 0.7f, 0.0167f, team);
+    this.animations = animations;
+    this.baseStats = baseStats;
     gearHandler = new GearHandler();
   }
 
@@ -45,24 +46,17 @@ public abstract class PlayerCharacter extends AWalkingCharacter implements GearW
   }
 
   @Override
+  public StatModifier[] getBaseStats() {
+    return baseStats;
+  }
+
+  @Override
   public GearHandler getGear() {
     return gearHandler;
   }
 
   @Override
   protected AAnimation getCurrentAnimation() {
-    return animations[activeAnimation];
-  }
-
-  @Override
-  public void initGraphics(Map<String, ASprite> sprites, Map<String, AAnimation> animations) {
-    List<AAnimation> animationList = new ArrayList<>();
-    animationList.add(animations.get("graphics/player/knight/walk.json"));
-    this.animations = animationList.toArray(new AAnimation[animationList.size()]);
-  }
-
-  @Override
-  public void queueAssets(SpriteLoader spriteLoader) {
-    spriteLoader.queueAsset("graphics/player/knight/walk.json");
+    return animations.get(characterState);
   }
 }

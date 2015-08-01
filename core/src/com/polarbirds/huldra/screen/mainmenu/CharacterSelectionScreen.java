@@ -2,9 +2,8 @@ package com.polarbirds.huldra.screen.mainmenu;
 
 import com.badlogic.gdx.Screen;
 import com.polarbirds.huldra.HuldraGame;
-import com.polarbirds.huldra.model.character.Team;
-import com.polarbirds.huldra.model.character.animate.player.Knight;
-import com.polarbirds.huldra.model.character.animate.player.PlayerCharacter;
+import com.polarbirds.huldra.model.character.animate.player.APlayerCharacter;
+import com.polarbirds.huldra.model.character.stat.StatLoader;
 import com.polarbirds.huldra.model.utility.SpriteLoader;
 import com.polarbirds.huldra.model.world.generation.LevelParser;
 import com.polarbirds.huldra.model.world.generation.WorldGenerator;
@@ -12,6 +11,9 @@ import com.polarbirds.huldra.screen.game.GameLoadingScreen;
 import com.polarbirds.huldra.screen.game.GameScreen;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -21,12 +23,12 @@ public class CharacterSelectionScreen implements Screen {
 
   private final HuldraGame game;
 
-  private final ArrayList<PlayerCharacter> playerList;
+  private final ArrayList<String> playerList;
 
   public CharacterSelectionScreen(HuldraGame game) {
     this.game = game;
     playerList = new ArrayList<>();
-    playerList.add(new Knight(Team.PLAYER));
+    playerList.add("knight");
   }
 
   @Override
@@ -36,11 +38,26 @@ public class CharacterSelectionScreen implements Screen {
 
   public void startGame() {
     SpriteLoader spriteLoader = new SpriteLoader();
-    game.setScreen(new GameLoadingScreen(
-        game, new GameScreen(game, playerList.toArray(new PlayerCharacter[playerList.size()])),
-        new WorldGenerator(new LevelParser(1, spriteLoader), new Random(6)),
-        spriteLoader
-    ));
+    LevelParser levelParser = new LevelParser(1, spriteLoader);
+
+    List<String> paths = new ArrayList<>();
+    paths.addAll(Arrays.asList(levelParser.enemyTypes));
+    paths.addAll(playerList);
+
+    game.setScreen(
+        new GameLoadingScreen(
+            game,
+            new GameScreen(
+                game,
+                new APlayerCharacter[0]
+            ),
+            new WorldGenerator(
+                levelParser,
+                new Random(6)
+            ),
+            spriteLoader,
+            new StatLoader(paths.toArray(new String[paths.size()])))
+        );
   }
 
   @Override

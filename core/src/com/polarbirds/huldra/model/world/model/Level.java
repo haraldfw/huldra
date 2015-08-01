@@ -3,7 +3,7 @@ package com.polarbirds.huldra.model.world.model;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.polarbirds.huldra.model.character.animate.player.PlayerCharacter;
+import com.polarbirds.huldra.model.character.animate.player.APlayerCharacter;
 import com.polarbirds.huldra.model.world.physics.DynamicBody;
 import com.polarbirds.huldra.model.world.physics.StaticBody;
 import com.polarbirds.huldra.model.world.physics.Vector2;
@@ -19,12 +19,12 @@ public final class Level {
 
   private final List<DynamicBody> dynamicBodies;
   private final List<StaticBody> staticBodies;
-  public PlayerCharacter[] players;
+  public APlayerCharacter[] players;
   public Tile[][] tiles;
   public Vector2 spawn;
   public int difficulty;
 
-  public Level(PlayerCharacter[] players) {
+  public Level(APlayerCharacter[] players) {
     this.players = players;
 
     dynamicBodies = new ArrayList<>();

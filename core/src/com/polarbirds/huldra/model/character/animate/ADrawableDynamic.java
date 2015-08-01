@@ -2,22 +2,22 @@ package com.polarbirds.huldra.model.character.animate;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.polarbirds.huldra.model.character.Team;
-import com.polarbirds.huldra.model.character.animate.player.gear.GearWearer;
 import com.polarbirds.huldra.model.character.stat.IHasBaseStats;
 import com.polarbirds.huldra.model.drawing.AAnimation;
-import com.polarbirds.huldra.model.utility.IHasGraphics;
 import com.polarbirds.huldra.model.world.physics.DynamicBody;
+import com.polarbirds.huldra.model.world.physics.Vector2;
+import com.polarbirds.huldra.model.world.physics.shape.RectShape;
 
 /**
  * Created by Harald Wilhelmsen on 16/6/2015.
  */
-public abstract class ADynamicCharacter implements IHasGraphics, IHasBaseStats {
+public abstract class ADrawableDynamic implements IHasBaseStats {
 
   public DynamicBody body;
   public Team team;
 
-  public ADynamicCharacter(DynamicBody body, Team team) {
-    this.body = body;
+  public ADrawableDynamic(Vector2 pos, float width, float height, float inverseMass, Team team) {
+    this.body = new DynamicBody(pos, new RectShape(width, height), inverseMass);
     this.team = team;
   }
 
@@ -27,6 +27,7 @@ public abstract class ADynamicCharacter implements IHasGraphics, IHasBaseStats {
 
   public void draw(Batch batch, float parentAlpha) {
     getCurrentAnimation().draw(this, batch, body.pos);
+
   }
 
   protected abstract AAnimation getCurrentAnimation();

@@ -11,9 +11,11 @@ import com.polarbirds.huldra.model.world.model.WorldType;
  */
 public class LevelParser {
 
-  public String worldTypeString;
-  public WorldType type;
-  public int amountOfSections;
+  public String[] enemyTypes;
+  String worldTypeString;
+  WorldType type;
+  int amountOfSections;
+  int chests;
 
   public LevelParser(int level, SpriteLoader spriteLoader) {
     JsonValue json = new JsonReader().parse(Gdx.files.internal("levels/" + level + ".json"));
@@ -29,6 +31,8 @@ public class LevelParser {
         type = WorldType.TEST_STAGE;
     }
     amountOfSections = json.getInt("sectioncount");
+    enemyTypes = json.get("enemytypes").asStringArray();
     // TODO queue assets in spriteLoader
+
   }
 }

@@ -1,7 +1,7 @@
 package com.polarbirds.huldra.model.character.stat;
 
 import com.badlogic.gdx.math.Vector3;
-import com.polarbirds.huldra.model.character.animate.player.PlayerCharacter;
+import com.polarbirds.huldra.model.character.animate.player.APlayerCharacter;
 import com.polarbirds.huldra.model.character.animate.player.gear.AGear;
 import com.polarbirds.huldra.model.character.animate.player.gear.GearSlot;
 
@@ -14,31 +14,31 @@ public enum StatType {
   DMG_OVERALL,
   DMG_PHYSICAL {
     @Override
-    public float calculate(PlayerCharacter character) {
+    public float calculate(APlayerCharacter character) {
       return calculateMerged(DMG_OVERALL, character);
     }
   },
   DMG_MAGICAL {
     @Override
-    public float calculate(PlayerCharacter character) {
+    public float calculate(APlayerCharacter character) {
       return calculateMerged(DMG_OVERALL, character);
     }
   },
   DMG_LIGHTNING {
     @Override
-    public float calculate(PlayerCharacter character) {
+    public float calculate(APlayerCharacter character) {
       return calculateMerged(DMG_OVERALL, character);
     }
   },
   DMG_FIRE {
     @Override
-    public float calculate(PlayerCharacter character) {
+    public float calculate(APlayerCharacter character) {
       return calculateMerged(DMG_OVERALL, character);
     }
   },
   DMG_ICE {
     @Override
-    public float calculate(PlayerCharacter character) {
+    public float calculate(APlayerCharacter character) {
       return calculateMerged(DMG_OVERALL, character);
     }
   },
@@ -47,7 +47,7 @@ public enum StatType {
   MOVE_STRENGTH,
   MAX_HEALTH;
 
-  public float calculate(PlayerCharacter character) {
+  public float calculate(APlayerCharacter character) {
     Vector3 stats = getTotal(character, this);
     return convertToFloat(stats);
   }
@@ -67,7 +67,7 @@ public enum StatType {
     v1.z += v2.z;
   }
 
-  protected final Vector3 getTotal(PlayerCharacter character, StatType type) {
+  protected final Vector3 getTotal(APlayerCharacter character, StatType type) {
     Vector3 stats = new Vector3(0, 1, 0);
     mergeArray(stats, character.getBaseStats(), type);
     mergeMap(stats, character.getGear().getGear(), type);
@@ -100,7 +100,7 @@ public enum StatType {
   }
 
   protected final float calculateMerged(
-      StatType mergeWith, PlayerCharacter character) {
+      StatType mergeWith, APlayerCharacter character) {
     Vector3 stats = getTotal(character, this);
     merge(stats, getTotal(character, mergeWith));
     return convertToFloat(stats);

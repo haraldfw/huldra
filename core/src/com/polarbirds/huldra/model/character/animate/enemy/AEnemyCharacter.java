@@ -2,23 +2,21 @@ package com.polarbirds.huldra.model.character.animate.enemy;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.polarbirds.huldra.model.character.Team;
-import com.polarbirds.huldra.model.character.animate.AWalkingCharacter;
-import com.polarbirds.huldra.model.character.animate.player.gear.GearHandler;
+import com.polarbirds.huldra.model.character.animate.ADrawableDynamic;
 import com.polarbirds.huldra.model.character.stat.IHasBaseStats;
 import com.polarbirds.huldra.model.character.stat.StatModifier;
 import com.polarbirds.huldra.model.drawing.AAnimation;
-import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
-import com.polarbirds.huldra.model.utility.SpriteLoader;
-
-import java.util.Map;
+import com.polarbirds.huldra.model.world.physics.Vector2;
 
 /**
  * Created by Harald Wilhelmsen on 30/7/2015.
  */
-public abstract class AEnemyCharacter extends AWalkingCharacter implements IHasBaseStats {
+public abstract class AEnemyCharacter extends ADrawableDynamic implements IHasBaseStats {
 
-  public AEnemyCharacter(float width, float height, float inverseMass, Team team) {
-    super(width, height, inverseMass, team);
+  private StatModifier[] baseStats;
+
+  public AEnemyCharacter(Vector2 pos, float width, float height, float inverseMass, Team team) {
+    super(pos, width, height, inverseMass, team);
   }
 
   @Override
@@ -35,16 +33,6 @@ public abstract class AEnemyCharacter extends AWalkingCharacter implements IHasB
   @Override
   protected AAnimation getCurrentAnimation() {
     return null;
-  }
-
-  @Override
-  public void initGraphics(Map<String, ASprite> sprites, Map<String, AAnimation> animations) {
-
-  }
-
-  @Override
-  public void queueAssets(SpriteLoader spriteLoader) {
-
   }
 
   @Override

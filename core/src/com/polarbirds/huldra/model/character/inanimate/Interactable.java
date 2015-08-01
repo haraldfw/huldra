@@ -1,7 +1,7 @@
 package com.polarbirds.huldra.model.character.inanimate;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.polarbirds.huldra.model.character.animate.player.PlayerCharacter;
+import com.polarbirds.huldra.model.character.animate.player.APlayerCharacter;
 
 /**
  * An object than can be interacted with. Some by the player, and some by other entities like
@@ -13,5 +13,5 @@ public abstract class Interactable extends Image {
 
   }
 
-  public abstract void interact(PlayerCharacter character);
+  public abstract void interact(APlayerCharacter character);
 }

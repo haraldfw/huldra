@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 import com.polarbirds.huldra.HuldraGame;
-import com.polarbirds.huldra.model.character.animate.player.PlayerCharacter;
+import com.polarbirds.huldra.model.character.animate.player.APlayerCharacter;
+import com.polarbirds.huldra.model.character.stat.LoadedStatHandler;
+import com.polarbirds.huldra.model.character.stat.StatLoader;
 import com.polarbirds.huldra.model.drawing.AAnimation;
 import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
 import com.polarbirds.huldra.model.utility.SpriteLoader;
@@ -38,10 +40,11 @@ public class GameScreen implements Screen {
   public Level level;
   public Map<String, ASprite> sprites;
   public Map<String, AAnimation> animations;
+  public LoadedStatHandler loadedStatHandler;
   private State state;
   private Stage gameStage;         // stage containing game actors
 
-  public GameScreen(HuldraGame game, PlayerCharacter[] players) {
+  public GameScreen(HuldraGame game, APlayerCharacter[] players) {
     this.game = game;
 
     gameCamera = new OrthographicCamera();
@@ -58,26 +61,26 @@ public class GameScreen implements Screen {
     state = State.PRESPAWN;
   }
 
-  public void setNew(Map<String, ASprite> sprites,
-                     Map<String, AAnimation> animations) {
+  public void setNew(Map<String, ASprite> sprites, Map<String, AAnimation> animations,
+                     LoadedStatHandler loadedStatHandler) {
     this.sprites = sprites;
     this.animations = animations;
+    this.loadedStatHandler = loadedStatHandler;
   }
 
   private void gotoNextLevel() {
     SpriteLoader spriteLoader = new SpriteLoader();
+    LevelParser levelParser = new LevelParser(level.difficulty + 1, spriteLoader);
     game.setScreen(
         new GameLoadingScreen(
             game,
             this,
             new WorldGenerator(
-                new LevelParser(
-                    level.difficulty + 1,
-                    spriteLoader
-                ),
+                levelParser,
                 new Random(6)
             ),
-            spriteLoader
+            spriteLoader,
+            new StatLoader(levelParser.enemyTypes)
         )
     );
   }
@@ -96,7 +99,7 @@ public class GameScreen implements Screen {
     sr.end();
 
     if (state == State.PRESPAWN) {
-      for (PlayerCharacter player : level.players) {
+      for (APlayerCharacter player : level.players) {
         player.body.pos.set(level.spawn.x, level.spawn.y);
       }
       level.integrate(delta);

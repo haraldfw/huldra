@@ -42,14 +42,4 @@ public class FireParticle extends AParticle {
   public void draw(Batch batch) {
     sprite.draw(batch, pos);
   }
-
-  @Override
-  public void initGraphics(Map<String, ASprite> sprites, Map<String, AAnimation> animations) {
-
-  }
-
-  @Override
-  public void queueAssets(SpriteLoader spriteLoader) {
-
-  }
 }

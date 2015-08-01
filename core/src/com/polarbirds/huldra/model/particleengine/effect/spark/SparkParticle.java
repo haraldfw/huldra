@@ -51,14 +51,4 @@ public class SparkParticle extends AParticle {
       batch.draw(regionDrawable.region, pos[i].x, pos[i].y, 0, 0, 1, 1, 1, 1, rotation);
     }
   }
-
-  @Override
-  public void initGraphics(Map<String, ASprite> sprites, Map<String, AAnimation> animations) {
-
-  }
-
-  @Override
-  public void queueAssets(SpriteLoader spriteLoader) {
-
-  }
 }

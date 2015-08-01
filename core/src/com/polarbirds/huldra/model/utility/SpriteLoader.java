@@ -31,11 +31,11 @@ import java.util.TreeSet;
  */
 public class SpriteLoader extends ALoader {
 
+  public final Map<String, ASprite> loadedSprites = new HashMap<>();
+  public final Map<String, AAnimation> loadedAnimations = new HashMap<>();
   private final Map<IHasSingleFrame, TextureData> dataMap = new HashMap<>();
   private final Map<String, TextureData> dataArrayMap = new HashMap<>();
   private final Collection<String> paths = new TreeSet<>();
-  public final Map<String, ASprite> loadedSprites = new HashMap<>();
-  public final Map<String, AAnimation> loadedAnimations = new HashMap<>();
 
   @Override
   public void run() {
