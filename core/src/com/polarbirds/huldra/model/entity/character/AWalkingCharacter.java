@@ -16,7 +16,7 @@ public abstract class AWalkingCharacter extends ADrawableDynamic {
 
   public IMotiveProcessor input;
 
-  protected CharacterState characterState = CharacterState.FALLING;
+  protected MoveState moveState = MoveState.FALLING;
 
   public AWalkingCharacter(Level level, float width, float height, float inverseMass, Team team) {
     super(new DynamicBody(new Vector2(), new RectShape(width, height), inverseMass, level), team);
@@ -26,7 +26,7 @@ public abstract class AWalkingCharacter extends ADrawableDynamic {
   public void update(float delta) {
     super.update(delta);
     input.update();
-    switch (characterState) {
+    switch (moveState) {
       case FALLING:
         body.applyForce(input.moveX() * StatType.MOVE_STRENGTH.calculate(this) / 4, 0);
         break;
@@ -38,7 +38,7 @@ public abstract class AWalkingCharacter extends ADrawableDynamic {
         break;
       case HANGING:
         if (input.moveY() < -0.2f) {
-          setCharacterState(CharacterState.FALLING);
+          setMoveState(MoveState.FALLING);
         }
         body.applyForce(input.moveX() * StatType.MOVE_STRENGTH.calculate(this), 0);
         break;
@@ -48,7 +48,7 @@ public abstract class AWalkingCharacter extends ADrawableDynamic {
     }
   }
 
-  public void setCharacterState(CharacterState characterState) {
-    this.characterState = characterState;
+  public void setMoveState(MoveState moveState) {
+    this.moveState = moveState;
   }
 }

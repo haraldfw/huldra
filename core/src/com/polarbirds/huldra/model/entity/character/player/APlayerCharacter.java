@@ -5,7 +5,7 @@ import com.polarbirds.huldra.model.entity.character.controller.player.Keyboard;
 import com.polarbirds.huldra.model.entity.character.controller.player.XboxController;
 import com.polarbirds.huldra.model.entity.Team;
 import com.polarbirds.huldra.model.entity.character.AWalkingCharacter;
-import com.polarbirds.huldra.model.entity.character.CharacterState;
+import com.polarbirds.huldra.model.entity.character.MoveState;
 import com.polarbirds.huldra.model.entity.character.player.gear.GearHandler;
 import com.polarbirds.huldra.model.entity.character.player.gear.GearWearer;
 import com.polarbirds.huldra.model.entity.stat.StatModifier;
@@ -22,10 +22,10 @@ import java.util.Map;
 public abstract class APlayerCharacter extends AWalkingCharacter implements GearWearer {
 
   private final GearHandler gearHandler;
-  private final Map<CharacterState, AAnimation> animations;
+  private final Map<MoveState, AAnimation> animations;
   private final StatModifier[] baseStats;
 
-  public APlayerCharacter(Level level, Map<CharacterState, AAnimation> animations, StatModifier[] baseStats) {
+  public APlayerCharacter(Level level, Map<MoveState, AAnimation> animations, StatModifier[] baseStats) {
     super(level, 0.5f, 0.7f, 0.0167f, Team.PLAYER);
     this.animations = animations;
     this.baseStats = baseStats;
@@ -57,7 +57,7 @@ public abstract class APlayerCharacter extends AWalkingCharacter implements Gear
 
   @Override
   protected AAnimation getCurrentAnimation() {
-    return animations.get(characterState);
+    return animations.get(moveState);
   }
 
   public abstract String getCharacterName();
