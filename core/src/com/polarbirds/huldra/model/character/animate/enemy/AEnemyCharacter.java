@@ -6,6 +6,7 @@ import com.polarbirds.huldra.model.character.animate.ADrawableDynamic;
 import com.polarbirds.huldra.model.character.stat.IHasBaseStats;
 import com.polarbirds.huldra.model.character.stat.StatModifier;
 import com.polarbirds.huldra.model.drawing.AAnimation;
+import com.polarbirds.huldra.model.world.model.Level;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 
 /**
@@ -15,8 +16,8 @@ public abstract class AEnemyCharacter extends ADrawableDynamic implements IHasBa
 
   private StatModifier[] baseStats;
 
-  public AEnemyCharacter(Vector2 pos, float width, float height, float inverseMass, Team team) {
-    super(pos, width, height, inverseMass, team);
+  public AEnemyCharacter(Level level, Vector2 pos, float width, float height, float inverseMass, Team team) {
+    super(level, pos, width, height, inverseMass, team);
   }
 
   @Override

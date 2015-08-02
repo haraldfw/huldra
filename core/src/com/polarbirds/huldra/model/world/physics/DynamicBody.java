@@ -12,13 +12,16 @@ public class DynamicBody extends ABody {
   public float inverseMass;
   private Vector2 acc;
   private Vector2 forceAcc;
+  private Level level;
 
-  public DynamicBody(Level level, Vector2 pos, Shape shape, float inverseMass) {
+  public DynamicBody(Vector2 pos, Shape shape, float inverseMass, Level level) {
     super(pos, shape);
     this.inverseMass = inverseMass;
     vel = new Vector2();
     acc = new Vector2();
     forceAcc = new Vector2();
+
+    this.level = level;
   }
 
   public void integrate(float delta) {

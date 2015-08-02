@@ -8,7 +8,6 @@ import com.polarbirds.huldra.model.world.model.Level;
 import com.polarbirds.huldra.model.world.physics.DynamicBody;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.polarbirds.huldra.model.world.physics.shape.RectShape;
-import com.polarbirds.huldra.screen.game.GameScreen;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +21,7 @@ public abstract class ADrawableDynamic implements IHasBaseStats {
   public Team team;
 
   public ADrawableDynamic(Level level, Vector2 pos, float width, float height, float inverseMass, Team team) {
-    this.body = new DynamicBody(level, pos, new RectShape(width, height), inverseMass);
+    this.body = new DynamicBody(pos, new RectShape(width, height), inverseMass, level);
     this.team = team;
   }
 
