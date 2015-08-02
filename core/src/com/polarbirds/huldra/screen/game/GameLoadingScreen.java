@@ -2,9 +2,9 @@ package com.polarbirds.huldra.screen.game;
 
 import com.badlogic.gdx.Screen;
 import com.polarbirds.huldra.HuldraGame;
-import com.polarbirds.huldra.model.character.Team;
-import com.polarbirds.huldra.model.character.animate.player.APlayerCharacter;
-import com.polarbirds.huldra.model.character.animate.player.Knight;
+import com.polarbirds.huldra.model.entity.Team;
+import com.polarbirds.huldra.model.entity.character.player.APlayerCharacter;
+import com.polarbirds.huldra.model.entity.character.player.Knight;
 import com.polarbirds.huldra.model.loading.StatLoader;
 import com.polarbirds.huldra.model.loading.SpriteLoader;
 import com.polarbirds.huldra.model.loading.worldgeneration.WorldGenerator;
