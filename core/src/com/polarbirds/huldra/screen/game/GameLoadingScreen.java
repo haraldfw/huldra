@@ -78,7 +78,7 @@ public class GameLoadingScreen implements Screen {
       for (String s : playersToCreate) {
         switch (s) {
           case Knight.CHARACTER_NAME:
-            players.add(new Knight(gameScreen, Team.PLAYER));
+            players.add(new Knight(gameScreen));
             break;
         }
       }
