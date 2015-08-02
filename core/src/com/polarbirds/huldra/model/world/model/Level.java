@@ -59,9 +59,16 @@ public final class Level {
           case PLATFORM:
             sr.line(x, y + 1, x + 1, y + 1);
             break;
+          case TOP_LADDER_PLATFORM:
+            sr.line(x, y + 1, x + 1, y + 1);
           case LADDER:
-            sr.line(x + 1 / 2f, y, x + 1 / 2f, y + 1);
-            sr.line(x + 1 / 3f, y + 1 / 2f, x + 2 / 3f, y + 1 / 2f);
+            sr.line(x + 1 / 5f, y, x + 1 / 5f, y + 1);
+            sr.line(x + 4 / 5f, y, x + 4 / 5f, y + 1);
+            sr.line(x + 1 / 5f, y + 1 / 3f, x + 4 / 5f, y + 1 / 3f);
+            sr.line(x + 1 / 5f, y + 2 / 3f, x + 4 / 5f, y + 2 / 3f);
+            sr.line(x + 1 / 5f, y + 1, x + 4 / 5f, y + 1);
+            break;
+          case EMPTY:
             break;
           case SOLID:
             sr.rect(x, y, 1, 1);
