@@ -5,8 +5,8 @@ package com.polarbirds.huldra.model.entity.character;
  */
 public enum ActionState {
   SHOOTING,
-  SLASHING, 
-  MAGIC // -ing
+  SLASHING,
+  MAGIC, // -ing
+  INTERACTING
   ;
-
 }
