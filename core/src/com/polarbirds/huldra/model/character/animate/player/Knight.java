@@ -13,7 +13,7 @@ public class Knight extends APlayerCharacter {
   public static final String CHARACTER_NAME = "knight";
 
   public Knight(GameScreen gameScreen, Team team) {
-    super(ADrawableDynamic.getAnimations("graphics/player/knight", gameScreen.animations),
+    super(gameScreen.level, ADrawableDynamic.getAnimations("graphics/player/knight", gameScreen.animations),
           gameScreen.loadedStatHandler.getCopy("knight"), team);
   }
 

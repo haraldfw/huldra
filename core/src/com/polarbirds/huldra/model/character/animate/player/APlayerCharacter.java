@@ -10,6 +10,7 @@ import com.polarbirds.huldra.model.character.animate.player.gear.GearHandler;
 import com.polarbirds.huldra.model.character.animate.player.gear.GearWearer;
 import com.polarbirds.huldra.model.character.stat.StatModifier;
 import com.polarbirds.huldra.model.drawing.AAnimation;
+import com.polarbirds.huldra.model.world.model.Level;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.polarbirds.huldra.screen.game.GameScreen;
 
@@ -24,9 +25,9 @@ public abstract class APlayerCharacter extends AWalkingCharacter implements Gear
   private final Map<CharacterState, AAnimation> animations;
   private final StatModifier[] baseStats;
 
-  public APlayerCharacter(Map<CharacterState, AAnimation> animations, StatModifier[] baseStats,
+  public APlayerCharacter(Level level, Map<CharacterState, AAnimation> animations, StatModifier[] baseStats,
                           Team team) {
-    super(0.5f, 0.7f, 0.0167f, team);
+    super(level, 0.5f, 0.7f, 0.0167f, team);
     this.animations = animations;
     this.baseStats = baseStats;
     gearHandler = new GearHandler();

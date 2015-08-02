@@ -1,5 +1,6 @@
 package com.polarbirds.huldra.model.world.physics;
 
+import com.polarbirds.huldra.model.world.model.Level;
 import com.polarbirds.huldra.model.world.physics.shape.Shape;
 
 /**
@@ -12,7 +13,7 @@ public class DynamicBody extends ABody {
   private Vector2 acc;
   private Vector2 forceAcc;
 
-  public DynamicBody(Vector2 pos, Shape shape, float inverseMass) {
+  public DynamicBody(Level level, Vector2 pos, Shape shape, float inverseMass) {
     super(pos, shape);
     this.inverseMass = inverseMass;
     vel = new Vector2();

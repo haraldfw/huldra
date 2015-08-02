@@ -4,9 +4,11 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.polarbirds.huldra.model.character.Team;
 import com.polarbirds.huldra.model.character.stat.IHasBaseStats;
 import com.polarbirds.huldra.model.drawing.AAnimation;
+import com.polarbirds.huldra.model.world.model.Level;
 import com.polarbirds.huldra.model.world.physics.DynamicBody;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.polarbirds.huldra.model.world.physics.shape.RectShape;
+import com.polarbirds.huldra.screen.game.GameScreen;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,8 +21,8 @@ public abstract class ADrawableDynamic implements IHasBaseStats {
   public DynamicBody body;
   public Team team;
 
-  public ADrawableDynamic(Vector2 pos, float width, float height, float inverseMass, Team team) {
-    this.body = new DynamicBody(pos, new RectShape(width, height), inverseMass);
+  public ADrawableDynamic(Level level, Vector2 pos, float width, float height, float inverseMass, Team team) {
+    this.body = new DynamicBody(level, pos, new RectShape(width, height), inverseMass);
     this.team = team;
   }
 
@@ -60,6 +62,7 @@ public abstract class ADrawableDynamic implements IHasBaseStats {
   }
 
   public void update(float delta) {
+    body.integrate(delta);
     getCurrentAnimation().update(this, delta);
   }
 
