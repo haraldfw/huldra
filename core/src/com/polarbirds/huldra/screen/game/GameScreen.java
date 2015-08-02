@@ -3,6 +3,7 @@ package com.polarbirds.huldra.screen.game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 import com.polarbirds.huldra.HuldraGame;
@@ -15,6 +16,7 @@ import com.polarbirds.huldra.model.loading.SpriteLoader;
 import com.polarbirds.huldra.model.loading.worldgeneration.LevelParser;
 import com.polarbirds.huldra.model.loading.worldgeneration.WorldGenerator;
 import com.polarbirds.huldra.model.world.model.Level;
+import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.polarbirds.huldra.screen.game.overlay.HudOverlay;
 import com.polarbirds.huldra.screen.game.overlay.IOverlay;
 import com.polarbirds.huldra.screen.game.overlay.PauseOverlay;
@@ -159,8 +161,7 @@ public class GameScreen implements Screen {
 
   private void updateCamera(OrthographicCamera camera) {
     // tan( 1/2 * field_of_view ) * ( 1/2 * distance_between_objects)
-        /*
-        PlayerCharacter[] players = level.players;
+        APlayerCharacter[] players = level.players;
         if (players.length == 1) {
             Vector2 pos = players[0].body.pos;
             camera.position.set(pos.x, pos.y, 0);
@@ -168,14 +169,14 @@ public class GameScreen implements Screen {
             camera.update();
         } else {
             Vector3 vector = new Vector3();
-            for (PlayerCharacter player : players) {
+            for (APlayerCharacter player : players) {
                 Vector2 pos = player.body.pos;
                 vector.add(pos.x, pos.y, 0);
             }
             vector.scl(1f / players.length);
             camera.position.set(vector);
         }
-        camera.update();*/
+        camera.update();
   }
 
   public void openPlayerSpec() {
