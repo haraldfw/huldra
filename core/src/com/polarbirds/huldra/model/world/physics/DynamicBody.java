@@ -8,11 +8,13 @@ import com.polarbirds.huldra.model.world.physics.shape.Shape;
  */
 public class DynamicBody extends ABody {
 
-  public Vector2 vel;
-  public float inverseMass;
-  private Vector2 acc;
-  private Vector2 forceAcc;
-  private Level level;
+  public final float inverseMass;
+
+  public final Vector2 vel;
+  private final Vector2 acc;
+  private final Vector2 forceAcc;
+
+  private final Level level;
 
   public DynamicBody(Vector2 pos, Shape shape, float inverseMass, Level level) {
     super(pos, shape);
