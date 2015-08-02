@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.model.utility;
+package com.polarbirds.huldra.model.loading;
 
 /**
  * Created by Harald Wilhelmsen on 11/7/2015.

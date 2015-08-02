@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.model.world.generation;
+package com.polarbirds.huldra.model.loading.worldgeneration;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonReader;

@@ -1,4 +1,4 @@
-package com.polarbirds.huldra.model.utility;
+package com.polarbirds.huldra.model.loading;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;

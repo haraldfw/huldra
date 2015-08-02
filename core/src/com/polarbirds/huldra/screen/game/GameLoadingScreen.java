@@ -5,9 +5,9 @@ import com.polarbirds.huldra.HuldraGame;
 import com.polarbirds.huldra.model.character.Team;
 import com.polarbirds.huldra.model.character.animate.player.APlayerCharacter;
 import com.polarbirds.huldra.model.character.animate.player.Knight;
-import com.polarbirds.huldra.model.character.stat.StatLoader;
-import com.polarbirds.huldra.model.utility.SpriteLoader;
-import com.polarbirds.huldra.model.world.generation.WorldGenerator;
+import com.polarbirds.huldra.model.loading.StatLoader;
+import com.polarbirds.huldra.model.loading.SpriteLoader;
+import com.polarbirds.huldra.model.loading.worldgeneration.WorldGenerator;
 
 import java.util.ArrayList;
 import java.util.List;

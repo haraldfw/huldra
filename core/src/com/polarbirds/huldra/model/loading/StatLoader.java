@@ -1,9 +1,13 @@
-package com.polarbirds.huldra.model.character.stat;
+package com.polarbirds.huldra.model.loading;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.polarbirds.huldra.model.utility.ALoader;
+import com.polarbirds.huldra.model.character.stat.LoadedStatHandler;
+import com.polarbirds.huldra.model.character.stat.StatClass;
+import com.polarbirds.huldra.model.character.stat.StatModifier;
+import com.polarbirds.huldra.model.character.stat.StatType;
+import com.polarbirds.huldra.model.loading.ALoader;
 
 import java.util.ArrayList;
 import java.util.Collection;
