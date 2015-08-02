@@ -25,9 +25,8 @@ public abstract class APlayerCharacter extends AWalkingCharacter implements Gear
   private final Map<CharacterState, AAnimation> animations;
   private final StatModifier[] baseStats;
 
-  public APlayerCharacter(Level level, Map<CharacterState, AAnimation> animations, StatModifier[] baseStats,
-                          Team team) {
-    super(level, 0.5f, 0.7f, 0.0167f, team);
+  public APlayerCharacter(Level level, Map<CharacterState, AAnimation> animations, StatModifier[] baseStats) {
+    super(level, 0.5f, 0.7f, 0.0167f, Team.PLAYER);
     this.animations = animations;
     this.baseStats = baseStats;
     gearHandler = new GearHandler();

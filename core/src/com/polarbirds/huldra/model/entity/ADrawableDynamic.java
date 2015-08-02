@@ -1,10 +1,9 @@
 package com.polarbirds.huldra.model.entity;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.polarbirds.huldra.model.entity.Team;
+import com.polarbirds.huldra.model.drawing.AAnimation;
 import com.polarbirds.huldra.model.entity.character.CharacterState;
 import com.polarbirds.huldra.model.entity.stat.IHasBaseStats;
-import com.polarbirds.huldra.model.drawing.AAnimation;
 import com.polarbirds.huldra.model.world.model.Level;
 import com.polarbirds.huldra.model.world.physics.DynamicBody;
 import com.polarbirds.huldra.model.world.physics.Vector2;
@@ -21,18 +20,18 @@ public abstract class ADrawableDynamic implements IHasBaseStats {
   public DynamicBody body;
   public Team team;
 
-  public ADrawableDynamic(Level level, Vector2 pos, float width, float height, float inverseMass, Team team) {
-    this.body = new DynamicBody(pos, new RectShape(width, height), inverseMass, level);
+  public ADrawableDynamic(DynamicBody body, Team team) {
+    this.body = body;
     this.team = team;
   }
 
   protected static Map<CharacterState, AAnimation> getAnimations(
-      String directory, Map<String, AAnimation> spriteLoaderMap) {
+      CharSequence directory, Map<String, AAnimation> spriteLoaderMap) {
     Map<CharacterState, AAnimation> animationMap = new HashMap<>();
 
     for (Map.Entry<String, AAnimation> entry : spriteLoaderMap.entrySet()) {
       String key = entry.getKey();
-      System.out.println(key);
+      System.out.println("Key: " + key);
       if (key.contains(directory)) {
         animationMap.put(
             getFromString(
@@ -68,7 +67,6 @@ public abstract class ADrawableDynamic implements IHasBaseStats {
 
   public void draw(Batch batch, float parentAlpha) {
     getCurrentAnimation().draw(this, batch, body.pos);
-
   }
 
   protected abstract AAnimation getCurrentAnimation();

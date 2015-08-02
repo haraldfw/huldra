@@ -5,7 +5,9 @@ import com.polarbirds.huldra.model.entity.character.controller.IMotiveProcessor;
 import com.polarbirds.huldra.model.entity.Team;
 import com.polarbirds.huldra.model.entity.stat.StatType;
 import com.polarbirds.huldra.model.world.model.Level;
+import com.polarbirds.huldra.model.world.physics.DynamicBody;
 import com.polarbirds.huldra.model.world.physics.Vector2;
+import com.polarbirds.huldra.model.world.physics.shape.RectShape;
 
 /**
  * Created by Harald Wilhelmsen on 16/6/2015.
@@ -17,7 +19,7 @@ public abstract class AWalkingCharacter extends ADrawableDynamic {
   protected CharacterState characterState = CharacterState.FALLING;
 
   public AWalkingCharacter(Level level, float width, float height, float inverseMass, Team team) {
-    super(level, new Vector2(), width, height, inverseMass, team);
+    super(new DynamicBody(new Vector2(), new RectShape(width, height), inverseMass, level), team);
   }
 
   @Override
