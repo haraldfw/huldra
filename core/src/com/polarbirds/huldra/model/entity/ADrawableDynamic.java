@@ -2,12 +2,9 @@ package com.polarbirds.huldra.model.entity;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.polarbirds.huldra.model.drawing.AAnimation;
-import com.polarbirds.huldra.model.entity.character.CharacterState;
+import com.polarbirds.huldra.model.entity.character.MoveState;
 import com.polarbirds.huldra.model.entity.stat.IHasBaseStats;
-import com.polarbirds.huldra.model.world.model.Level;
 import com.polarbirds.huldra.model.world.physics.DynamicBody;
-import com.polarbirds.huldra.model.world.physics.Vector2;
-import com.polarbirds.huldra.model.world.physics.shape.RectShape;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,9 +22,9 @@ public abstract class ADrawableDynamic implements IHasBaseStats {
     this.team = team;
   }
 
-  protected static Map<CharacterState, AAnimation> getAnimations(
+  protected static Map<MoveState, AAnimation> getAnimations(
       CharSequence directory, Map<String, AAnimation> spriteLoaderMap) {
-    Map<CharacterState, AAnimation> animationMap = new HashMap<>();
+    Map<MoveState, AAnimation> animationMap = new HashMap<>();
 
     for (Map.Entry<String, AAnimation> entry : spriteLoaderMap.entrySet()) {
       String key = entry.getKey();
@@ -45,18 +42,16 @@ public abstract class ADrawableDynamic implements IHasBaseStats {
     return animationMap;
   }
 
-  private static CharacterState getFromString(String string) {
+  private static MoveState getFromString(String string) {
     switch (string) {
       case "walk":
-        return CharacterState.WALKING;
+        return MoveState.WALKING;
       case "dance":
-        return CharacterState.DANCING;
+        return MoveState.DANCING;
       case "jump":
-        return CharacterState.FALLING;
-      case "slash":
-        return CharacterState.ATTACKING;
+        return MoveState.FALLING;
       default:
-        return CharacterState.IDLE;
+        return MoveState.IDLE;
     }
   }
 
@@ -65,7 +60,7 @@ public abstract class ADrawableDynamic implements IHasBaseStats {
     getCurrentAnimation().update(this, delta);
   }
 
-  public void draw(Batch batch, float parentAlpha) {
+  public void draw(Batch batch) {
     getCurrentAnimation().draw(this, batch, body.pos);
   }
 
