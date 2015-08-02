@@ -2,10 +2,15 @@ package com.polarbirds.huldra.screen.game;
 
 import com.badlogic.gdx.Screen;
 import com.polarbirds.huldra.HuldraGame;
-import com.polarbirds.huldra.model.character.animate.player.PlayerLoading;
+import com.polarbirds.huldra.model.character.Team;
+import com.polarbirds.huldra.model.character.animate.player.APlayerCharacter;
+import com.polarbirds.huldra.model.character.animate.player.Knight;
 import com.polarbirds.huldra.model.character.stat.StatLoader;
 import com.polarbirds.huldra.model.utility.SpriteLoader;
 import com.polarbirds.huldra.model.world.generation.WorldGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Harald on 23.07.2015.
@@ -19,10 +24,13 @@ public class GameLoadingScreen implements Screen {
   private final SpriteLoader spriteLoader;
   private final StatLoader statLoader;
 
+  private String[] playersToCreate;
+
   public GameLoadingScreen(HuldraGame game, GameScreen gameScreen, WorldGenerator worldGenerator,
                            SpriteLoader spriteLoader, StatLoader statLoader) {
     this.game = game;
     this.gameScreen = gameScreen;
+
     this.worldGenerator = worldGenerator;
     this.spriteLoader = spriteLoader;
     this.statLoader = statLoader;
@@ -32,10 +40,11 @@ public class GameLoadingScreen implements Screen {
     statLoader.startThread();
   }
 
-  public GameLoadingScreen(HuldraGame game, GameScreen gameScreen, WorldGenerator worldGenerator,
-                           SpriteLoader spriteLoader, StatLoader statLoader,
-                           PlayerLoading playerLoading) {
+  public GameLoadingScreen(String[] playersToCreate, HuldraGame game, GameScreen gameScreen,
+                           WorldGenerator worldGenerator, SpriteLoader spriteLoader,
+                           StatLoader statLoader) {
     this(game, gameScreen, worldGenerator, spriteLoader, statLoader);
+    this.playersToCreate = playersToCreate;
   }
 
   @Override
@@ -53,11 +62,27 @@ public class GameLoadingScreen implements Screen {
     }
 
     if (worldGenerator.done && spriteLoader.done && statLoader.done) {
-      gameScreen.level.setNew(worldGenerator.tiles, worldGenerator.spawn,
-                              gameScreen.level.difficulty + 1);
-      gameScreen.setNew(spriteLoader.loadedSprites, spriteLoader.loadedAnimations,
-                        statLoader.getHandler());
-      game.setScreen(gameScreen);
+      nextScreen();
+    }
+  }
+
+  private void nextScreen() {
+    gameScreen.setNew(spriteLoader.loadedSprites, spriteLoader.loadedAnimations,
+                      statLoader.getHandler());
+
+    gameScreen.level.setNew(worldGenerator.tiles, worldGenerator.spawn,
+                            gameScreen.level.difficulty + 1);
+    game.setScreen(gameScreen);
+    if (playersToCreate != null) {
+      List<APlayerCharacter> players = new ArrayList<>();
+      for (String s : playersToCreate) {
+        switch (s) {
+          case Knight.CHARACTER_NAME:
+            players.add(new Knight(gameScreen, Team.PLAYER));
+            break;
+        }
+      }
+      gameScreen.level.setPlayers(players.toArray(new APlayerCharacter[players.size()]));
     }
   }
 

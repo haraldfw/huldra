@@ -25,12 +25,10 @@ import java.util.Random;
  */
 public final class WorldGenerator extends ALoader {
 
+  private final LevelParser levelParser;
+  private final Random random;
   public Tile[][] tiles;
   public Vector2 spawn;
-
-  private LevelParser levelParser;
-  private Random random;
-
   private HashMap<String, ArrayList<TextureData>> textureDataMap;
 
   public WorldGenerator(LevelParser levelParser, Random random) {

@@ -59,4 +59,6 @@ public abstract class APlayerCharacter extends AWalkingCharacter implements Gear
   protected AAnimation getCurrentAnimation() {
     return animations.get(characterState);
   }
+
+  public abstract String getCharacterName();
 }

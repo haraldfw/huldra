@@ -2,7 +2,6 @@ package com.polarbirds.huldra.screen.mainmenu;
 
 import com.badlogic.gdx.Screen;
 import com.polarbirds.huldra.HuldraGame;
-import com.polarbirds.huldra.model.character.animate.player.APlayerCharacter;
 import com.polarbirds.huldra.model.character.stat.StatLoader;
 import com.polarbirds.huldra.model.utility.SpriteLoader;
 import com.polarbirds.huldra.model.world.generation.LevelParser;
@@ -12,7 +11,6 @@ import com.polarbirds.huldra.screen.game.GameScreen;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -37,8 +35,9 @@ public class CharacterSelectionScreen implements Screen {
   }
 
   public void startGame() {
-    SpriteLoader spriteLoader = new SpriteLoader();
-    LevelParser levelParser = new LevelParser(1, spriteLoader);
+    LevelParser levelParser = new LevelParser(1);
+    SpriteLoader spriteLoader =
+        new SpriteLoader(levelParser.enemyTypes, playerList.toArray(new String[playerList.size()]));
 
     List<String> paths = new ArrayList<>();
     paths.addAll(Arrays.asList(levelParser.enemyTypes));
@@ -46,18 +45,16 @@ public class CharacterSelectionScreen implements Screen {
 
     game.setScreen(
         new GameLoadingScreen(
+            playerList.toArray(new String[playerList.size()]),
             game,
-            new GameScreen(
-                game,
-                new APlayerCharacter[0]
-            ),
+            new GameScreen(game),
             new WorldGenerator(
                 levelParser,
                 new Random(6)
             ),
             spriteLoader,
             new StatLoader(paths.toArray(new String[paths.size()])))
-        );
+    );
   }
 
   @Override

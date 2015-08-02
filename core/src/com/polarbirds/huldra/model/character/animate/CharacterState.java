@@ -9,5 +9,8 @@ public enum CharacterState {
   IDLE,
   WALKING,
   HANGING,
-  CLIMBING;
+  CLIMBING,
+  DANCING,
+  ATTACKING, // intended for animations, do not set for characters
+  ;
 }

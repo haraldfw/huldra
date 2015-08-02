@@ -44,19 +44,19 @@ public class GameScreen implements Screen {
   private State state;
   private Stage gameStage;         // stage containing game actors
 
-  public GameScreen(HuldraGame game, APlayerCharacter[] players) {
+  public GameScreen(HuldraGame game) {
     this.game = game;
 
     gameCamera = new OrthographicCamera();
     gameCamera.setToOrtho(false, HuldraGame.X_TILES, HuldraGame.Y_TILES);
 
-    hudOverlay = new HudOverlay(players);
+    hudOverlay = new HudOverlay();
     playerSpecOverlay = new PlayerSpecOverlay(this);
     pauseOverlay = new PauseOverlay(this);
 
     sr = new ShapeRenderer();
 
-    level = new Level(players);
+    level = new Level();
 
     state = State.PRESPAWN;
   }
@@ -69,8 +69,9 @@ public class GameScreen implements Screen {
   }
 
   private void gotoNextLevel() {
-    SpriteLoader spriteLoader = new SpriteLoader();
-    LevelParser levelParser = new LevelParser(level.difficulty + 1, spriteLoader);
+    LevelParser levelParser = new LevelParser(level.difficulty + 1);
+    SpriteLoader spriteLoader = new SpriteLoader(levelParser.enemyTypes, level.players);
+
     game.setScreen(
         new GameLoadingScreen(
             game,

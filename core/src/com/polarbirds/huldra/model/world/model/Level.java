@@ -24,9 +24,7 @@ public final class Level {
   public Vector2 spawn;
   public int difficulty;
 
-  public Level(APlayerCharacter[] players) {
-    this.players = players;
-
+  public Level() {
     dynamicBodies = new ArrayList<>();
     staticBodies = new ArrayList<>();
   }
@@ -35,6 +33,10 @@ public final class Level {
     this.tiles = tiles;
     this.spawn = spawn;
     this.difficulty = difficulty;
+  }
+
+  public void setPlayers(APlayerCharacter[] players) {
+    this.players = players;
   }
 
   public void draw(Batch batch) {

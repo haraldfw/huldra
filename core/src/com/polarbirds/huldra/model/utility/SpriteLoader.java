@@ -1,11 +1,13 @@
 package com.polarbirds.huldra.model.utility;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.polarbirds.huldra.model.character.animate.player.APlayerCharacter;
 import com.polarbirds.huldra.model.drawing.AAnimation;
 import com.polarbirds.huldra.model.drawing.drawable.RegionDrawable;
 import com.polarbirds.huldra.model.drawing.drawable.TextureDrawable;
@@ -20,11 +22,10 @@ import com.polarbirds.huldra.model.world.physics.Vector2;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeSet;
 
 /**
  * Created by Harald on 10.7.15.
@@ -35,17 +36,44 @@ public class SpriteLoader extends ALoader {
   public final Map<String, AAnimation> loadedAnimations = new HashMap<>();
   private final Map<IHasSingleFrame, TextureData> dataMap = new HashMap<>();
   private final Map<String, TextureData> dataArrayMap = new HashMap<>();
-  private final Collection<String> paths = new TreeSet<>();
+  private final List<FileHandle> fileHandles = new ArrayList<>();
+
+  private final String[] enemyNames;
+  private final String[] playerNames;
+
+  public SpriteLoader(String[] enemyNames, String[] playerNames) {
+    this.enemyNames = enemyNames;
+    this.playerNames = playerNames;
+  }
+
+  public SpriteLoader(String[] enemyNames, APlayerCharacter[] players) {
+    this.enemyNames = enemyNames;
+    String[] playerNames = new String[players.length];
+    for (int i = 0; i < players.length; i++) {
+      playerNames[i] = players[i].getCharacterName();
+    }
+    this.playerNames = playerNames;
+  }
 
   @Override
   public void run() {
-    max = paths.size();
+    max = enemyNames.length + playerNames.length;
 
-    for (String path : paths) {
-      if (path.contains(".json")) {
-        loadAnimationData(path);
+    for (String enemyName : enemyNames) {
+      generatePaths(Gdx.files.internal("graphics/enemy/" + enemyName));
+
+    }
+    for (String playerName : playerNames) {
+      generatePaths(Gdx.files.internal("graphics/player/" + playerName));
+    }
+
+    max = fileHandles.size();
+
+    for (FileHandle fileHandle : fileHandles) {
+      if (fileHandle.extension().contains("json")) {
+        loadAnimationData(new FileHandle(fileHandle.pathWithoutExtension() + ".png"));
       } else {
-        loadSpriteData(path);
+        loadSpriteData(fileHandle);
       }
       loaded++;
     }
@@ -53,15 +81,37 @@ public class SpriteLoader extends ALoader {
     done = true;
   }
 
-  private void loadSpriteData(String path) {
-    Sprite s = new Sprite(parseGraphicsDescriptor(path));
-    loadedSprites.put(path, s);
-    dataMap.put(s, TextureData.Factory.loadFromFile(Gdx.files.internal(path), null, false));
+  private void generatePaths(FileHandle dir) {
+    List<FileHandle> dirContents = Arrays.asList(dir.list());
+    for (FileHandle fileHandle : dirContents) {
+      if (fileHandle.extension().contains("png") &&
+          !fileListContainsPath(dirContents, fileHandle.pathWithoutExtension() + ".json")) {
+        // A json-file does not exist for this PNG file, which means it is not an animation
+        fileHandles.add(fileHandle);
+      } else if (fileHandle.extension().contains("json")) {
+        fileHandles.add(fileHandle);
+      }
+    }
   }
 
-  private void loadAnimationData(String path) {
-    dataArrayMap.put(path.substring(0, path.length() - 4) + "png",
-                     TextureData.Factory.loadFromFile(Gdx.files.internal(path), false));
+  private boolean fileListContainsPath(Iterable<FileHandle> list, String checkFor) {
+    for (FileHandle fileHandle : list) {
+      if (fileHandle.path().equals(checkFor)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private void loadSpriteData(FileHandle fileHandle) {
+    Sprite s = new Sprite(parseGraphicsDescriptor(fileHandle));
+    loadedSprites.put(fileHandle.nameWithoutExtension(), s);
+    dataMap.put(s, TextureData.Factory.loadFromFile(fileHandle, false));
+  }
+
+  private void loadAnimationData(FileHandle fileHandle) {
+    dataArrayMap.put(fileHandle.path(),
+                     TextureData.Factory.loadFromFile(fileHandle, false));
   }
 
   public void finish() {
@@ -75,7 +125,8 @@ public class SpriteLoader extends ALoader {
   }
 
   private void parseAnimation(String name, Texture texture) {
-    JsonValue animJson = new JsonReader().parse(Gdx.files.internal(name));
+    FileHandle f = Gdx.files.internal(name.substring(0, name.length() - 3) + "json");
+    JsonValue animJson = new JsonReader().parse(f);
     List<Vector2> shifts = parseShifts(animJson.get("shifts").asFloatArray());
     int width = animJson.getInt("width");
     int height = animJson.getInt("height");
@@ -125,10 +176,6 @@ public class SpriteLoader extends ALoader {
     return sprites.toArray(new ASprite[sprites.size()]);
   }
 
-  public void queueAsset(String toAdd) {
-    paths.add(toAdd);
-  }
-
   public ASprite getSprite(String path) {
     return loadedSprites.get(path);
   }
@@ -137,15 +184,21 @@ public class SpriteLoader extends ALoader {
     return loadedAnimations.get(path);
   }
 
-  private Vector2 parseGraphicsDescriptor(String path) {
+  private Vector2 parseGraphicsDescriptor(FileHandle fileHandle) {
     try {
-      String graphicsFile = path.substring(path.length() - 4);
+      String graphicsFile = fileHandle.pathWithoutExtension();
       BufferedReader reader = new BufferedReader(new FileReader(graphicsFile));
       return new Vector2(Float.parseFloat(reader.readLine()),
                          Float.parseFloat(reader.readLine()));
     } catch (Exception e) {
-      System.out.println("No descriptor for png '" + path + "' found. Using shift [0, 0]");
+      System.out.println("No descriptor for png '" + fileHandle + "' found. Using shift [0, 0]");
     }
     return new Vector2();
+  }
+
+  private void addFile(FileHandle toAdd) {
+    if (!fileListContainsPath(fileHandles, toAdd.path())) {
+      fileHandles.add(toAdd);
+    }
   }
 }

@@ -1,55 +1,47 @@
 {
   "jumpstrength": {
-    "base":  1,
-    "scale": 1,
-    "add":   0
+    "base":  1
   },
 
   "movestrength": {
-    "base":  25,
-    "scale": 1,
-    "add":   0
+    "base":  25
   },
 
-  "damageoverall": {
+  "maxhealth": {
+    "base":  20
+  },
+
+  "dmgoverall": {
     "base":  1,
     "scale": 1,
     "add":   0
   },
 
-  "damagephysical": {
+  "dmgphysical": {
     "base":  1,
-    "scale": 1,
+    "scale": 1.25,
     "add":   0
   },
 
-  "damageranged": {
-    "base":  1,
-    "scale": 1,
-    "add":   0
+  "dmgranged": {
+    "base":  1
   },
 
-  "damagemagical": {
+  "dmgmagical": {
     "base":  1,
-    "scale": 1,
-    "add":   0
+    "scale": 0.8
   },
 
-  "damagefire": {
+  "dmgfire": {
     "base":  1,
-    "scale": 1,
-    "add":   0
+    "scale": 1.1
   },
 
-  "damagefrost": {
-    "base":  1,
-    "scale": 1,
-    "add":   0
+  "dmgice": {
+    "base":  1
   },
 
-  "damagelightning": {
-    "base":  1,
-    "scale": 1,
-    "add":   0
+  "dmglightning": {
+    "base":  1
   }
 }
