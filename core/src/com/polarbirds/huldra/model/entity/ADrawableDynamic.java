@@ -31,11 +31,7 @@ public abstract class ADrawableDynamic implements IHasBaseStats {
       System.out.println("Key: " + key);
       if (key.contains(directory)) {
         animationMap.put(
-            getFromString(
-                key.substring(
-                    key.lastIndexOf("/")
-                )
-            ),
+            getFromString(key.substring(key.lastIndexOf("/") + 1, key.length() - 4)),
             entry.getValue());
       }
     }
@@ -43,12 +39,13 @@ public abstract class ADrawableDynamic implements IHasBaseStats {
   }
 
   private static MoveState getFromString(String string) {
+    System.out.println("Getting from string: " + string);
     switch (string) {
       case "walk":
         return MoveState.WALKING;
       case "dance":
         return MoveState.DANCING;
-      case "jump":
+      case "fall":
         return MoveState.FALLING;
       default:
         return MoveState.IDLE;
