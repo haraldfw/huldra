@@ -8,7 +8,7 @@ import java.util.HashMap;
 /**
  * A motive-processor for Xbox-controllers, intended for player-use Created by Harald on 14.5.15.
  */
-public final class XboxController extends InputProcessor {
+public final class XboxController extends AInputProcessor {
 
   private final Controller controller;
 

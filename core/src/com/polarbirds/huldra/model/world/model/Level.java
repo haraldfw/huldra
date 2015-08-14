@@ -3,12 +3,12 @@ package com.polarbirds.huldra.model.world.model;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.polarbirds.huldra.model.entity.ADrawableDynamic;
 import com.polarbirds.huldra.model.entity.character.player.APlayerCharacter;
-import com.polarbirds.huldra.model.world.physics.DynamicBody;
-import com.polarbirds.huldra.model.world.physics.StaticBody;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -17,16 +17,14 @@ import java.util.List;
  */
 public final class Level {
 
-  private final List<DynamicBody> dynamicBodies;
-  private final List<StaticBody> staticBodies;
+  private final List<ADrawableDynamic> dynamics;
   public APlayerCharacter[] players;
   public Tile[][] tiles;
   public Vector2 spawn;
   public int difficulty;
 
   public Level() {
-    dynamicBodies = new ArrayList<>();
-    staticBodies = new ArrayList<>();
+    dynamics = new ArrayList<>();
   }
 
   public void setNew(Tile[][] tiles, Vector2 spawn, int difficulty) {
@@ -36,6 +34,14 @@ public final class Level {
   }
 
   public void setPlayers(APlayerCharacter[] players) {
+    if (this.players != null) {
+      for (ADrawableDynamic a : this.players) {
+        dynamics.remove(a);
+      }
+    }
+
+    Collections.addAll(dynamics, players);
+
     this.players = players;
   }
 
@@ -78,22 +84,18 @@ public final class Level {
       }
     }
 
-    for (DynamicBody body : dynamicBodies) {
-      body.debugDraw(sr);
-    }
-
-    for (StaticBody body : staticBodies) {
-      body.debugDraw(sr);
+    for (ADrawableDynamic dyn : dynamics) {
+      dyn.body.debugDraw(sr);
     }
   }
 
-  public void addDynamicBody(DynamicBody body) {
-    dynamicBodies.add(body);
+  public void addDrawableDynamic(ADrawableDynamic body) {
+    dynamics.add(body);
   }
 
   public void integrate(float delta) {
-    for (DynamicBody body : dynamicBodies) {
-      body.integrate(delta);
+    for (ADrawableDynamic dyn : dynamics) {
+      dyn.update(delta);
     }
   }
 }

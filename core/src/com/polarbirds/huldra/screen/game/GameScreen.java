@@ -7,12 +7,12 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 import com.polarbirds.huldra.HuldraGame;
-import com.polarbirds.huldra.model.entity.character.player.APlayerCharacter;
-import com.polarbirds.huldra.model.entity.stat.LoadedStatHandler;
-import com.polarbirds.huldra.model.loading.StatLoader;
 import com.polarbirds.huldra.model.drawing.AAnimation;
 import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
+import com.polarbirds.huldra.model.entity.character.player.APlayerCharacter;
+import com.polarbirds.huldra.model.entity.stat.LoadedStatHandler;
 import com.polarbirds.huldra.model.loading.SpriteLoader;
+import com.polarbirds.huldra.model.loading.StatLoader;
 import com.polarbirds.huldra.model.loading.worldgeneration.LevelParser;
 import com.polarbirds.huldra.model.loading.worldgeneration.WorldGenerator;
 import com.polarbirds.huldra.model.world.model.Level;
@@ -161,22 +161,22 @@ public class GameScreen implements Screen {
 
   private void updateCamera(OrthographicCamera camera) {
     // tan( 1/2 * field_of_view ) * ( 1/2 * distance_between_objects)
-        APlayerCharacter[] players = level.players;
-        if (players.length == 1) {
-            Vector2 pos = players[0].body.pos;
-            camera.position.set(pos.x, pos.y, 0);
-            camera.zoom = 1;
-            camera.update();
-        } else {
-            Vector3 vector = new Vector3();
-            for (APlayerCharacter player : players) {
-                Vector2 pos = player.body.pos;
-                vector.add(pos.x, pos.y, 0);
-            }
-            vector.scl(1f / players.length);
-            camera.position.set(vector);
-        }
-        camera.update();
+    APlayerCharacter[] players = level.players;
+    if (players.length == 1) {
+      Vector2 pos = players[0].body.pos;
+      camera.position.set(pos.x, pos.y, 0);
+      camera.zoom = 1;
+      camera.update();
+    } else {
+      Vector3 vector = new Vector3();
+      for (APlayerCharacter player : players) {
+        Vector2 pos = player.body.pos;
+        vector.add(pos.x, pos.y, 0);
+      }
+      vector.scl(1f / players.length);
+      camera.position.set(vector);
+    }
+    camera.update();
   }
 
   public void openPlayerSpec() {

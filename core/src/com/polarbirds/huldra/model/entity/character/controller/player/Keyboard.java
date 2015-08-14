@@ -10,7 +10,7 @@ import java.util.HashMap;
 /**
  * Created by Harald on 14.5.15.
  */
-public final class Keyboard extends InputProcessor {
+public final class Keyboard extends AInputProcessor {
 
   OrthographicCamera camera;
 
@@ -27,6 +27,10 @@ public final class Keyboard extends InputProcessor {
     keys.put("interact", Input.Keys.E);
     keys.put("menu", Input.Keys.TAB);
     keys.put("pause", Input.Keys.ESCAPE);
+    keys.put("quick1", Input.Keys.NUM_1);
+    keys.put("quick2", Input.Keys.NUM_2);
+    keys.put("quick3", Input.Keys.NUM_3);
+    keys.put("quick4", Input.Keys.NUM_4);
     return keys;
   }
 

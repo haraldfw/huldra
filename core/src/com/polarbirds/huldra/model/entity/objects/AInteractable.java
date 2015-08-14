@@ -1,7 +1,6 @@
 package com.polarbirds.huldra.model.entity.objects;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.polarbirds.huldra.model.entity.Team;
 import com.polarbirds.huldra.model.entity.character.player.APlayerCharacter;
 import com.polarbirds.huldra.model.world.model.Level;

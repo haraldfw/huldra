@@ -7,6 +7,5 @@ public enum ActionState {
   SHOOTING,
   SLASHING,
   MAGIC, // -ing
-  INTERACTING
-  ;
+  INTERACTING;
 }

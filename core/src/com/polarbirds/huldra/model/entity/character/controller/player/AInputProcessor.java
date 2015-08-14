@@ -8,14 +8,14 @@ import java.util.Map;
 /**
  * Created by Harald Wilhelmsen on 7/6/2015.
  */
-public abstract class InputProcessor implements IMotiveProcessor {
+public abstract class AInputProcessor implements IMotiveProcessor {
 
   private HashMap<String, Integer> keys;
   private HashMap<String, Boolean> shouldToggle;
   private HashMap<String, Boolean> wasPressed;
   private HashMap<String, Boolean> isPressed;
 
-  public InputProcessor(HashMap<String, Integer> keys) {
+  public AInputProcessor(HashMap<String, Integer> keys) {
     this.keys = keys;
 
     String attack1 = "attack1";
@@ -27,7 +27,7 @@ public abstract class InputProcessor implements IMotiveProcessor {
     String quick1 = "quick1";
     String quick2 = "quick2";
     String quick3 = "quick3";
-    String quick4 = "quick14";
+    String quick4 = "quick4";
 
     shouldToggle = new HashMap<>();
     shouldToggle.put(attack1, true);

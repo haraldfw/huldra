@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.polarbirds.huldra.model.entity.character.player.APlayerCharacter;
 import com.polarbirds.huldra.model.drawing.AAnimation;
 import com.polarbirds.huldra.model.drawing.drawable.RegionDrawable;
 import com.polarbirds.huldra.model.drawing.drawable.TextureDrawable;
@@ -17,6 +16,7 @@ import com.polarbirds.huldra.model.drawing.multiframe.SimpleAnimation;
 import com.polarbirds.huldra.model.drawing.singleframe.ASprite;
 import com.polarbirds.huldra.model.drawing.singleframe.IHasSingleFrame;
 import com.polarbirds.huldra.model.drawing.singleframe.Sprite;
+import com.polarbirds.huldra.model.entity.character.player.APlayerCharacter;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 
 import java.io.BufferedReader;

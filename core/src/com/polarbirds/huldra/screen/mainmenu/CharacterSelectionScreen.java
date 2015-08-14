@@ -2,8 +2,8 @@ package com.polarbirds.huldra.screen.mainmenu;
 
 import com.badlogic.gdx.Screen;
 import com.polarbirds.huldra.HuldraGame;
-import com.polarbirds.huldra.model.loading.StatLoader;
 import com.polarbirds.huldra.model.loading.SpriteLoader;
+import com.polarbirds.huldra.model.loading.StatLoader;
 import com.polarbirds.huldra.model.loading.worldgeneration.LevelParser;
 import com.polarbirds.huldra.model.loading.worldgeneration.WorldGenerator;
 import com.polarbirds.huldra.screen.game.GameLoadingScreen;
