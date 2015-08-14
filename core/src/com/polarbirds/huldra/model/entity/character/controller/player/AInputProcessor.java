@@ -10,10 +10,9 @@ import java.util.Map;
  */
 public abstract class AInputProcessor implements IMotiveProcessor {
 
-  private HashMap<String, Integer> keys;
-  private HashMap<String, Boolean> shouldToggle;
-  private HashMap<String, Boolean> wasPressed;
-  private HashMap<String, Boolean> isPressed;
+  private final HashMap<String, Integer> keys;
+  private final HashMap<String, Boolean> shouldToggle;
+  private final HashMap<String, Boolean> isPressed;
 
   public AInputProcessor(HashMap<String, Integer> keys) {
     this.keys = keys;
@@ -52,14 +51,6 @@ public abstract class AInputProcessor implements IMotiveProcessor {
     isPressed.put(quick2, false);
     isPressed.put(quick3, false);
     isPressed.put(quick4, false);
-
-    wasPressed = new HashMap<>();
-    wasPressed.put(attack1, false);
-    wasPressed.put(attack2, false);
-    wasPressed.put(jump, false);
-    wasPressed.put(interact, false);
-    wasPressed.put(menu, false);
-    wasPressed.put(pause, false);
   }
 
   @Override
