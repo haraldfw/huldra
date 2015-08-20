@@ -32,6 +32,5 @@ public class LevelParser {
     amountOfSections = json.getInt("sectioncount");
     enemyTypes = json.get("enemytypes").asStringArray();
     // TODO queue assets in spriteLoader
-
   }
 }

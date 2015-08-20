@@ -87,8 +87,7 @@ public abstract class AInputProcessor implements IMotiveProcessor {
   public final void update() {
     for (Map.Entry<String, Boolean> pressed : isPressed.entrySet()) {
       // check if the key should be a toggle-key
-      if (!shouldToggle.get(pressed.getKey())
-          || !getIsDown(keys.get(pressed.getKey()))) {
+      if (!shouldToggle.get(pressed.getKey()) || !getIsDown(keys.get(pressed.getKey()))) {
         isPressed.put(pressed.getKey(), false);
       }
     }
