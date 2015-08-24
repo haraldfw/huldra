@@ -1,7 +1,7 @@
 package com.polarbirds.huldra.model.world.physics;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.polarbirds.huldra.model.world.physics.shape.Shape;
+import com.polarbirds.huldra.model.world.physics.shape.AShape;
 
 /**
  * Created by Harald on 29.6.15.
@@ -9,9 +9,9 @@ import com.polarbirds.huldra.model.world.physics.shape.Shape;
 public abstract class ABody {
 
   public Vector2 pos;
-  public Shape shape;
+  public AShape shape;
 
-  public ABody(Vector2 pos, Shape shape) {
+  public ABody(Vector2 pos, AShape shape) {
     this.pos = pos;
     this.shape = shape;
   }

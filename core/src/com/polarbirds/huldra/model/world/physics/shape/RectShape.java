@@ -6,7 +6,7 @@ import com.polarbirds.huldra.model.world.physics.Vector2;
 /**
  * Created by Harald on 29.6.15.
  */
-public class RectShape extends Shape {
+public class RectShape extends AShape {
 
   public float width;
   public float height;
@@ -19,5 +19,15 @@ public class RectShape extends Shape {
   @Override
   public void debugDraw(Vector2 pos, ShapeRenderer sr) {
     sr.rect(pos.x, pos.y, width, height);
+  }
+
+  @Override
+  public float getH() {
+    return width;
+  }
+
+  @Override
+  public float getW() {
+    return height;
   }
 }

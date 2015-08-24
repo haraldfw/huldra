@@ -1,7 +1,7 @@
 package com.polarbirds.huldra.model.world.physics;
 
 import com.polarbirds.huldra.model.world.model.Level;
-import com.polarbirds.huldra.model.world.physics.shape.Shape;
+import com.polarbirds.huldra.model.world.physics.shape.AShape;
 
 /**
  * Created by Harald on 29.6.15.
@@ -16,7 +16,7 @@ public class DynamicBody extends ABody {
 
   private final Level level;
 
-  public DynamicBody(Vector2 pos, Shape shape, float inverseMass, Level level) {
+  public DynamicBody(Vector2 pos, AShape shape, float inverseMass, Level level) {
     super(pos, shape);
     this.inverseMass = inverseMass;
     vel = new Vector2();

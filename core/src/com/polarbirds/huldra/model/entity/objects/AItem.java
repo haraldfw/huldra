@@ -8,7 +8,7 @@ import com.polarbirds.huldra.model.world.physics.Vector2;
 /**
  * Created by Harald Wilhelmsen on 2/8/2015.
  */
-public class AItem extends AInteractable {
+public abstract class AItem extends AInteractable {
 
   public AItem(Level level, Vector2 pos, float width, float height, float inverseMass, Team team) {
     super(level, pos, width, height, inverseMass, team);

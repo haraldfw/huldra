@@ -5,6 +5,7 @@ import com.polarbirds.huldra.model.entity.Team;
 import com.polarbirds.huldra.model.entity.character.controller.IMotiveProcessor;
 import com.polarbirds.huldra.model.entity.stat.StatType;
 import com.polarbirds.huldra.model.world.model.Level;
+import com.polarbirds.huldra.model.world.model.Tile;
 import com.polarbirds.huldra.model.world.physics.DynamicBody;
 import com.polarbirds.huldra.model.world.physics.Vector2;
 import com.polarbirds.huldra.model.world.physics.shape.RectShape;
@@ -48,6 +49,16 @@ public abstract class AWalkingCharacter extends ADrawableDynamic {
         body.applyForce(0, motive.moveY() * StatType.MOVE_STRENGTH.calculate(this));
         break;
     }
+  }
+
+  @Override
+  public void resolveWorldCollision(Tile[][] tiles, int x1, int y1, int x2, int y2) {
+
+  }
+
+  @Override
+  public void resolveCollision(ADrawableDynamic dynamic) {
+    dynamic.resolveWalkingCharCollision(this);
   }
 
   public void setMoveState(MoveState moveState) {
